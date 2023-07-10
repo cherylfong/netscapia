@@ -1,4 +1,4 @@
-# My Notes
+# Part 1 Notes
 
 In addition to comments found in: [`part1/preliminary/src/App.js`](part1/preliminary/src/App.js)
 
@@ -28,9 +28,23 @@ Listed in order of parsing the material.
 
 1. Preferable to use `concat` to **create** a new array with the added item.
 
-1. JavaScript does not have classes in the same sense as object-oriented programming languages. 
+1. JavaScript does not have class mechanisms in the same sense as object-oriented programming languages. JavaScript simulates OOP classes.
 
-1. Arrow functions were introduced in ES6. Syntax: function-name `=` parameter(s) `=>` function-definition
+1. It is not necessary to define objects with methods when using React Hooks. Hence, it would be redundant to use JavaScript's class syntax.
+
+1. Arrow functions and functions defined using the function keyword vary substantially when it comes to how they behave with respect to the `this` keyword.
+
+1. The value of `this` in JavaScript is defined based on how the method is being called. When calling through a reference, `this` is from the global scope, not from the the object it originates from. It will be undefined if `this` is undefined in the global scope.
+
+1. Use `bind()` and provide the object as the parameter to bind this to the given object. 
+
+1. JavaScript uses Prototypal inheritance. [[ref](https://javascript.info/prototype-inheritance)] [[ref](https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Objects/Object_prototypes)]
+
+1. JavaScript types: Boolean, Null, Undefined, Number, String, Symbol, BigInt, and Object.
+
+1. Arrow functions should not used as methods for objects because `this` does not work. [[ref](https://egghead.io/courses/understand-javascript-s-this-keyword-in-depth)]
+   
+1. Arrow functions were introduced in ES6. Syntax: function-name `=` parameter(s) `=>` function-definition.
 
 ```Javascript
 pfunction = p => p * p
@@ -50,7 +64,14 @@ function average(a,b){
 }
 ```
 
-Prepending this file from `npx create-react-app` :
+Reliable JavaScript sources:
+
+- [Mozilla JS Guide](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
+- [Re-Introduction to JS by Mozilla](https://developer.mozilla.org/en-US/docs/Web/JavaScript/A_re-introduction_to_JavaScript)
+- https://javascript.info
+- https://github.com/getify/You-Dont-Know-JS 
+
+The above notes was appended onto this README from `npx create-react-app`.
 
 ---
 
