@@ -11,3 +11,13 @@ End-to-end web development.
 ### [Part 0](part0/part0.md)
 
 Web application fundamentals.
+
+### [Part 1](part1)
+
+React introduction.
+
+#### Subdirectories:
+
+- `/preliminary` : contains notes from section part 1 (a).
+
+> See [`./preliminary/src/App.js`](part1/preliminary/src/App.js) for comments.
