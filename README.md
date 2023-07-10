@@ -18,8 +18,6 @@ React introduction.
 
 #### Subdirectories:
 
-- `/preliminary` : contains notes from section part 1 (a).
+- [`/preliminary`](part1/preliminary/README.md) : exploring part 1.
 
-> See [`./preliminary/src/App.js`](part1/preliminary/src/App.js) for comments.
-
-- `/courseinfo` : fulfills instructions from 1.1 to 1.5.
+- [`/courseinfo`](part1/courseinfo/src/App.js) : fulfills instructions from 1.1 to 1.5.
