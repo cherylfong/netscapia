@@ -5,6 +5,28 @@
 import logo from './logo.svg';
 import './App.css';
 
+// creates a list
+
+const Lister = () => {
+
+  const garbs = ['junk', 'rust', 'dump', 'goo', 'slime', 'yuck']
+
+  // destructuring assignment
+  const [first, second, ...rest] = garbs
+
+  console.log(first, second)
+  console.log(rest)          
+
+  let garbsList = garbs.map(val => '<li>' + val + '</li>')
+
+  const listString = Array.from(garbsList).map((value) => `${value}`).join('');
+
+  return (
+    <div dangerouslySetInnerHTML={{ __html: listString }} />
+  )
+}
+
+// some trashy math
 const Trademark = () => {
   return (
     <>
@@ -91,6 +113,7 @@ function App() {
           <li>{trash[0].count} of {trash[0].name}</li>
           <li>{trash[1].count} pieces of {trash[1].name}</li>
           <li>{trash[2].count} of {trash[2].name}</li>
+          <Lister/>
         </ul>
 
         <img src="/trashpile.png"></img>
