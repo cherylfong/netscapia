@@ -9,3 +9,5 @@ End-to-end web development.
 ## Contents
 
 ### [Part 0](part0/part0.md)
+
+Web application fundamentals.
