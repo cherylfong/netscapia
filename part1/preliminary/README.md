@@ -1,3 +1,59 @@
+# My Notes
+
+In addition to comments found in: [`part1/preliminary/src/App.js`](part1/preliminary/src/App.js)
+
+Listed in order of parsing the material.
+
+1. ECMAScript  a standard for scripting languages, including JavaScript, JScript, and ActionScript. 
+
+1. ECMA-262: ECMAScript® 2023 language specification is the 14th edition,, released in June 2023.
+
+1. Transpilation (newer version to older) is automatically configured in React applications created with `create-react-app` through [Babel](https://babeljs.io/).
+
+1. Node.js is a JavaScript runtime environment based on Google's Chrome V8 JavaScript engine.
+
+1. Have the latest Chrome browser to handle new features of JavaScript "usually".
+
+1. Important to understand & be aware of JavaScript features. It is a loosely typed language.
+
+1. `var` keyword is used to define scope for variables within a function. Advised to understand when to use `var`, `let`, and `const`. [[ref](https://medium.com/craft-academy/javascript-variables-should-you-use-let-var-or-const-394f7645c88f)][[ref](http://www.jstips.co/en/javascript/keyword-var-vs-let/)]
+
+1. Use `let` and avoid `var` for the purpose of this course.
+
+1. A `const` initialized array is pointing to an array object. Contents of the array object can be mutated. The pointer to the array object is immutable.
+
+1. When using React, techniques from functional programming are often used.
+
+1. A characteristic of the functional programming paradigm is the use of immutable data structures.
+
+1. Preferable to use `concat` to **create** a new array with the added item.
+
+1. JavaScript does not have classes in the same sense as object-oriented programming languages. 
+
+1. Arrow functions were introduced in ES6. Syntax: function-name `=` parameter(s) `=>` function-definition
+
+```Javascript
+pfunction = p => p * p
+```
+
+Function expression vs Function declaration:
+
+```Javascript
+// expression
+const average = function(a, b) {
+  return (a + b) / 2
+}
+
+// declaration
+function average(a,b){
+    return (a + b) / 2
+}
+```
+
+Prepending this file from `npx create-react-app` :
+
+---
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
