@@ -21,3 +21,5 @@ React introduction.
 - `/preliminary` : contains notes from section part 1 (a).
 
 > See [`./preliminary/src/App.js`](part1/preliminary/src/App.js) for comments.
+
+- `/courseinfo` : fulfills instructions from 1.1 to 1.5.
