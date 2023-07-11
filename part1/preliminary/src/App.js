@@ -5,8 +5,69 @@
 import logo from './logo.svg';
 import './App.css';
 
-// creates a list
+// React State Hook
+//
+// import the userState function
+// https://react.dev/learn/state-a-components-memory
+import {useState} from 'react';
 
+
+const DisplayGarb = ({garbItem, randnum}) => {
+  
+  console.log( "RANDNUM is " , randnum() )
+  return(    
+    <>
+      <p>Thank you for the trash!</p>
+      <img src={garbItem[randnum]}></img>
+    </>
+  )
+}
+
+// TODO: setCounter object cannot be a global object; hence can only be passed, however this passed object is a copy or a reference to the original. Therefore when setCounter is set to zero, the original counter is not reset.
+// TODO: the html in the return closure is not returning; this may be to do with async requests and states
+// listens to mouse clicks for trash
+const GiveTrash = ( setCounter ) => {
+
+  setCounter()
+
+  console.log("CLICKED ME")
+
+  const garbItem = ['/bananapeel.png', '/dirtpile.jpeg', 'plasticbottle.png']
+
+  const randnum = () => Math.floor(Math.random() *3 )
+
+  console.log( randnum() )
+  console.log( garbItem[randnum()] )
+  
+  return(
+    <DisplayGarb garbItem={garbItem} randnum={randnum}/>
+  );
+
+}
+
+
+// counts per second 
+const TimedCounterDisplay = ({counter, setCounter}) => {
+
+  // increment counter
+  // timeout set to 1 second
+  setTimeout(
+    () => setCounter(counter + 1),
+    1000
+  )
+
+  // Every time the setCounter modifies the state it causes the component to re-render
+
+  return (
+    <div>Counting every second for more trash... {counter}
+    <img src='https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExbjgyanc1N21hZW9qczBmaG9kd25idWpzZ2Y3anhreGMxdjM0andxaCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/aasBMkWpXsZUu58az4/giphy.gif' width={250} ></img>
+    </div>
+    
+    )
+
+}
+
+// creates a list
 const Lister = () => {
 
   const garbs = ['junk', 'rust', 'dump', 'goo', 'slime', 'yuck']
@@ -14,8 +75,8 @@ const Lister = () => {
   // destructuring assignment
   const [first, second, ...rest] = garbs
 
-  console.log(first, second)
-  console.log(rest)          
+  // console.log(first, second)
+  // console.log(rest)          
 
   let garbsList = garbs.map(val => '<li>' + val + '</li>')
 
@@ -39,18 +100,19 @@ const Trademark = () => {
 
 // an array of JSX elements or components
 // instead of using an outermost div-element
-const Footer = () => {
+const Footer = ({counter, setCounter}) => {
 
   return [
     <p>Created by <a href="https://en.wikipedia.org/wiki/Oscar_the_Grouch">Oscar</a>.</p>,
-    <Trademark />
+    <Trademark />,
+    <TimedCounterDisplay counter={counter} setCounter={setCounter}/>
   ]
 
 }
 
 // another React component
 const Garbage = (props) => {
-  console.log(props)
+  // console.log(props)
   return (
     <div>
       <p>Hello {props.name} </p>
@@ -63,12 +125,18 @@ const Garbage = (props) => {
 // a React component
 // the first letter of component names need to be Capitalized
 function App() {
-  console.log('hello world! - App() component')
   const now = new Date()
+
+  // destructuring value from the userState object
+  // initialize state to value zero
+  // counter is set to 0; state at 0 
+  const [ counter, setCounter ] = useState(0)
+
+  const resetCounter = () => setCounter(0)
 
   const a = 300
   const b = 500
-  console.log(a + b)
+  // console.log(a + b)
 
   var value = "World !"
 
@@ -118,11 +186,14 @@ function App() {
 
         <img src="/trashpile.png"></img>
 
+        <button onClick={ () => { GiveTrash(resetCounter) } }>Give Oscar Trash</button>
+
+
         <p>Contributed by {contributors}.</p>
 
       </header>
 
-      <Footer />
+      <Footer counter={counter} setCounter={setCounter}/>
 
     </div>
 
