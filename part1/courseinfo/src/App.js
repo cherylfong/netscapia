@@ -11,8 +11,11 @@
  * 
  * 1.5 Change the course and its parts into a single JavaScript object.
  * 
+ * Part 1 (c) Component state using useState and Event handling with button clicks
+ * 
  */
 
+import {useState} from 'react'
 
 const App = () => {
 
@@ -34,12 +37,33 @@ const App = () => {
     ]
   }
 
+  const [counter, setCounter] = useState(0)
+
+  const addOneCount = () => {
+    console.log('add count ', counter)
+    setCounter(counter +1)
+  }
+
+  const minusOneCount = () => {
+    console.log('minus count ', counter)
+    setCounter(counter -1)
+  }
+
+  const resetCount = () => {
+    console.log('reset count ', counter)
+    setCounter(0)
+  }
+
   return (
     <div>
       <Header course={course.name} />
       <Content parts={course.parts} />
       <Total parts={course.parts} />
-    </div>
+      <CountDisplay counter={counter} />
+      <Button handle={addOneCount} text={"++"} />
+      <Button handle={minusOneCount} text={"--"} />
+      <Button handle={resetCount} text={"0"} />
+      </div>
   )
 }
 
@@ -99,4 +123,16 @@ const Part = (props) => {
 
 }
 
+/**
+ * Displays click counter
+ */
+const CountDisplay = ({counter}) => {
+
+  return <p>Counting button clicks: {counter}</p>
+}
 export default App
+
+/**
+ * Custom Button
+ */
+const Button = ({handle, text}) => <button onClick={handle}>{text}</button>
