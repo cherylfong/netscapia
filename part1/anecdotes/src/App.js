@@ -1,5 +1,7 @@
 /**
  * 1.12 Expand the application by adding a button that can be clicked to display a random anecdote.
+ * 
+ * 1.13 Allow voting for the displayed anecdote.
  */
 
 import { useState } from 'react'
@@ -15,19 +17,32 @@ const App = () => {
     'Programming without an extremely heavy use of console.log is same as if a doctor would refuse to use x-rays or blood tests when diagnosing patients.',
     'The only way to go fast, is to go well in increments.'
   ]
-   
+
   const [selected, setSelected] = useState(0)
 
+  const [votes, setVote] = useState(Array(anecdotes.length).fill(0))
+   
   const handleRandomSelection = () => {
     // gets a random number from 0 to the length of the anecdote array length
     const updateSelection = Math.floor(Math.random() * anecdotes.length )
     setSelected(updateSelection)
   }
 
+  const handleVoting = () => {
+    // update array element value + 1 that corresponds to the selected anecdote
+    // always update the reference, do not directly mutate 
+    let copyArray = [...votes]
+    copyArray[selected] += 1
+    // create a new array with the copied elements
+    setVote([...copyArray])
+  }
+
   return (
     <div>
       <p>{anecdotes[selected]}</p>
+      <p>Votes: {votes[selected]}</p>
       <Button handle={handleRandomSelection} text="next anecdote" />
+      <Button handle={handleVoting} text="vote +1" />
     </div>
   )
 }
