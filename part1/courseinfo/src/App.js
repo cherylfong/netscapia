@@ -13,6 +13,8 @@
  * 
  * Part 1 (c) Component state using useState and Event handling with button clicks
  * 
+ * Part 1 (d) Multiple varying state types
+ * 
  */
 
 import {useState} from 'react'
@@ -54,6 +56,29 @@ const App = () => {
     setCounter(0)
   }
 
+  const [left, setLeft] = useState(0)
+  const [right, setRight] = useState(0)
+  const [allClicks, setAll] = useState([])
+  const [total, setTotal] = useState(0)
+
+  const handleLeftClick = () => {
+    // does not mutate, creates a copy of existing with the added input
+    // remember to not directly change state objects
+    setAll(allClicks.concat('L'))
+    // intently update left click value because asynchronous 
+    const updateLeft = left + 1
+    setLeft(updateLeft)
+    // the left variable is still holding the previous/un-updated value!
+    setTotal(updateLeft + right)
+  }
+
+  const handleRightClick = () => {
+    setAll(allClicks.concat('R'))
+    const updateRight = right + 1
+    setRight(updateRight)
+    setTotal(updateRight + left)
+  }
+
   return (
     <div>
       <Header course={course.name} />
@@ -63,6 +88,10 @@ const App = () => {
       <Button handle={addOneCount} text={"++"} />
       <Button handle={minusOneCount} text={"--"} />
       <Button handle={resetCount} text={"0"} />
+      <LeftRightLog allClicks={allClicks} />
+      <Button handle={handleLeftClick} text={"<- LEFT"} />
+      <Button handle={handleRightClick} text={"RIGHT ->"} />
+      <p>Total Right and Left clicks: {total}</p>
       </div>
   )
 }
@@ -136,3 +165,19 @@ export default App
  * Custom Button
  */
 const Button = ({handle, text}) => <button onClick={handle}>{text}</button>
+
+/**
+ * 
+ * @param {*} allClicks gets the array of clicks logged as L and R chars 
+ * @returns JSX using conditional rendering
+ */
+const LeftRightLog = ({allClicks}) => {
+  if (allClicks.length === 0){
+    return(
+      <p>Start clicking LEFT or Right!</p>
+    )
+  }
+  return (
+    <p>Logging : {allClicks.join(' ')}</p>
+  )
+}
