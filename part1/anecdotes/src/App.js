@@ -2,6 +2,8 @@
  * 1.12 Expand the application by adding a button that can be clicked to display a random anecdote.
  * 
  * 1.13 Allow voting for the displayed anecdote.
+ * 
+ * 1.14 Display the anecdote with the largest number of votes
  */
 
 import { useState } from 'react'
@@ -37,12 +39,19 @@ const App = () => {
     setVote([...copyArray])
   }
 
+  const getIndexHighestVote = () => {
+    console.log( "WTF ",votes.findIndex((e) => e === Math.max(...votes)))
+    return votes.findIndex((e) => e === Math.max(...votes))
+  }
+
   return (
     <div>
+      <h1>Anecdote of the day</h1>
       <p>{anecdotes[selected]}</p>
       <p>Votes: {votes[selected]}</p>
       <Button handle={handleRandomSelection} text="next anecdote" />
       <Button handle={handleVoting} text="vote +1" />
+      <PopularAnecdote anecdote={anecdotes[getIndexHighestVote()]} voted={Math.max(...votes)} />
     </div>
   )
 }
@@ -51,5 +60,19 @@ const App = () => {
  * Custom Button
  */
 const Button = ({ handle, text }) => <button onClick={handle}>{text}</button>
+
+/**
+ * Largest voted anecdote display
+ */
+const PopularAnecdote = ({anecdote, voted}) => {
+
+  return(
+    <>
+      <h1>Anecdote with the most votes</h1>
+        <p>{anecdote}</p>
+        <b>Number of votes: {voted}</b>
+    </>
+  )
+}
 
 export default App
