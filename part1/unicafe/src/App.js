@@ -6,6 +6,8 @@
  * 1.8 Refactor to display statistics in its own component. Application state should remain in the App root component.
  * 
  * 1.9 Display statistics only when feedback is given.
+ * 
+ * 1.10 Create a component named "StatisticLine" to display a single paragraph of statistic information and another component for a custom button called "Button".
  */
 
 import { useState } from 'react'
@@ -66,7 +68,7 @@ const Button = ({ handle, text }) => <button onClick={handle}>{text}</button>
 /**
  * Display values
  */
-const P = ({ text, value }) => <p>{text} {value}</p>
+const StatisticLine = ({ text, value }) => <p>{text} {value}</p>
 
 /**
  * Statistics display
@@ -80,12 +82,12 @@ const Statistics = (props) => {
   return (
     <>
       <h1>statistics</h1>
-        <P text={"good"} value={props.good} />
-        <P text={"neutral"} value={props.neutral} />
-        <P text={"bad"} value={props.bad} />
-        <P text={"all"} value={props.total} />
-        <P text={"average"} value={props.average} />
-        <P text={"positive in %"} value={props.percentage} />
+        <StatisticLine text={"good"} value={props.good} />
+        <StatisticLine text={"neutral"} value={props.neutral} />
+        <StatisticLine text={"bad"} value={props.bad} />
+        <StatisticLine text={"all"} value={props.total} />
+        <StatisticLine text={"average"} value={props.average} />
+        <StatisticLine text={"positive in %"} value={props.percentage} />
     </>
   )
 }
