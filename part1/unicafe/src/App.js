@@ -4,6 +4,8 @@
  * 1.7 Show statistics that include total number of collected feedback, average score where (good:1, neutral:0, bad:-1), and the percentage of good feedback.
  * 
  * 1.8 Refactor to display statistics in its own component. Application state should remain in the App root component.
+ * 
+ * 1.9 Display statistics only when feedback is given.
  */
 
 import { useState } from 'react'
@@ -70,6 +72,10 @@ const P = ({ text, value }) => <p>{text} {value}</p>
  * Statistics display
  */
 const Statistics = (props) => {
+
+  if (props.total === 0) {
+    return <p>No feedback given</p>
+  }
 
   return (
     <>
