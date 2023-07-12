@@ -1,3 +1,7 @@
+/**
+ * 1.12 Expand the application by adding a button that can be clicked to display a random anecdote.
+ */
+
 import { useState } from 'react'
 
 const App = () => {
@@ -14,11 +18,23 @@ const App = () => {
    
   const [selected, setSelected] = useState(0)
 
+  const handleRandomSelection = () => {
+    // gets a random number from 0 to the length of the anecdote array length
+    const updateSelection = Math.floor(Math.random() * anecdotes.length )
+    setSelected(updateSelection)
+  }
+
   return (
     <div>
-      {anecdotes[selected]}
+      <p>{anecdotes[selected]}</p>
+      <Button handle={handleRandomSelection} text="next anecdote" />
     </div>
   )
 }
+
+/**
+ * Custom Button
+ */
+const Button = ({ handle, text }) => <button onClick={handle}>{text}</button>
 
 export default App
