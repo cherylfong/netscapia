@@ -16,6 +16,12 @@ Listed in order of parsing the material.
 
 1. Important to understand & be aware of JavaScript features. It is a loosely typed language.
 
+1. Do not mutate a React component's state directly, it can result in unexpected side effects. [[ref](https://stackoverflow.com/questions/37755997/why-cant-i-directly-modify-a-components-state-really/40309023#40309023)]
+
+1. Saving the application's state in a single state object may be a bad choice, see [Choosing the State Structure](https://react.dev/learn/choosing-the-state-structure) as a guide.
+
+1. State updates in React occur [ASYNCHRONOUSLY](https://react.dev/learn/queueing-a-series-of-state-updates), i.e. state updates happen before a component is rendered again.
+
 1. `var` keyword is used to define scope for variables within a function. Advised to understand when to use `var`, `let`, and `const`. [[ref](https://medium.com/craft-academy/javascript-variables-should-you-use-let-var-or-const-394f7645c88f)][[ref](http://www.jstips.co/en/javascript/keyword-var-vs-let/)]
 
 1. Use `let` and avoid `var` for the purpose of this course.
@@ -30,7 +36,21 @@ Listed in order of parsing the material.
 
 1. JavaScript does not have class mechanisms in the same sense as object-oriented programming languages. JavaScript simulates OOP classes.
 
-1. It is not necessary to define objects with methods when using React Hooks. Hence, it would be redundant to use JavaScript's class syntax.
+1. It is not necessary to define objects with methods when using React Hooks.
+
+1. State hooks were made available in React version 16.8.0. Component states had to use class syntax before this. Legacy React code uses class components or OOP, React today and the future will continue to use functional components.
+
+1. The `useState` function cannot be called inside a loop, a conditional statement, and a function that does not define a component. `useState()` can only be called inside a React component body.
+
+1. Event handlers e.g. `onClick={}` must be a function, reference to a function or a function that returns a function. Must not end as a function call e.g. `onClick={setValue(0)}`. When the component containing this statement is rendered, `setValue(0)` executes. This causes an infinite recursion as the `setValue(0)` execution initiates a re-rendering. 
+
+   1. When a component containing this statement, `onClick={() => console.log('clicked the button')`, is rendered, no function gets called, only the reference to the arrow function is set to the event handler. The function call occurs when the event handler is triggered.  
+
+   1. Reference to a function e.g. `onClick={handleClick}` where `handleClick` is defined as `const handleClick = () => { setValue(0) }`. This function definition can contain multiple commands. 
+
+   1. This is permissible if `hello()` in `onClick={hello()}` returns a function. 
+
+1. Do not define components within components!
 
 1. Arrow functions and functions defined using the function keyword vary substantially when it comes to how they behave with respect to the `this` keyword.
 
@@ -62,6 +82,25 @@ const average = function(a, b) {
 function average(a,b){
     return (a + b) / 2
 }
+```
+
+Functions that return functions + Compact syntax:
+
+```Javascript
+const hello = (someone) => {
+
+    const innerHello = () => console.log('Hi ', someone, '!')
+    return innerHello
+}
+
+// can be simplified into
+const hello = (someone) => { 
+
+    return () => console.log('Hi ', someone, '!') 
+}
+
+// can be further simplified into
+const hello = (someone) => () => console.log('Hi ', someone, '!')
 ```
 
 Reliable JavaScript sources:
