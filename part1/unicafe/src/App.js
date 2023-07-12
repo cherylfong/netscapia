@@ -8,6 +8,8 @@
  * 1.9 Display statistics only when feedback is given.
  * 
  * 1.10 Create a component named "StatisticLine" to display a single paragraph of statistic information and another component for a custom button called "Button".
+ * 
+ * 1.11 Refactor StatisticLine as a HTML table row 
  */
 
 import { useState } from 'react'
@@ -68,7 +70,16 @@ const Button = ({ handle, text }) => <button onClick={handle}>{text}</button>
 /**
  * Display values
  */
-const StatisticLine = ({ text, value }) => <p>{text} {value}</p>
+const StatisticLine = ({ text, value }) => { 
+  return(
+    <>
+      <tr>
+        <td>{text}</td>
+        <td>{value}</td> 
+      </tr>
+    </>
+  )
+}
 
 /**
  * Statistics display
@@ -82,12 +93,14 @@ const Statistics = (props) => {
   return (
     <>
       <h1>statistics</h1>
-        <StatisticLine text={"good"} value={props.good} />
-        <StatisticLine text={"neutral"} value={props.neutral} />
-        <StatisticLine text={"bad"} value={props.bad} />
-        <StatisticLine text={"all"} value={props.total} />
-        <StatisticLine text={"average"} value={props.average} />
-        <StatisticLine text={"positive in %"} value={props.percentage} />
+        <table>
+          <StatisticLine text={"good"} value={props.good} />
+          <StatisticLine text={"neutral"} value={props.neutral} />
+          <StatisticLine text={"bad"} value={props.bad} />
+          <StatisticLine text={"all"} value={props.total} />
+          <StatisticLine text={"average"} value={props.average} />
+          <StatisticLine text={"positive in %"} value={props.percentage} />
+        </table>
     </>
   )
 }
