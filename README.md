@@ -18,6 +18,12 @@ React introduction.
 
 #### Subdirectories:
 
+Each listed here is its own React App.
+
 - [`/preliminary`](part1/preliminary/README.md) : exploring part 1.
 
 - [`/courseinfo`](part1/courseinfo/src/App.js) : fulfills instructions from 1.1 to 1.5.
+
+- [`/unicafe`](part1/unicafe/src/App.js) : fulfills instructions from 1.6 to 1.11
+
+- [`/anecdotes`](part1/anecdotes/src/App.js) : fulfills instructions from 1.12 to 1.14
