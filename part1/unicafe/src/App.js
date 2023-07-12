@@ -2,6 +2,8 @@
  * 1.6 Implement a web application for collecting customer feedback. There are only three options for feedback: good, neutral, and bad.
  * 
  * 1.7 Show statistics that include total number of collected feedback, average score where (good:1, neutral:0, bad:-1), and the percentage of good feedback.
+ * 
+ * 1.8 Refactor to display statistics in its own component. Application state should remain in the App root component.
  */
 
 import { useState } from 'react'
@@ -36,7 +38,7 @@ const App = () => {
     setBad(updateBad)
     setTotal(updateBad + good + neutral)
   }
-  
+
   // gets the average of all feedback
   const getAverage = (good, bad, total) => { return (good - bad) / total }
 
@@ -49,13 +51,7 @@ const App = () => {
       <Button handle={handleGoodClick} text={"good 😃"} />
       <Button handle={handleNeutralClick} text={"neutral 😐"} />
       <Button handle={handleBadClick} text={"bad 😟"} />
-      <h1>statistics</h1>
-      <P text={"good"} value={good}/>
-      <P text={"neutral"} value={neutral}/>
-      <P text={"bad"} value={bad}/>
-      <P text={"all"} value={total} />
-      <P text={"average"} value={ getAverage(good, bad, total) } />
-      <P text={"positive in %"} value={ getGoodPercentage(good, total)} />
+      <Statistics good={good} neutral={neutral} bad={bad} total={total} average={getAverage(good, bad, total)} percentage={getGoodPercentage(good, total)}/>
     </div>
   )
 }
@@ -63,11 +59,29 @@ const App = () => {
 /**
  * Custom Button
  */
-const Button = ({handle, text}) => <button onClick={handle}>{text}</button>
+const Button = ({ handle, text }) => <button onClick={handle}>{text}</button>
 
 /**
  * Display values
  */
-const P = ({text, value}) => <p>{text} {value}</p>
+const P = ({ text, value }) => <p>{text} {value}</p>
+
+/**
+ * Statistics display
+ */
+const Statistics = (props) => {
+
+  return (
+    <>
+      <h1>statistics</h1>
+        <P text={"good"} value={props.good} />
+        <P text={"neutral"} value={props.neutral} />
+        <P text={"bad"} value={props.bad} />
+        <P text={"all"} value={props.total} />
+        <P text={"average"} value={props.average} />
+        <P text={"positive in %"} value={props.percentage} />
+    </>
+  )
+}
 
 export default App
