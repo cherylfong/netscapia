@@ -33,3 +33,5 @@ Each listed here is its own React App.
 Similarly with Part 1, each listed directory is its own React App.
 
 - [`/preliminary`](part2/preliminary/README.md) : exploring part 2.
+
+- [`/courseinfo`](part2/courseinfo/src/App.js) : fulfills instructions from 2.1 to 2.5.
