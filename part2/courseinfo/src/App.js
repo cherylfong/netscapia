@@ -1,6 +1,12 @@
 import logo from './logo.svg';
 import './App.css';
 
+/**
+ * 2.1 Define a component responsible for formatting a single course called Course.
+ */
+
+import Course from './components/Course';
+
 const App = () => {
   const course = {
     id: 1,
