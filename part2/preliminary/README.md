@@ -16,4 +16,6 @@ In addition to notes/comments found in this directory's [App.js](part2/prelimina
 
 1. The `Note` module can be used in `App.js` by importing it as `import Note from './component/Note'`. The path is relative to the importing file e.g. relative to the location of `App.js`. `.` indicates current directory. The `.js` extension can be omitted.
 
-1. When migrating project files do not include the `node_modules` directory, instead, reinstal the project by sing the `npm install` command before `npm start`.
+1. When migrating project files do not include the `node_modules` directory, instead, reinstall the project by sing the `npm install` command before `npm start`.
+
+1. [This is a compressive list of events from the DOM Event interface](https://developer.mozilla.org/en-US/docs/Web/Events)
