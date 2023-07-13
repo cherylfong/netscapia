@@ -27,3 +27,9 @@ Each listed here is its own React App.
 - [`/unicafe`](part1/unicafe/src/App.js) : fulfills instructions from 1.6 to 1.11
 
 - [`/anecdotes`](part1/anecdotes/src/App.js) : fulfills instructions from 1.12 to 1.14
+
+### [Part 2]([part2])
+
+Similarly with Part 1, each listed directory is its own React App.
+
+- [`/preliminary`](part2/preliminary/README.md) : exploring part 2.
