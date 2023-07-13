@@ -4,7 +4,9 @@ import './App.css';
 /**
  * 2.1 Define a component responsible for formatting a single course called Course.
  * 
- * 2.2 Show sum of exercises of the course
+ * 2.2 Show sum of exercises of the course.
+ * 
+ * 2.3 Use Array.reduce to calculate the sum exercises in the course.
  */
 
 import Course from './components/Course';

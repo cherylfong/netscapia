@@ -41,12 +41,18 @@ const Content = ({course}) => {
     let sum = 0;
 
     parts.forEach( e => { sum += e.exercises })
-    
+
+    const i = 0;
+    const sumReduce = parts.reduce(
+        (accumulator, part) => accumulator + part.exercises, i
+    )
+
     return(
         <>
           {parts.map( p => <Part key={p.id} part={p} />
           )}
-          <SumDisplay total={sum}/>
+          <SumDisplay total={sum} text=""/>
+          <SumDisplay total={sumReduce} text={"Using Array.reduce(): "}/>
         </>
     )
 }
@@ -65,10 +71,10 @@ const Part = ({part}) => {
 /**
  * Displays the sum of exercises for the course.
  */
-const SumDisplay = ({total}) => {
+const SumDisplay = ({total, text}) => {
     return(
         <>
-          <b>total of {total} exercises</b>
+          <p><b>{text}total of {total} exercises</b></p>
         </>
     )
 }
