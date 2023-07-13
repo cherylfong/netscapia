@@ -6,11 +6,13 @@
  *   Content
  *     Part
  */
-const Course = ({course}) => {
+const Course = ({courses}) => {
     return(
         <>
-          <Header course={course} />
-          <Content course={course} />
+          { courses.map(
+                course => 
+                <Content key={course.id} course={course} />
+          )}  
         </>
     )
 }
@@ -19,12 +21,12 @@ const Course = ({course}) => {
  * @param {*} course : is the course object
  * @returns level 1 header containing course.name 
  */
-const Header = ({course}) => { 
+const Header = ({name}) => { 
 
     return (
         <>
           <h1>
-            {course.name}
+            {name}
           </h1>
         </>
     ) 
@@ -49,6 +51,7 @@ const Content = ({course}) => {
 
     return(
         <>
+          <Header name={course.name} />
           {parts.map( p => <Part key={p.id} part={p} />
           )}
           <SumDisplay total={sum} text=""/>
