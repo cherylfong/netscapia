@@ -1,6 +1,3 @@
-import logo from './logo.svg';
-import './App.css';
-
 /**
  * 2.1 Define a component responsible for formatting a single course called Course.
  * 
@@ -12,6 +9,9 @@ import './App.css';
  * 
  * 2.5 Implement Course component as a separate module and import to use in App component.
  */
+
+import logo from './logo.svg';
+import './App.css';
 
 import Course from './components/Course';
 
