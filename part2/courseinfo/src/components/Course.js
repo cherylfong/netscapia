@@ -38,10 +38,15 @@ const Content = ({course}) => {
 
     const parts = course.parts
 
+    let sum = 0;
+
+    parts.forEach( e => { sum += e.exercises })
+    
     return(
         <>
           {parts.map( p => <Part key={p.id} part={p} />
           )}
+          <SumDisplay total={sum}/>
         </>
     )
 }
@@ -54,6 +59,17 @@ const Part = ({part}) => {
 
     return(
         <p>{part.name} {part.exercises}</p>
+    )
+}
+
+/**
+ * Displays the sum of exercises for the course.
+ */
+const SumDisplay = ({total}) => {
+    return(
+        <>
+          <b>total of {total} exercises</b>
+        </>
     )
 }
 
