@@ -8,13 +8,19 @@ const Entry = ({persons, setPersons, newName, setNewName}) => {
         event.preventDefault();
         
         console.log('Triggered event source: ', event.target)
-    
+
+        if( isExists(newName, persons) ){
+            alert(`${newName} is already added.`)
+        } else {
+            
+      
         const personObject = {
         name: newName,
         }
 
         setPersons(persons.concat(personObject))
         setNewName('Ready to save a new person!')
+        }
     }
 
     const handleNewName = (event) => {
@@ -31,6 +37,14 @@ const Entry = ({persons, setPersons, newName, setNewName}) => {
             </form>
         </>
     )
+}
+
+function isExists(newName, persons) {
+
+    const namesOnly = persons.map(person => person.name)
+
+    return namesOnly.includes(newName)
+
 }
 
 export default Entry

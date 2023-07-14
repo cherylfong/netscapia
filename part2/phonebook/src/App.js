@@ -1,5 +1,7 @@
 /**
  * 2.6 Create a simple phone book. Only allow adding names.
+ * 
+ * 2.7 Prevent adding existing names in phone book.
  */
 
 import logo from './logo.svg';
@@ -22,7 +24,7 @@ function App(props) {
       <Entry persons={persons} setPersons={setPersons} newName={newName} setNewName={setNewName}/>
       <People people={persons}/>
     </div>
-  );
+  )
 }
 
-export default App;
+export default App
