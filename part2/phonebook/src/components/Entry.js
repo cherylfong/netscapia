@@ -38,8 +38,9 @@ const Entry = ({persons, setPersons, newName, setNewName, newNumber, setNewNumbe
     return(
         <>
             <form onSubmit={addEntry}>
-                <label>Name</label><br/>
+                <label>Name: </label>
                 <input value={newName} onChange={handleNewName}/><br/>
+                <label>Number: </label>
                 <input value={newNumber} onChange={handleNewNumber}/><br/>
                 <button type="submit">Add</button>
             </form>

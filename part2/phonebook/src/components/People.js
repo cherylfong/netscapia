@@ -5,7 +5,6 @@ const People = ({people}) => {
 
   return (
       <>
-          <h1>Numbers</h1>
           <Person people={people} />
       </>
   )
@@ -21,7 +20,7 @@ const Person = ({people}) => {
         <>
             { people.map(
                ( person, i )=> 
-                <p key={i}>{i}. {person.name} {person.number}</p>
+                <p key={i}>{person.id}. {person.name} {person.number}</p>
             )}
         </>
     )
