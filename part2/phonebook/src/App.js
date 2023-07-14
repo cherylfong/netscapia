@@ -1,21 +1,26 @@
+/**
+ * 2.6 Create a simple phone book. Only allow adding names.
+ */
+
 import logo from './logo.svg';
 import './App.css';
 
 import { useState } from 'react'
 
-function App() {
+import Entry from "./components/Entry"
+import People from "./components/People"
+
+function App(props) {
+
+  const [persons, setPersons] = useState(props.persons) 
   
-  const [persons, setPersons] = useState([
-    { name: 'Arto Hellas' }
-  ]) 
-  const [newName, setNewName] = useState('')
+  const [newName, setNewName] = useState('Add Name Here')
 
   return (
-    <div className="App">
-      <header className="App-header">
-      </header>
-
-
+    <div>
+      <h1>Phone Book</h1>
+      <Entry persons={persons} setPersons={setPersons} newName={newName} setNewName={setNewName}/>
+      <People people={persons}/>
     </div>
   );
 }
