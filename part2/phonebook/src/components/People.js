@@ -3,7 +3,6 @@
  */
 const People = ({people}) => {
 
-console.log("People ?",people)
   return (
       <>
           <h1>Numbers</h1>
@@ -14,7 +13,7 @@ console.log("People ?",people)
 
 
 /**
- * Displays one person from the phone book
+ * Displays one person and their number from the phone book
  */
 const Person = ({people}) => {
 
@@ -22,7 +21,7 @@ const Person = ({people}) => {
         <>
             { people.map(
                ( person, i )=> 
-                <p key={i}>{person.name}</p>
+                <p key={i}>{i}. {person.name} {person.number}</p>
             )}
         </>
     )

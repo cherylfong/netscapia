@@ -1,7 +1,7 @@
 /**
  * Adds an entry to the Phone book
  */
-const Entry = ({persons, setPersons, newName, setNewName}) => {
+const Entry = ({persons, setPersons, newName, setNewName, newNumber, setNewNumber}) => {
 
     const addEntry = (event) => {
 
@@ -16,6 +16,8 @@ const Entry = ({persons, setPersons, newName, setNewName}) => {
       
         const personObject = {
         name: newName,
+        number: newNumber,
+        id: persons.length + 1,
         }
 
         setPersons(persons.concat(personObject))
@@ -28,11 +30,17 @@ const Entry = ({persons, setPersons, newName, setNewName}) => {
         console.log('Triggered event source value: ', event.target.value)
     }
 
+    const handleNewNumber = (event) => {
+        setNewNumber(event.target.value)
+        console.log('Triggered event source value: ', event.target.value)
+    }
+
     return(
         <>
             <form onSubmit={addEntry}>
                 <label>Name</label><br/>
-                <input value={newName} onChange={handleNewName}/>
+                <input value={newName} onChange={handleNewName}/><br/>
+                <input value={newNumber} onChange={handleNewNumber}/><br/>
                 <button type="submit">Add</button>
             </form>
         </>
