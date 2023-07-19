@@ -16,8 +16,6 @@ Web application fundamentals.
 
 React introduction.
 
-#### Subdirectories:
-
 Each listed here is its own React App.
 
 - [`/preliminary`](part1/preliminary/README.md) : exploring part 1.
@@ -30,10 +28,12 @@ Each listed here is its own React App.
 
 ### [Part 2]([part2])
 
+Introduction to server side programming.
+
 Similarly with Part 1, each listed directory is its own React App.
 
 - [`/preliminary`](part2/preliminary/README.md) : exploring part 2.
 
 - [`/courseinfo`](part2/courseinfo/src/App.js) : fulfills instructions from 2.1 to 2.5.
 
-- [`/phonebook`](part2/phonebook/src/App.js) : fulfills instructions from 2.6 to 2.10.
+- [`/phonebook`](part2/phonebook/src/App.js) : fulfills instructions from 2.6 to 2.11.
