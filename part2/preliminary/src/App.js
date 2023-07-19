@@ -1,9 +1,10 @@
 import logo from './logo.svg';
 import './App.css';
-import {useState} from 'react';
+import { useState, useEffect } from 'react'
+import axios from 'axios'
 
 const App = (props) => {
-  
+
   // props in the App parameter is from index.js
   // 
   // this is a destructuring syntax
@@ -11,22 +12,73 @@ const App = (props) => {
   // const notes = props.notes
   // const { notes } = props
 
-  const [notes, setNotes] = useState(props.notes)
+  // no longer retrieving data from index.js
+  // const [notes, setNotes] = useState(props.notes)
+
+  const [notes, setNotes] = useState([])
+
   const [newNote, setNewNote] = useState('Save a new note?')
   const [isShowAll, setShowAll] = useState(true)
 
+
+  useEffect(() => {
+    console.log("Use effect")
+    axios
+      .get('http://localhost:3001/notes')
+      .then(response => {
+        console.log('promise fulfilled')
+        setNotes(response.data)
+      })
+  }, [])
+
+  // a call to a state-updating function triggers the re-rendering of the component.
+  // this log print will be called again after data is fetched from server
+  console.log('Render', notes.length, 'notes')
+
+  // alternatively
+
+  /* const hook = () => {
+      console.log('effect')
+      axios
+        .get('http://localhost:3001/notes')
+        .then(response => {
+          console.log('promise fulfilled')
+          setNotes(response.data)
+        })
+
+    useEffect(hook, [])
+
+    } 
+
+
+    useEffect(() => {
+    
+      console.log('effect')
+
+      const eventHandler = response => {
+        console.log('promise fulfilled')
+        setNotes(response.data)
+      }
+
+      const promise = axios.get('http://localhost:3001/notes')
+      promise.then(eventHandler)
+
+    }, [])
+    
+  */
+
   // creates a new note Object and adds it to the notes array
   const addNote = (event) => {
-    
+
     event.preventDefault() // e.g. prevents page from reloading
-    
+
     console.log('Triggered event source: ', event.target)
-    
+
     const noteObject = {
       content: newNote,
       // 50% chance for importance either true or false
-      important: Math.random()  < 0.5,
-      id: notes.length +1, 
+      important: Math.random() < 0.5,
+      id: notes.length + 1,
     }
 
     setNotes(notes.concat(noteObject))
@@ -50,9 +102,9 @@ const App = (props) => {
   return (
     <div>
       <h1>Notes</h1>
-      
+
       {/* Alternatives for the same component */}
-      
+
       {/* <ul>
         {notes.map(note =>
           <li>
@@ -79,8 +131,8 @@ const App = (props) => {
       */}
 
       <ul>
-        { notes.map(note =>
-          <Note key={note.id} note={note}/>
+        {notes.map(note =>
+          <Note key={note.id} note={note} />
         )}
       </ul>
 
@@ -90,19 +142,19 @@ const App = (props) => {
       {/* onChange is called each time when change occurs! */}
       <form onSubmit={addNote}>
         <input value={newNote}
-        onChange={handleNewNote}
+          onChange={handleNewNote}
         />
         <button type='submit'>SAVE</button>
       </form>
 
 
       <h1>Filtered Note list</h1>
-      <button onClick={ () => setShowAll(!isShowAll)}>
-          Show {isShowAll ? "important notes?" : "all notes?"}
+      <button onClick={() => setShowAll(!isShowAll)}>
+        Show {isShowAll ? "important notes?" : "all notes?"}
       </button>
       <ul>
-        { notesToShow.map(note =>
-          <Note key={note.id} note={note}/>
+        {notesToShow.map(note =>
+          <Note key={note.id} note={note} />
         )}
       </ul>
 
@@ -110,8 +162,8 @@ const App = (props) => {
   )
 }
 
-const Note = ({note}) => {
-  return(
+const Note = ({ note }) => {
+  return (
     <li>{note.content}</li>
   )
 }
