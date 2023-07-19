@@ -1,6 +1,6 @@
 # Part 2 Notes
 
-In addition to notes/comments found in this directory's [App.js](part2/preliminary/src/App.js).
+In addition to notes/comments found in this directory's [App.js](part2/preliminary/src/App.js) and [index.js](part2/preliminary/src/index.js).
 
 1. If JavaScript code is generating HTML, then it must be wrapped in curl braces within a JSX template.
 
@@ -19,3 +19,83 @@ In addition to notes/comments found in this directory's [App.js](part2/prelimina
 1. When migrating project files do not include the `node_modules` directory, instead, reinstall the project by sing the `npm install` command before `npm start`.
 
 1. [This is a compressive list of events from the DOM Event interface](https://developer.mozilla.org/en-US/docs/Web/Events)
+
+1. Use [json-server](https://github.com/typicode/json-server#getting-started) as server for dummy data without having to program or do any initial setup other than starting the server itself.
+
+1. json-server can be installed locally in the root directory of the project where `node_module` resides. Use, 
+
+    ```bash
+    npx json-server --port 3001 --watch db.json
+    ```
+    , since port 3000 is occupied by the React App when initiated by `npm start`.
+
+1. Whenever new data is added to the application, React (aside from rendering) can also send it to the server so that it persists in memory.
+
+1. Asynchronous JavaScript and XML, or Ajax, is not a technology in itself, but rather an approach to using a number of existing technologies together, including HTML or XHTML, CSS, JavaScript, DOM, XML, XSLT, and most importantly the XMLHttpRequest object. [[ref]](https://developer.mozilla.org/en-US/docs/Web/Guide/AJAX)
+
+1. Both JSON and XML are used for packaging information in the Ajax model. 
+
+1. XMLHttpRequest (XHR) objects are used to interact with servers i.e. a HTTP request made using an XHR object.
+
+    Introduced in 1999, this allows retrieving data from a URL without having to do a full page refresh. Thus enabling a Web page to update just part of a page without disrupting what the user is doing. [[ref]](https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest).
+
+    Hence it is supported by older browsers but is no longer the defacto method to retrieve server data.
+
+1. `XMLHttpRequest` uses a callback-based approach, requiring the use of event listeners to handle the response. An event handler is registered to `xhttp` object representing the HTTP request, which is called by the JavaScript runtime whenever the state of the `xhttp` object changes.
+   
+1. `fetch()` is a modern versatile method of retrieving data from the server. It returns a [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise) that resolves to the response and makes it easier to work with asynchronous code. It is standardized and supported by all modern browsers. [[ref]](https://developer.mozilla.org/en-US/docs/Web/API/fetch)
+
+1. A Promise is an object representing the eventual completion or failure of an asynchronous operation.
+
+1. The JavaScript (engine) runtime environments follow the [asynchronous model](https://developer.mozilla.org/en-US/docs/Web/JavaScript/EventLoop). In principle, this requires all IO operations (with some exceptions) to be executed as non-blocking. This means that code execution continues immediately after calling an IO function, without waiting for it to return.
+
+1. JavaScript engines are single-threaded. It is a requirement in practice to use a non-blocking model for executing IO operations.
+
+1. It is possible to run parallelized code with the use of [web workers](https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API/Using_web_workers) -- uses the `XMLHttpRequest` object. The [event loop](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Event_loop) of an individual browser window is, however, still only handled by a single thread.
+
+1. [axios](https://github.com/axios/axios) is a wrapper for using `fetch`. [See difference in axios and fetch](https://www.geeksforgeeks.org/difference-between-fetch-and-axios-js-for-making-http-requests/#). 
+
+    It is noted for its simpler syntax and [polyfilling](https://developer.mozilla.org/en-US/docs/Glossary/Polyfill) qualities.
+
+1. The existence of the `package.json` at the root of the project indicates the use of the node package manager.
+
+1. The `dependencies` object in `package.json` specify external libraries needed by the project to function.
+
+1. Install packages for the project at the project's root directory! This is automatically populate the `package.json` file. Installed/downloaded packages are stored in the `node_modules` directory.
+
+1. Certain dependencies can be added an development only. For example, running this command,
+
+    ```bash
+    npm install json-server --save-dev
+    ```
+
+    , in the project root directory adds the following lines to the `package.json` file:
+
+    ```json
+    "devDependencies": {
+        "json-server": "^0.17.3"
+    }
+    ```
+
+1. Create npm shortcuts by adding a keyword term and command script as the value to the `scripts` object of `package.json`:
+
+    ```json
+    {
+        // ... 
+        "scripts": {
+            // ...
+            "server": "json-server -p3001 --watch db.json"
+        },
+    }
+    ```
+    Thus, `npm run server` will initiate the `json-server` command above.
+
+1. To install as a package for as runtime dependency for a project does not require any command flags. Remember to run in project root directory.
+
+    ```bash
+    npm install axios
+    ```
+
+1. Effect Hooks allow performing side effects on function components. Data fetching, setting up a subscription, and manually changing the DOM in React components are all examples of side effects.
+
+1. By default, effects run after every completed render. `useEffect(hook, [])` where `hook` is some function reference to method causing an effect. The second parameter is used to specify how often the effect is run. If the second parameter is an empty array `[]`, then the effect is only run along with the first render of the component. This tells React that your effect doesn’t depend on any values from props or state, so it never needs to re-run.
