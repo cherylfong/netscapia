@@ -49,7 +49,7 @@ const App = (props) => {
   }, [])
   
   */
- 
+
   // After promise chaining refactor:
   useEffect(() => {
     noteService
@@ -218,6 +218,13 @@ const toggleImportance = (id) => {
     .update(id, changedNote)
     .then(returnedNote => {
       setNotes(notes.map(note => note.id !== id ? note : returnedNote))
+    })
+    .catch(error => {
+      alert(
+        `The note: '${note.content}' was already deleted from server!`
+      )
+      // set notes state without the deleted note
+      setNotes(notes.filter(n => n.id !== id))
     })
 
 }
