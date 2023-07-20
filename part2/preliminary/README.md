@@ -118,4 +118,66 @@ In addition to notes/comments found in this directory's [App.js](part2/prelimina
     - PUT : this request method creates a new resource or replaces a representation of the target resource with the request payload. 
       - It is Idempotent, meaning it if the effect is identically multiplied successively, the overall effect is exactly the same as if it was done once. There are not side effects, whereas calling POST successively is akin to placing an order several times.
     - PATCH : a request type to update/modify a resource. [[ref]](https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods/PATCH)
-  
+
+1. Brief Promise Chaining example:
+
+    ```javascript
+    // Within App.js:
+
+    const App = () => {
+        //...
+
+        useEffect(() => {
+            noteService
+            .getAll()
+            .then(response => {
+            setNotes(response.data)
+            })
+        }, [])        
+    }
+    //...
+    ```
+    Can be rewritten as:
+
+    ```javascript
+    //  a catch() can be added here to handle error when 
+    // trying to apply server data to change the notes state
+        useEffect(() => {
+            noteService
+            .getAll()
+            .then(initialNotes => {
+            setNotes(initialNotes)
+            })
+        }, [])
+    ```
+
+    When the function `getAll()` in `src/services/notes.js` is changed to:
+
+    ```javascript
+
+    // a catch() can be added here to handle errors when 
+    // trying to get data from the server
+    const getAll = () => {
+        const request = axios.get(baseUrl)
+        return request.then(response => response.data)
+    }
+
+    /* 
+     * // getAll() returns the response.data
+     * // The above can be expanded to: 
+     *
+     * return request.then(response => {
+     *   return response.data
+     * })
+     * 
+     * // Before changes:
+     *
+     * const getAll = () => {
+     *   return axios.get(baseUrl)
+     * }
+     */
+    ```
+
+  [Promise chaining](https://javascript.info/promise-chaining) is when a sequence of two `then()` calls, or two chained promises, where the each step depends on the result of the previous step. A call to `.catch` can handle the error in each `then()` call error. It is
+
+  Each `then()` call creates a new promise, and the next `then()` is called on it, etc. 
