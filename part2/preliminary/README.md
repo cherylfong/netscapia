@@ -181,3 +181,14 @@ In addition to notes/comments found in this directory's [App.js](part2/prelimina
   [Promise chaining](https://javascript.info/promise-chaining) is when a sequence of two `then()` calls, or two chained promises, where the each step depends on the result of the previous step. A call to `.catch` can handle the error in each `then()` call error. It is
 
   Each `then()` call creates a new promise, and the next `then()` is called on it, etc. 
+
+1. In older JavaScript syntax, an object is declared in this format:
+
+    ```javascript
+    const person = {
+    name: name,
+    age: age
+    }
+    ```
+  
+    When the key and value variables names are identical, with JavaScript ES6, it is possible to declare an object in this format: `const person = { name, age }`. Note that the value of `name` and `age` as the object key's value is initialized. 
