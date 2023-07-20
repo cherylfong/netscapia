@@ -22,8 +22,8 @@ import './App.css';
 import { useState, useEffect } from 'react'
 
 import Entry from "./components/Entry"
-import People from "./components/People"
 import Filter from "./components/Filter"
+import Remove from "./components/Remove"
 
 import EntryService from "./service/EntryService"
 
@@ -56,7 +56,7 @@ function App(props) {
       <h2>Add Person</h2>
       <Entry persons={persons} setPersons={setPersons} newName={newName} setNewName={setNewName} newNumber={newNumber} setNewNumber={setNewNumber}/>
       <h2>Entire List</h2>
-      <People people={persons}/>
+      <Remove persons={persons} setPersons={setPersons}/>
     </div>
   )
 }
