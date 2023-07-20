@@ -1,7 +1,8 @@
 import logo from './logo.svg';
 import './App.css';
 import { useState, useEffect } from 'react'
-import axios from 'axios'
+// import axios from 'axios'
+import noteService from './services/notes'
 
 const App = (props) => {
 
@@ -23,8 +24,11 @@ const App = (props) => {
 
   useEffect(() => {
     console.log("Use effect")
-    axios
-      .get('http://localhost:3001/notes')
+
+    // axios
+    //   .get('http://localhost:3001/notes')
+    noteService
+      .getAll()
       .then(response => {
         console.log('promise fulfilled')
         setNotes(response.data)
@@ -85,8 +89,11 @@ const App = (props) => {
 
     // Save object to server
     // automatic as JSON format since data sent is a JavaScript object
-    axios
-      .post("http://localhost:3001/notes", noteObject)
+
+    // axios
+    //   .post("http://localhost:3001/notes", noteObject)
+    noteService
+      .create(noteObject)
       .then(response => {
         console.log(response)
         // this is still required to render in the front end
@@ -132,9 +139,12 @@ const App = (props) => {
     // i.e. for setNotes()
     const changedNote = { ...note, important: !note.important }
 
-    axios
+
     // update in server and front-end
-      .put(url, changedNote)
+    // axios
+      // .put(url, changedNote)
+    noteService
+      .update(id, changedNote)
       .then(response => {
         
         console.log("Data response:", response.data)
