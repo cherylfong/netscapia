@@ -21,12 +21,25 @@ const App = (props) => {
   const [newNote, setNewNote] = useState('Save a new note?')
   const [isShowAll, setShowAll] = useState(true)
 
-
+  /* 
   useEffect(() => {
     console.log("Use effect")
 
-    // axios
-    //   .get('http://localhost:3001/notes')
+    axios
+      .get('http://localhost:3001/notes')
+      .getAll()
+      .then(response => {
+        console.log('promise fulfilled')
+        setNotes(response.data)
+      })
+  }, [])
+  */
+
+  // After module refactor
+
+  /* 
+  useEffect(() => {
+    console.log("Use effect")
     noteService
       .getAll()
       .then(response => {
@@ -34,140 +47,195 @@ const App = (props) => {
         setNotes(response.data)
       })
   }, [])
+  
+  */
+ 
+  // After promise chaining refactor:
+  useEffect(() => {
+    noteService
+      .getAll()
+      .then(initialNotes => {
+        setNotes(initialNotes)
+      })
+  }, [])
 
-  // a call to a state-updating function triggers the re-rendering of the component.
-  // this log print will be called again after data is fetched from server
-  console.log('Render', notes.length, 'notes')
+// a call to a state-updating function triggers the re-rendering of the component.
+// this log print will be called again after data is fetched from server
+console.log('Render', notes.length, 'notes')
 
-  // alternatively
+// alternatively
 
-  /* const hook = () => {
-      console.log('effect')
-      axios
-        .get('http://localhost:3001/notes')
-        .then(response => {
-          console.log('promise fulfilled')
-          setNotes(response.data)
-        })
-
-    useEffect(hook, [])
-
-    } 
-
-
-    useEffect(() => {
-    
-      console.log('effect')
-
-      const eventHandler = response => {
+/* const hook = () => {
+    console.log('effect')
+    axios
+      .get('http://localhost:3001/notes')
+      .then(response => {
         console.log('promise fulfilled')
         setNotes(response.data)
-      }
+      })
 
-      const promise = axios.get('http://localhost:3001/notes')
-      promise.then(eventHandler)
+  useEffect(hook, [])
 
-    }, [])
-    
-  */
+  } 
 
-  // creates a new note Object and adds it to the notes array
-  const addNote = (event) => {
 
-    event.preventDefault() // e.g. prevents page from reloading
+  useEffect(() => {
+  
+    console.log('effect')
 
-    console.log('Triggered event source: ', event.target)
-
-    const noteObject = {
-      content: newNote,
-      // 50% chance for importance either true or false
-      important: Math.random() < 0.5,
-      //
-      // let the server handle adding IDs
-      // id: notes.length + 1,
+    const eventHandler = response => {
+      console.log('promise fulfilled')
+      setNotes(response.data)
     }
 
-    // Save object to server
-    // automatic as JSON format since data sent is a JavaScript object
+    const promise = axios.get('http://localhost:3001/notes')
+    promise.then(eventHandler)
 
-    // axios
-    //   .post("http://localhost:3001/notes", noteObject)
-    noteService
-      .create(noteObject)
-      .then(response => {
-        console.log(response)
-        // this is still required to render in the front end
-        // this updates the application state! 
-        // or use response.data instead of noteObject in parameter for setNotes
-        setNotes(notes.concat(noteObject))
-        setNewNote('Ready to save another note!')
-      })
-    
+  }, [])
+  
+*/
+
+// creates a new note Object and adds it to the notes array
+const addNote = (event) => {
+
+  event.preventDefault() // e.g. prevents page from reloading
+
+  console.log('Triggered event source: ', event.target)
+
+  const noteObject = {
+    content: newNote,
+    // 50% chance for importance either true or false
+    important: Math.random() < 0.5,
+    //
+    // let the server handle adding IDs
+    // id: notes.length + 1,
   }
 
-  // changes the input value of the form and updates newNote content state
-  const handleNewNote = (event) => {
-    // does not have default actions that occur
-    setNewNote(event.target.value)
-    console.log('Triggered event source value: ', event.target.value)
-  }
+  // Save object to server
+  // automatic as JSON format since data sent is a JavaScript object
 
-  // an array of notes
-  // if showAll is true, then return all notes
-  // otherwise, return notes with important attribute set to true
+  /* 
+  axios
+    .post("http://localhost:3001/notes", noteObject)
+    .create(noteObject)
+    .then(response => {
+      console.log(response)
+      // this is still required to render in the front end
+      // this updates the application state! 
+      // or use response.data instead of noteObject in parameter for setNotes
+      setNotes(notes.concat(noteObject))
+      setNewNote('Ready to save another note!')
+    })
+
+  */
+
+  // After module refactor:
+
+  /* 
+  noteService
+    .create(noteObject)
+    .then(response => {
+      console.log(response)
+      setNotes(notes.concat(noteObject))
+      setNewNote('Ready to save another note!')
+    })
+  */
+
+  // After promise chaining refactor:
+
+  noteService
+    .create(noteObject)
+    .then(returnedNote => {
+      setNotes(notes.concat(returnedNote))
+      setNewNote('Ready to save another note!')
+    })
+}
+
+// changes the input value of the form and updates newNote content state
+const handleNewNote = (event) => {
+  // does not have default actions that occur
+  setNewNote(event.target.value)
+  console.log('Triggered event source value: ', event.target.value)
+}
+
+// an array of notes
+// if showAll is true, then return all notes
+// otherwise, return notes with important attribute set to true
+//
+// "===" operator is redundant
+const notesToShow = isShowAll ? notes : notes.filter(note => note.important === true)
+
+// Change note importance
+const toggleImportance = (id) => {
+  console.log(`Change importance NOTE # ${id}`)
+
+  // get copy from server
+  const url = `http://localhost:3001/notes/${id}`
+
+  // get copy from front-end app
+  // == is comparing object reference
+  const note = notes.find(n => n.id === id)
+
+  // make the changes
+  // ... object spread syntax to create a copy
   //
-  // "===" operator is redundant
-  const notesToShow = isShowAll ? notes : notes.filter(note => note.important === true)
-
-  // Change note importance
-  const toggleImportance = (id) => {
-    console.log(`Change importance NOTE # ${id}`)
-
-    // get copy from server
-    const url = `http://localhost:3001/notes/${id}`
-
-    // get copy from front-end app
-    // == is comparing object reference
-    const note = notes.find(n => n.id === id)
-
-    // make the changes
-    // ... object spread syntax to create a copy
-    //
-    // This is a shallow copy: objects are references to origin copy
-    //
-    // DO NOT MUTATE REACT STATE DIRECTLY
-    // i.e. for setNotes()
-    const changedNote = { ...note, important: !note.important }
+  // This is a shallow copy: objects are references to origin copy
+  //
+  // DO NOT MUTATE REACT STATE DIRECTLY
+  // i.e. for setNotes()
+  const changedNote = { ...note, important: !note.important }
 
 
-    // update in server and front-end
-    // axios
-      // .put(url, changedNote)
-    noteService
-      .update(id, changedNote)
-      .then(response => {
-        
-        console.log("Data response:", response.data)
-        // if the id number is does not match then keep note the same
-        // otherwise update with response data
-              setNotes(notes.map(n => n.id !== id ? n : response.data))
-            })
-  }
+  // update in server and front-end
 
-  return (
-    <div>
-      <h1>Notes</h1>
+  /* 
+  axios
+    .put(url, changedNote)
+    .update(id, changedNote)
+    .then(response => {
 
-      {/* Alternatives for the same component */}
+      console.log("Data response:", response.data)
+      // if the id number is does not match then keep note the same
+      // otherwise update with response data
+      setNotes(notes.map(n => n.id !== id ? n : response.data))
+    })
+  */
 
-      {/* <ul>
+  // After module refactor:
+
+  /* 
+  noteService
+    .update(id, changedNote)
+    .then(response => {
+      console.log("Data response:", response.data)
+      setNotes(notes.map(n => n.id !== id ? n : response.data))
+    })
+  */
+
+  // After promise chaining refactor:
+
+  noteService
+    .update(id, changedNote)
+    .then(returnedNote => {
+      setNotes(notes.map(note => note.id !== id ? note : returnedNote))
+    })
+
+}
+
+return (
+  <div>
+    <h1>Notes</h1>
+
+    {/* Alternatives for the same component */}
+
+    {/* <ul>
         {notes.map(note =>
           <li>
             key={note.content}
           </li>
         )} */}
 
-      {/* 
+    {/* 
         <ul>
          {notes.map( note =>
             <li key={note.id}>
@@ -177,7 +245,7 @@ const App = (props) => {
       
       */}
 
-      {/* <ul>
+    {/* <ul>
         {notes.map((note, i) =>
           <li key={i}>
             {note.content}
@@ -185,36 +253,36 @@ const App = (props) => {
         )} 
       */}
 
-      <ul>
-        {notes.map(note =>
-          <Note key={note.id} note={note} toggleImportance={()=>toggleImportance(note.id)}/>
-        )}
-      </ul>
+    <ul>
+      {notes.map(note =>
+        <Note key={note.id} note={note} toggleImportance={() => toggleImportance(note.id)} />
+      )}
+    </ul>
 
 
-      {/* value is the place holder and needs onChange to make edits to the form field i.e. value's content */}
+    {/* value is the place holder and needs onChange to make edits to the form field i.e. value's content */}
 
-      {/* onChange is called each time when change occurs! */}
-      <form onSubmit={addNote}>
-        <input value={newNote}
-          onChange={handleNewNote}
-        />
-        <button type='submit'>SAVE</button>
-      </form>
+    {/* onChange is called each time when change occurs! */}
+    <form onSubmit={addNote}>
+      <input value={newNote}
+        onChange={handleNewNote}
+      />
+      <button type='submit'>SAVE</button>
+    </form>
 
 
-      <h1>Filtered Note list</h1>
-      <button onClick={() => setShowAll(!isShowAll)}>
-        Show {isShowAll ? "important notes?" : "all notes?"}
-      </button>
-      <ul>
-        {notesToShow.map(note =>
-          <Note key={note.id} note={note} toggleImportance={()=>toggleImportance(note.id)} />
-        )}
-      </ul>
+    <h1>Filtered Note list</h1>
+    <button onClick={() => setShowAll(!isShowAll)}>
+      Show {isShowAll ? "important notes?" : "all notes?"}
+    </button>
+    <ul>
+      {notesToShow.map(note =>
+        <Note key={note.id} note={note} toggleImportance={() => toggleImportance(note.id)} />
+      )}
+    </ul>
 
-    </div>
-  )
+  </div>
+)
 }
 
 const Note = ({ note, toggleImportance }) => {
