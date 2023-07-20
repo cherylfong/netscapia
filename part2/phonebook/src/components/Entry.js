@@ -1,6 +1,8 @@
 /**
  * Adds an entry to the Phone book
  */
+import EntryService from "../service/EntryService";
+
 const Entry = ({persons, setPersons, newName, setNewName, newNumber, setNewNumber}) => {
 
     const addEntry = (event) => {
@@ -17,11 +19,19 @@ const Entry = ({persons, setPersons, newName, setNewName, newNumber, setNewNumbe
         const personObject = {
         name: newName,
         number: newNumber,
-        id: persons.length + 1,
+        // get the id of the last element plus 1
+        id: (persons[persons.length - 1].id + 1)
         }
 
-        setPersons(persons.concat(personObject))
-        setNewName('Ready to save a new person!')
+        //save to server
+        EntryService
+            .create(personObject)
+            .then(returnedPerson => {
+                setPersons(persons.concat(returnedPerson))
+                setNewName('Ready to save a new person!')
+            })
+
+
         }
     }
 
