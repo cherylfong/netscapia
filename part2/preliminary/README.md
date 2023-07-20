@@ -37,7 +37,7 @@ In addition to notes/comments found in this directory's [App.js](part2/prelimina
 
 1. XMLHttpRequest (XHR) objects are used to interact with servers i.e. a HTTP request made using an XHR object.
 
-    Introduced in 1999, this allows retrieving data from a URL without having to do a full page refresh. Thus enabling a Web page to update just part of a page without disrupting what the user is doing. [[ref]](https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest).
+    Introduced in 1999, this allows retrieving data from a URL without having to do a full page refresh. Thus enabling a Web page to update just part of a page without disrupting what the user is doing. [[ref]](https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest)
 
     Hence it is supported by older browsers but is no longer the defacto method to retrieve server data.
 
@@ -88,7 +88,11 @@ In addition to notes/comments found in this directory's [App.js](part2/prelimina
         },
     }
     ```
-    Thus, `npm run server` will initiate the `json-server` command above.
+    Thus, 
+    ```bash
+    npm run server
+    ``` 
+    will initiate the `json-server` command above.
 
 1. To install as a package for as runtime dependency for a project does not require any command flags. Remember to run in project root directory.
 
@@ -99,3 +103,19 @@ In addition to notes/comments found in this directory's [App.js](part2/prelimina
 1. Effect Hooks allow performing side effects on function components. Data fetching, setting up a subscription, and manually changing the DOM in React components are all examples of side effects.
 
 1. By default, effects run after every completed render. `useEffect(hook, [])` where `hook` is some function reference to method causing an effect. The second parameter is used to specify how often the effect is run. If the second parameter is an empty array `[]`, then the effect is only run along with the first render of the component. This tells React that your effect doesn’t depend on any values from props or state, so it never needs to re-run.
+
+1. The json-server does not exactly match definition of a [REST](https://en.wikipedia.org/wiki/Representational_state_transfer) API.
+
+1. REST Terminology:
+
+    - Resources: data objects.
+    - URL : unique resource location path.
+      - e.g. : the path `notes/3` indicates the *note* resource with *id* `3`.
+      - `notes/` points to all (the collection of) *notes* data object i.e. resources.
+    - GET : a request type to retrieve/fetch resources.
+    - POST : a request type to create a new resource to the collection where data is sent in the body of the request packet.
+    - Content-Type : a request header that usually contains the value `application/json`.
+    - PUT : this request method creates a new resource or replaces a representation of the target resource with the request payload. 
+      - It is Idempotent, meaning it if the effect is identically multiplied successively, the overall effect is exactly the same as if it was done once. There are not side effects, whereas calling POST successively is akin to placing an order several times.
+    - PATCH : a request type to update/modify a resource. [[ref]](https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods/PATCH)
+  

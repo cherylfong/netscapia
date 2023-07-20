@@ -78,11 +78,24 @@ const App = (props) => {
       content: newNote,
       // 50% chance for importance either true or false
       important: Math.random() < 0.5,
-      id: notes.length + 1,
+      //
+      // let the server handle adding IDs
+      // id: notes.length + 1,
     }
 
-    setNotes(notes.concat(noteObject))
-    setNewNote('Ready to save another note!')
+    // Save object to server
+    // automatic as JSON format since data sent is a JavaScript object
+    axios
+      .post("http://localhost:3001/notes", noteObject)
+      .then(response => {
+        console.log(response)
+        // this is still required to render in the front end
+        // this updates the application state! 
+        // or use response.data instead of noteObject in parameter for setNotes
+        setNotes(notes.concat(noteObject))
+        setNewNote('Ready to save another note!')
+      })
+    
   }
 
   // changes the input value of the form and updates newNote content state
@@ -98,6 +111,38 @@ const App = (props) => {
   //
   // "===" operator is redundant
   const notesToShow = isShowAll ? notes : notes.filter(note => note.important === true)
+
+  // Change note importance
+  const toggleImportance = (id) => {
+    console.log(`Change importance NOTE # ${id}`)
+
+    // get copy from server
+    const url = `http://localhost:3001/notes/${id}`
+
+    // get copy from front-end app
+    // == is comparing object reference
+    const note = notes.find(n => n.id === id)
+
+    // make the changes
+    // ... object spread syntax to create a copy
+    //
+    // This is a shallow copy: objects are references to origin copy
+    //
+    // DO NOT MUTATE REACT STATE DIRECTLY
+    // i.e. for setNotes()
+    const changedNote = { ...note, important: !note.important }
+
+    axios
+    // update in server and front-end
+      .put(url, changedNote)
+      .then(response => {
+        
+        console.log("Data response:", response.data)
+        // if the id number is does not match then keep note the same
+        // otherwise update with response data
+              setNotes(notes.map(n => n.id !== id ? n : response.data))
+            })
+  }
 
   return (
     <div>
@@ -132,7 +177,7 @@ const App = (props) => {
 
       <ul>
         {notes.map(note =>
-          <Note key={note.id} note={note} />
+          <Note key={note.id} note={note} toggleImportance={()=>toggleImportance(note.id)}/>
         )}
       </ul>
 
@@ -154,7 +199,7 @@ const App = (props) => {
       </button>
       <ul>
         {notesToShow.map(note =>
-          <Note key={note.id} note={note} />
+          <Note key={note.id} note={note} toggleImportance={()=>toggleImportance(note.id)} />
         )}
       </ul>
 
@@ -162,9 +207,14 @@ const App = (props) => {
   )
 }
 
-const Note = ({ note }) => {
+const Note = ({ note, toggleImportance }) => {
+
+  const label = note.important
+    ? "🍓" : "Mark important!"
+
   return (
-    <li>{note.content}</li>
+    <li><button onClick={toggleImportance}>{label}</button> {note.content}
+    </li>
   )
 }
 
