@@ -11,17 +11,21 @@
  * 
  * 2.11 Add db.json file to project. Modify the application such that the initial state of the data is fetched from the server using the axios-library. Complete the fetching with an Effect hook.
  * 
+ * 2.12 Save entry as resources onto the server.
+ * 
+ * 2.13 Separate backend communication into its own module.
  */
 
 import logo from './logo.svg';
 import './App.css';
 
 import { useState, useEffect } from 'react'
-import axios from 'axios'
 
 import Entry from "./components/Entry"
 import People from "./components/People"
 import Filter from "./components/Filter"
+
+import EntryService from "./service/EntryService"
 
 function App(props) {
 
@@ -38,12 +42,10 @@ function App(props) {
 
 
   useEffect(() => {
-    console.log("Use effect")
-    axios
-      .get('http://localhost:3001/persons')
-      .then(response => {
-        console.log('promise fulfilled')
-        setPersons(response.data)
+    EntryService
+      .getAll()
+      .then(allPersons => {
+        setPersons(allPersons)
       })
   }, [])
 
