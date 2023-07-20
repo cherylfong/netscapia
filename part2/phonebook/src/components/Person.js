@@ -17,7 +17,7 @@ const PersonWithDelete = ({person, handleRemove}) => {
 
     return(
         <>
-            <p>{person.id}. {person.name} {person.number} <button onClick={handleRemove}>delete</button></p>
+            <p>{person.id}. {person.name} {person.number} <button onClick={ () => handleRemove(person.id) }>delete</button></p>
         </>
     )
 

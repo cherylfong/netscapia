@@ -14,6 +14,8 @@
  * 2.12 Save entry as resources onto the server.
  * 
  * 2.13 Separate backend communication into its own module.
+ * 
+ * 2.14 Allow deleting entries and confirm action through window.confirm prompt.
  */
 
 import logo from './logo.svg';
@@ -55,7 +57,7 @@ function App(props) {
       <Filter newSearch={newSearch} setNewSearch={setNewSearch} persons={persons}/>
       <h2>Add Person</h2>
       <Entry persons={persons} setPersons={setPersons} newName={newName} setNewName={setNewName} newNumber={newNumber} setNewNumber={setNewNumber}/>
-      <h2>Entire List</h2>
+      <h2>{`Entire List ↔️ #${persons.length}`}</h2>
       <Remove persons={persons} setPersons={setPersons}/>
     </div>
   )

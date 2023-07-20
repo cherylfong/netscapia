@@ -20,7 +20,7 @@ const Entry = ({persons, setPersons, newName, setNewName, newNumber, setNewNumbe
         name: newName,
         number: newNumber,
         // get the id of the last element plus 1
-        id: (persons[persons.length - 1].id + 1)
+        id: idGenerator(persons)
         }
 
         //save to server
@@ -65,5 +65,18 @@ function isExists(newName, persons) {
     return namesOnly.includes(newName)
 
 }
+
+function idGenerator(persons){
+
+    let id = 0
+
+    if( persons.length !== 0){
+
+        id = persons[persons.length - 1].id + 1
+    }
+    
+    return id
+}
+
 
 export default Entry
