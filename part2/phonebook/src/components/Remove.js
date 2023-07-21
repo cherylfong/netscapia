@@ -6,7 +6,7 @@
 import Person from "./Person"
 import EntryService from "../service/EntryService"
 
-const Remove = ({persons, setPersons}) => {
+const Remove = ({persons, setPersons, setErrorMessage, setError}) => {
 
     const handleRemove = id => {
 
@@ -23,9 +23,32 @@ const Remove = ({persons, setPersons}) => {
 
                     setPersons(persons.filter(p => p.id !== id))
 
+                    setError(false)
+
+                    setErrorMessage(
+                        `Remove ${who.name} successful!`
+                      )
+                      setTimeout(() => {
+                        setErrorMessage(null)
+                      }, 5000)
+
                 })
-                .catch(error => 
-                    console.log(error) )
+                .catch(error => {
+
+                    console.log("ERROR: ", error)
+
+                    setError(true)
+
+                    setErrorMessage(
+                        `${who.name} has already been removed!`
+                      )
+                      setTimeout(() => {
+                        setErrorMessage(null)
+                        setError(false)
+                      }, 10000)
+                    }
+ 
+                )
 
         }
 
@@ -43,9 +66,5 @@ const Remove = ({persons, setPersons}) => {
 
 
 }
-
-
-
-
 
 export default Remove

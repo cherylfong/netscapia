@@ -3,7 +3,7 @@
  */
 import EntryService from "../service/EntryService";
 
-const Entry = ({persons, setPersons, newName, setNewName, newNumber, setNewNumber, setErrorMessage}) => {
+const Entry = ({persons, setPersons, newName, setNewName, newNumber, setNewNumber, setErrorMessage, setError}) => {
 
     const addEntry = (event) => {
 
@@ -34,6 +34,23 @@ const Entry = ({persons, setPersons, newName, setNewName, newNumber, setNewNumbe
                     ))
                     setNewName('Ready to save a new person!')
                 })
+                .catch(error => {
+
+                    console.log("ERROR: ", error)
+
+                    setError(true)
+
+                    setErrorMessage(
+                        `${newName} has already been removed!`
+                      )
+                      setTimeout(() => {
+                        setErrorMessage(null)
+                        setError(false)
+                      }, 10000)
+
+                })
+
+                setError(false)
 
                 setErrorMessage(
                     `${newName} successfully modified!`
@@ -64,7 +81,7 @@ const Entry = ({persons, setPersons, newName, setNewName, newNumber, setNewNumbe
                 setNewName('Ready to save a new person!')
             })
 
-        
+        setError(false)
         setErrorMessage(
             `${newName} successfully added!`
             )
@@ -127,6 +144,5 @@ function getPersonID(persons, name){
 
     return personByName.id
 }
-
 
 export default Entry

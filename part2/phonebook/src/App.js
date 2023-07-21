@@ -20,6 +20,8 @@
  * 2.15 Allow replacing an existing number in an entry and prompt to confirm using window.confirm.
  * 
  * 2.16 Add a notification message that times out after 5 seconds when an entry is added or modified.
+ * 
+ * 2.17 Add a notification error message when attempting to change or delete an entry.
  */
 
 import logo from './logo.svg';
@@ -48,6 +50,8 @@ function App(props) {
 
   const [errorMessage, setErrorMessage] = useState(null)
 
+  const [isError, setError] = useState(false)
+
   useEffect(() => {
     EntryService
       .getAll()
@@ -59,12 +63,12 @@ function App(props) {
   return (
     <div>
       <h1>Phone Book</h1>
-      <Notification message={errorMessage} />
+      <Notification message={errorMessage} isError={isError}/>
       <Filter newSearch={newSearch} setNewSearch={setNewSearch} persons={persons}/>
       <h2>Add Person</h2>
-      <Entry persons={persons} setPersons={setPersons} newName={newName} setNewName={setNewName} newNumber={newNumber} setNewNumber={setNewNumber} setErrorMessage={setErrorMessage}/>
+      <Entry persons={persons} setPersons={setPersons} newName={newName} setNewName={setNewName} newNumber={newNumber} setNewNumber={setNewNumber} setErrorMessage={setErrorMessage} setError={setError}/>
       <h2>{`Entire List ↔️ #${persons.length}`}</h2>
-      <Remove persons={persons} setPersons={setPersons}/>
+      <Remove persons={persons} setPersons={setPersons} setErrorMessage={setErrorMessage} setError={setError}/>
     </div>
   )
 }
