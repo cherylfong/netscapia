@@ -36,4 +36,4 @@ Similarly with Part 1, each listed directory is its own React App.
 
 - [`/courseinfo`](part2/courseinfo/src/App.js) : fulfills instructions from 2.1 to 2.5.
 
-- [`/phonebook`](part2/phonebook/src/App.js) : fulfills instructions from 2.6 to 2.11.
+- [`/phonebook`](part2/phonebook/src/App.js) : fulfills instructions from 2.6 to 2.17.
