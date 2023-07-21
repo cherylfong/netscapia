@@ -16,6 +16,8 @@
  * 2.13 Separate backend communication into its own module.
  * 
  * 2.14 Allow deleting entries and confirm action through window.confirm prompt.
+ * 
+ * 2.15 Allow replacing an existing number in an entry and prompt to confirm using window.confirm.
  */
 
 import logo from './logo.svg';

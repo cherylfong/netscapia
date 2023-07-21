@@ -8,11 +8,37 @@ const Entry = ({persons, setPersons, newName, setNewName, newNumber, setNewNumbe
     const addEntry = (event) => {
 
         event.preventDefault();
-        
+
         console.log('Triggered event source: ', event.target)
 
-        if( isExists(newName, persons) ){
-            alert(`${newName} is already added.`)
+        if( isExists(newName, persons)) {
+            // alert(`${newName} is already added.`)
+
+            if( window.confirm(`${newName} is already added to the phonebook. Do you want to replace the existing number?`) ){
+
+                console.log("Replace existing number.")
+
+                let id = getPersonID(persons, newName)
+
+                const personObject = {
+                    name: newName,
+                    number: newNumber,
+                    // get the id of the last element plus 1
+                    id: id
+                }
+
+                EntryService
+                .update(id, personObject)
+                .then(returnedPerson => {
+                    setPersons(persons.map( person =>
+                        person.id !== id ? person : returnedPerson
+                    ))
+                    setNewName('Ready to save a new person!')
+                })
+
+                
+            }
+           
         } else {
             
       
@@ -22,6 +48,8 @@ const Entry = ({persons, setPersons, newName, setNewName, newNumber, setNewNumbe
         // get the id of the last element plus 1
         id: idGenerator(persons)
         }
+
+        console.log("Save to server!")
 
         //save to server
         EntryService
@@ -74,8 +102,18 @@ function idGenerator(persons){
 
         id = persons[persons.length - 1].id + 1
     }
-    
+
     return id
+}
+/**
+ * Uses the name of the person resource to match object
+ * returns the object's id value
+ */
+function getPersonID(persons, name){
+
+    const personByName = persons.find(p => p.name === name)
+
+    return personByName.id
 }
 
 
