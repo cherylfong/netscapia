@@ -21,6 +21,8 @@ const App = (props) => {
   const [newNote, setNewNote] = useState('Save a new note?')
   const [isShowAll, setShowAll] = useState(true)
 
+  const [errorMessage, setErrorMessage] = useState(null)
+
   /* 
   useEffect(() => {
     console.log("Use effect")
@@ -167,6 +169,7 @@ const notesToShow = isShowAll ? notes : notes.filter(note => note.important === 
 
 // Change note importance
 const toggleImportance = (id) => {
+
   console.log(`Change importance NOTE # ${id}`)
 
   // get copy from server
@@ -175,6 +178,16 @@ const toggleImportance = (id) => {
   // get copy from front-end app
   // == is comparing object reference
   const note = notes.find(n => n.id === id)
+
+  const label = note.important
+  ? "NOT important" : "IMPORTANT" 
+
+  setErrorMessage(
+    `Importance for '${note.content}' set to ${label}`
+  )
+  setTimeout(() => {
+    setErrorMessage(null)
+  }, 5000)
 
   // make the changes
   // ... object spread syntax to create a copy
@@ -223,6 +236,12 @@ const toggleImportance = (id) => {
       alert(
         `The note: '${note.content}' was already deleted from server!`
       )
+      setErrorMessage(
+        `Note '${note.content}' was already removed from server!`
+      )
+      setTimeout(() => {
+        setErrorMessage(null)
+      }, 5000)
       // set notes state without the deleted note
       setNotes(notes.filter(n => n.id !== id))
     })
@@ -232,6 +251,8 @@ const toggleImportance = (id) => {
 return (
   <div>
     <h1>Notes</h1>
+
+    <Notification message={errorMessage} />
 
     {/* Alternatives for the same component */}
 
@@ -287,6 +308,7 @@ return (
         <Note key={note.id} note={note} toggleImportance={() => toggleImportance(note.id)} />
       )}
     </ul>
+    <Footer />
 
   </div>
 )
@@ -298,8 +320,34 @@ const Note = ({ note, toggleImportance }) => {
     ? "🍓" : "Mark important!"
 
   return (
-    <li><button onClick={toggleImportance}>{label}</button> {note.content}
+    <li className='note'><button onClick={toggleImportance}>{label}</button> {note.content}
     </li>
+  )
+}
+
+const Notification = ({message}) => {
+  if (message === null) {
+    return null
+  }
+
+  return (
+    <div className='error'>
+      {message}
+    </div>
+  )
+}
+
+const Footer = () => {
+  const footerStyle = {
+      color: 'pink',
+      fontStyle: 'italic',
+      fontSize: 16,
+  }
+  return (
+      <div style={footerStyle}>
+          <br />
+          <em>🫐Strawberry Notes🫐</em>
+      </div>
   )
 }
 

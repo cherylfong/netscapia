@@ -178,9 +178,9 @@ In addition to notes/comments found in this directory's [App.js](part2/prelimina
      */
     ```
 
-  [Promise chaining](https://javascript.info/promise-chaining) is when a sequence of two `then()` calls, or two chained promises, where the each step depends on the result of the previous step. A call to `.catch` can handle the error in each `then()` call error. It is
+    [Promise chaining](https://javascript.info/promise-chaining) is when a sequence of two `then()` calls, or two chained promises, where the each step depends on the result of the previous step. A call to `.catch` can handle the error in each `then()` call error. It is
 
-  Each `then()` call creates a new promise, and the next `then()` is called on it, etc. 
+    Each `then()` call creates a new promise, and the next `then()` is called on it, etc. 
 
 1. In older JavaScript syntax, an object is declared in this format:
 
@@ -191,4 +191,27 @@ In addition to notes/comments found in this directory's [App.js](part2/prelimina
     }
     ```
   
-    When the key and value variables names are identical, with JavaScript ES6, it is possible to declare an object in this format: `const person = { name, age }`. Note that the value of `name` and `age` as the object key's value is initialized. 
+    When the key and value variables names are identical, with JavaScript ES6, it is possible to declare an object in this format: `const person = { name, age }`. Note that the value of `name` and `age` as the object key's value is initialized.
+
+
+1. [CSS Preprocessor](https://developer.mozilla.org/en-US/docs/Glossary/CSS_preprocessor) requires a CSS compiler on the web server, SASS and LESS are popular examples.
+
+1. CSS Syntax: 
+   
+   ```css
+   selector {
+    <!-- declaration: -->
+    property : value
+   }
+   ```
+   This is a handy [reference for CSS selectors](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Selectors).
+
+1. To only apply CSS rules to specific category or class of elements use `.classname` syntax for example: `<li class="note">some text...</li>`. However in React, `className=` is used e.g. `return ( <li className='note'> ...`.
+   
+1. React inline styles are CSS properties as a JS object. This object can be assigned to an element using the `style=` attribute.
+
+1. Traditional convention is to separate JavaScript, HTML, and CSS into individual files. It was considered best practice to maintain this segregation throughout development. 
+   
+   However, this separation does not scale well in larger application. The methodology when using React is to base division of the application into logical functional units.
+
+   These structural units are React components that allow function and modularity. React defines HTML for structuring the content, JavaScript for functionality, and styling with CSS a component. Overall, providing independent reusable units.
