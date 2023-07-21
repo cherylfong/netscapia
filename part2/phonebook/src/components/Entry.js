@@ -3,7 +3,7 @@
  */
 import EntryService from "../service/EntryService";
 
-const Entry = ({persons, setPersons, newName, setNewName, newNumber, setNewNumber}) => {
+const Entry = ({persons, setPersons, newName, setNewName, newNumber, setNewNumber, setErrorMessage}) => {
 
     const addEntry = (event) => {
 
@@ -35,6 +35,12 @@ const Entry = ({persons, setPersons, newName, setNewName, newNumber, setNewNumbe
                     setNewName('Ready to save a new person!')
                 })
 
+                setErrorMessage(
+                    `${newName} successfully modified!`
+                  )
+                  setTimeout(() => {
+                    setErrorMessage(null)
+                  }, 5000)
                 
             }
            
@@ -58,6 +64,13 @@ const Entry = ({persons, setPersons, newName, setNewName, newNumber, setNewNumbe
                 setNewName('Ready to save a new person!')
             })
 
+        
+        setErrorMessage(
+            `${newName} successfully added!`
+            )
+            setTimeout(() => {
+            setErrorMessage(null)
+            }, 5000)
 
         }
     }

@@ -18,6 +18,8 @@
  * 2.14 Allow deleting entries and confirm action through window.confirm prompt.
  * 
  * 2.15 Allow replacing an existing number in an entry and prompt to confirm using window.confirm.
+ * 
+ * 2.16 Add a notification message that times out after 5 seconds when an entry is added or modified.
  */
 
 import logo from './logo.svg';
@@ -28,8 +30,9 @@ import { useState, useEffect } from 'react'
 import Entry from "./components/Entry"
 import Filter from "./components/Filter"
 import EntryService from './service/EntryService';
-import Remove
- from './components/Remove';
+import Remove from './components/Remove';
+import Notification from './components/Notification'
+
 function App(props) {
 
   // no longer retrieving data from index.js
@@ -43,6 +46,7 @@ function App(props) {
 
   const [newSearch, setNewSearch] = useState("")
 
+  const [errorMessage, setErrorMessage] = useState(null)
 
   useEffect(() => {
     EntryService
@@ -55,9 +59,10 @@ function App(props) {
   return (
     <div>
       <h1>Phone Book</h1>
+      <Notification message={errorMessage} />
       <Filter newSearch={newSearch} setNewSearch={setNewSearch} persons={persons}/>
       <h2>Add Person</h2>
-      <Entry persons={persons} setPersons={setPersons} newName={newName} setNewName={setNewName} newNumber={newNumber} setNewNumber={setNewNumber}/>
+      <Entry persons={persons} setPersons={setPersons} newName={newName} setNewName={setNewName} newNumber={newNumber} setNewNumber={setNewNumber} setErrorMessage={setErrorMessage}/>
       <h2>{`Entire List ↔️ #${persons.length}`}</h2>
       <Remove persons={persons} setPersons={setPersons}/>
     </div>

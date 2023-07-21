@@ -1,0 +1,16 @@
+/**
+ * Displays a message when message is not null
+ */
+const Notification = ({ message }) => {
+    if (message === null) {
+        return null
+    }
+
+    return (
+        <div className='notify'>
+            {message}
+        </div>
+    )
+}
+
+export default Notification
