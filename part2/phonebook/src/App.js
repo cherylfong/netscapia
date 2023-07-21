@@ -14,6 +14,10 @@
  * 2.12 Save entry as resources onto the server.
  * 
  * 2.13 Separate backend communication into its own module.
+ * 
+ * 2.14 Allow deleting entries and confirm action through window.confirm prompt.
+ * 
+ * 2.15 Allow replacing an existing number in an entry and prompt to confirm using window.confirm.
  */
 
 import logo from './logo.svg';
@@ -22,11 +26,10 @@ import './App.css';
 import { useState, useEffect } from 'react'
 
 import Entry from "./components/Entry"
-import People from "./components/People"
 import Filter from "./components/Filter"
-
-import EntryService from "./service/EntryService"
-
+import EntryService from './service/EntryService';
+import Remove
+ from './components/Remove';
 function App(props) {
 
   // no longer retrieving data from index.js
@@ -55,8 +58,8 @@ function App(props) {
       <Filter newSearch={newSearch} setNewSearch={setNewSearch} persons={persons}/>
       <h2>Add Person</h2>
       <Entry persons={persons} setPersons={setPersons} newName={newName} setNewName={setNewName} newNumber={newNumber} setNewNumber={setNewNumber}/>
-      <h2>Entire List</h2>
-      <People people={persons}/>
+      <h2>{`Entire List ↔️ #${persons.length}`}</h2>
+      <Remove persons={persons} setPersons={setPersons}/>
     </div>
   )
 }

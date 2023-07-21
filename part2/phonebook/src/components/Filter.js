@@ -6,7 +6,7 @@
  * 
  * case insensitive search!
  */
-import Person from "./People"
+import Person from "./Person"
 
 const Filter = ({newSearch, setNewSearch, persons}) => {
 
@@ -37,7 +37,9 @@ const Filter = ({newSearch, setNewSearch, persons}) => {
                 <input value={newSearch} onChange={handleNameSearch}/>
             </form>
             <h3>Results:</h3>
-            <Person people={filterByName}/>
+            {filterByName.map( (person,i) =>
+                <Person.Person key={i} person={person}/>
+            )}
         </>
     )
 }
