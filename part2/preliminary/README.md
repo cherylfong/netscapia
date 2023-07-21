@@ -206,6 +206,8 @@ In addition to notes/comments found in this directory's [App.js](part2/prelimina
    ```
    This is a handy [reference for CSS selectors](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Selectors).
 
+   [Pseudo-classes](https://www.w3schools.com/css/css_pseudo_classes.asp) allow for dynamic effects particularly with mouse positions.
+
 1. To only apply CSS rules to specific category or class of elements use `.classname` syntax for example: `<li class="note">some text...</li>`. However in React, `className=` is used e.g. `return ( <li className='note'> ...`.
    
 1. React inline styles are CSS properties as a JS object. This object can be assigned to an element using the `style=` attribute.
@@ -215,3 +217,45 @@ In addition to notes/comments found in this directory's [App.js](part2/prelimina
    However, this separation does not scale well in larger application. The methodology when using React is to base division of the application into logical functional units.
 
    These structural units are React components that allow function and modularity. React defines HTML for structuring the content, JavaScript for functionality, and styling with CSS a component. Overall, providing independent reusable units.
+
+1. Data from the backend may not arrive before the components are rendered. If rendering is dependent on fetching server data, it is possible to render nothing until a certain state achieved:
+
+    ```Javascript
+    const App = () => {
+
+    const [notes, setNotes] = useState(null)
+    // ... 
+
+    useEffect(() => {
+        noteService
+        .getAll()
+        .then(initialNotes => {
+            setNotes(initialNotes)
+        })
+    }, [])
+
+    // do not render anything if notes is still null
+
+    if (!notes) { 
+        return null 
+    }
+
+    // ...
+    } 
+    ```
+
+    It is possible to set `notes` to an empty array `[]`. However, in truth, this represents having fetched server data where data on the server is empty. Thus setting `notes` to `null` would be the true initial state before server communication. 
+
+    Conditional rendering is suitable in cases where it is impossible to define the state so that the initial rendering is possible. Such as not knowing if server data will arrive before or after the first/initial rendering.
+
+1. `useEffect()` second parameter:
+   
+   ```Javascript
+   useEffect( () => { 
+    console.log("This effect occurs after the first render")} , 
+    [] )
+   ```
+
+   The second parameter defines how often a effect runs. If the value of the second parameter changes, the effect will execute. Setting it to empty array `[]`, sets the effect to only occur after the first render.
+
+   A good use of triggering `useEffect()` to execute is rendering based on retrieving stock exchange values or weather forecasting.
