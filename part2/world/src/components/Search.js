@@ -6,7 +6,7 @@ import Notification from "./Notification"
 import ErrorDisplay from "./ErrorDisplay"
 import { useEffect } from "react"
 
-const Search = ({ newSearch, setNewSearch, countries, setErrorMessage, errorMessage, notifyMessage, setNotifyMessage, setInspectName, inspectName, setInspect}) => {
+const Search = ({ newSearch, setNewSearch, countries, setErrorMessage, errorMessage, notifyMessage, setNotifyMessage, setInspectName, inspectName, setInspect, setIsCountryRendered}) => {
 
     // get an array that matches the lowercase search term with country's common name in lowercase
     const filterCountries = countries.filter(
@@ -20,6 +20,8 @@ const Search = ({ newSearch, setNewSearch, countries, setErrorMessage, errorMess
     const handleSearch = (event) => {
 
         setInspect(null)
+
+        setIsCountryRendered(false)
 
         if (filterCountries.length > 10) {
 
@@ -40,7 +42,7 @@ const Search = ({ newSearch, setNewSearch, countries, setErrorMessage, errorMess
             </form>
             <Notification notifyMessage={notifyMessage} setNotifyMessage={setNotifyMessage} duration={2000} />
             <ResultCount filterCountries={filterCountries} notifyMessage={notifyMessage} />
-            <SearchDisplay filterCountries={filterCountries} setNotifyMessage={setNotifyMessage} notifyMessage={notifyMessage} setInspectName={setInspectName} newSearch={newSearch} inspectName={inspectName} />
+            <SearchDisplay filterCountries={filterCountries} setNotifyMessage={setNotifyMessage} notifyMessage={notifyMessage} setInspectName={setInspectName} newSearch={newSearch} inspectName={inspectName} setIsCountryRendered={setIsCountryRendered} />
         </>
     )
 }
@@ -51,12 +53,13 @@ const ResultCount = ({ filterCountries, notifyMessage }) => {
 
 }
 
-const SearchDisplay = ({ filterCountries, setNotifyMessage, notifyMessage, setInspectName, newSearch, inspectName }) => {
+const SearchDisplay = ({ filterCountries, setNotifyMessage, notifyMessage, setInspectName, newSearch, inspectName,setIsCountryRendered }) => {
 
     const handleCountrySelect = (name) => {
 
         // remember this takes an array!!!
         setInspectName([name])
+        setIsCountryRendered(false)
     }
 
 

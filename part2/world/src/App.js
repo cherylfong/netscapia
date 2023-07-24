@@ -3,6 +3,8 @@
  * 
  * 2.19 Allow selecting a country from the search results that will display the country's details.
  * 
+ * 2.20 Display weather day for a country's capital when the country's details are displayed
+ * 
  */
 
 import logo from './logo.svg';
@@ -44,6 +46,12 @@ function App() {
   // only the string name of the country in a single element array
   const [inspectName, setInspectName] = useState([])
 
+  // tracks weather object
+  const [weather, setWeather] = useState(null)
+
+  // tracks if CountryDetails component is rendered
+  const [isCountryRendered, setIsCountryRendered] = useState(false)
+
   useEffect(() => {
     WorldService
       .getAll()
@@ -64,9 +72,9 @@ function App() {
     <>
       <ErrorDisplay errorMessage={errorMessage} setErrorMessage={setErrorMessage} duration={5000}/>
 
-      <Search newSearch={newSearch} setNewSearch={setNewSearch} countries={countries} setErrorMessage={setErrorMessage} errorMessage={errorMessage} notifyMessage={notifyMessage} setNotifyMessage={setNotifyMessage} setInspectName={setInspectName} inspectName={inspectName} setInspect={setInspect}/>
+      <Search newSearch={newSearch} setNewSearch={setNewSearch} countries={countries} setErrorMessage={setErrorMessage} errorMessage={errorMessage} notifyMessage={notifyMessage} setNotifyMessage={setNotifyMessage} setInspectName={setInspectName} inspectName={inspectName} setInspect={setInspect} setIsCountryRendered={setIsCountryRendered}/>
 
-      <Body inspect={inspect} setInspect={setInspect} inspectName={inspectName} setErrorMessage={setErrorMessage} errorMessage={errorMessage}/>
+      <Body inspect={inspect} setInspect={setInspect} inspectName={inspectName} setErrorMessage={setErrorMessage} errorMessage={errorMessage} weather={weather} setWeather={setWeather} isCountryRendered={isCountryRendered} setIsCountryRendered={setIsCountryRendered}/>
     </>
   )
 }
