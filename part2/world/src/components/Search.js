@@ -8,8 +8,6 @@ import { useEffect } from "react"
 
 const Search = ({ newSearch, setNewSearch, countries, setErrorMessage, errorMessage, notifyMessage, setNotifyMessage, setInspectName, inspectName, setInspect}) => {
 
-
-
     // get an array that matches the lowercase search term with country's common name in lowercase
     const filterCountries = countries.filter(
         country => {
@@ -55,6 +53,12 @@ const ResultCount = ({ filterCountries, notifyMessage }) => {
 
 const SearchDisplay = ({ filterCountries, setNotifyMessage, notifyMessage, setInspectName, newSearch, inspectName }) => {
 
+    const handleCountrySelect = (name) => {
+
+        // remember this takes an array!!!
+        setInspectName([name])
+    }
+
 
     // update setInspectName only when newSearch changes!
     useEffect(() => {
@@ -75,16 +79,13 @@ const SearchDisplay = ({ filterCountries, setNotifyMessage, notifyMessage, setIn
 
         return (
             filterCountries.map((country, i) =>
-                <Country.Country key={i} country={country} />)
+                <Country.CountrySelect key={i} country={country} handleCountrySelect={() => handleCountrySelect(country.common)} />)
         )
     } else {
 
         return () => { }; // no-op
     }
 
-
-
 }
-
 
 export default Search

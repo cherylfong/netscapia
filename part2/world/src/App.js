@@ -1,3 +1,10 @@
+/**
+ * 2.18 Create an application that allows viewing country details. Provide search by common name and only display results if the total return results are 10 countries. When only one country matches the search term, display the details of the country.
+ * 
+ * 2.19 Allow selecting a country from the search results that will display the country's details.
+ * 
+ */
+
 import logo from './logo.svg';
 import './App.css';
 

@@ -56,4 +56,13 @@ const CountryDetails = ({ country }) => {
     )
 }
 
-export default { Country, CountryDetails }
+const CountrySelect = ({country, handleCountrySelect}) => {
+
+    return (
+        <>
+            <p>{country.common} | {country.official} <button onClick={handleCountrySelect}>Show</button></p>
+        </>
+    )
+}
+
+export default { Country, CountryDetails, CountrySelect }
