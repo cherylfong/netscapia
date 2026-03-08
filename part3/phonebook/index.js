@@ -44,3 +44,19 @@ app.get('/info', (request, response) => {
     const timeReceived = new Date().toString();
     response.send(`Phonebook has info for ${numPersons} people <br><br> ${timeReceived}`);
 });
+
+// TODO 3.3: create endpoint to retrieve a single persons entry by id
+// The endpoint should be /api/persons/:id where :id is the id of the person to retrieve
+app.get('/api/persons/:id', (request, response) => {
+  const id = Number(request.params.id);
+  const person = persons.find(person => person.id === id);
+
+  if (person) {
+    response.json(person);
+  } else {
+    response.statusMessage = 'Person not found';
+    response.status(404);
+    response.send('PERSON NOT FOUND').end();
+  }
+
+});
