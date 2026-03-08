@@ -60,3 +60,11 @@ app.get('/api/persons/:id', (request, response) => {
   }
 
 });
+
+// TODO 3.4: implement function to remove a singple persons entry by id 
+// will still responde with 204 even if the note with the given id does not exist
+app.delete('/api/persons/:id', (request, response) => {
+  const id = Number(request.params.id);
+  persons = persons.filter(person => person.id !== id);
+  response.status(204).end();
+});
