@@ -68,3 +68,31 @@ app.delete('/api/persons/:id', (request, response) => {
   persons = persons.filter(person => person.id !== id);
   response.status(204).end();
 });
+
+app.use(express.json()); //middleware to parse incoming JSON data in request body
+
+// TODO 3.5: implement function to add a new entry to Persons array. 
+// The endpoint should be /api/persons and the new entry should be sent in the request body as JSON.
+app.post('/api/persons', (request, response) => {
+  const newPerson = request.body;
+  console.log(newPerson);
+
+    if (!newPerson || !newPerson.name || !newPerson.number) {
+    return response.status(400).json({
+      error: 'person name or number is missing'
+    });
+  }
+  
+
+  newPerson.id = generateId();
+  newPerson.name = newPerson.name.trim();
+  newPerson.number = newPerson.number.trim();
+
+  persons.push(newPerson);  
+  response.status(201).json(newPerson);
+});
+
+// Generate a unique id for new entries using random number generator.for the entry
+const generateId = () => {
+  return Math.floor(Math.random() * 1000000);
+}   
