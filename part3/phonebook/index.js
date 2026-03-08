@@ -77,13 +77,27 @@ app.post('/api/persons', (request, response) => {
   const newPerson = request.body;
   console.log(newPerson);
 
-    if (!newPerson || !newPerson.name || !newPerson.number) {
+  // TODO 3.6: ensure that the name or number in the new entry is not missing or completely empty.
+  if (!newPerson || !newPerson.name || !newPerson.number) {
     return response.status(400).json({
       error: 'person name or number is missing'
     });
   }
-  
 
+  if(newPerson.name.trim() === '' || newPerson.number.trim() === '') {
+    return response.status(400).json({
+      error: 'person name or number cannot be empty'
+    });
+  }
+
+  // TODO 3.6: ensure that the name of the new entry is unique
+  // Hence the name should not already exists in the Persons array.
+  if (persons.some(person => person.name === newPerson.name)) {
+    return response.status(400).json({
+      error: 'person name must be unique'
+    });
+  } 
+  
   newPerson.id = generateId();
   newPerson.name = newPerson.name.trim();
   newPerson.number = newPerson.number.trim();
