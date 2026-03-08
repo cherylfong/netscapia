@@ -35,3 +35,12 @@ let persons = [
 app.get('/api/persons', (request, response) => {
   response.json(persons);
 });
+
+// TODO 3.2: create a page at /info to show the number of people in persons array
+// and showtime of the request received 
+// i.e. DAY MONTH DATE YEAR 24hour time with seconds TIMEZONE in GMT and (name of timezone in parentheses)
+app.get('/info', (request, response) => {
+    const numPersons = persons.length;
+    const timeReceived = new Date().toString();
+    response.send(`Phonebook has info for ${numPersons} people <br><br> ${timeReceived}`);
+});
