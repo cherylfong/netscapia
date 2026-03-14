@@ -32,6 +32,19 @@ let persons = [
   }
 ];
 
+app.use(express.json()); //middleware to parse incoming JSON data in request body
+
+// middleware: this will be handled by all routes.
+const requestLogger = (request, response, next) => {
+  console.log('Method:', request.method)
+  console.log('Path:  ', request.path)
+  console.log('Body:  ', request.body)
+  console.log('---')
+  next()
+}
+
+app.use(requestLogger)
+
 app.get('/api/persons', (request, response) => {
   response.json(persons);
 });
@@ -68,8 +81,6 @@ app.delete('/api/persons/:id', (request, response) => {
   persons = persons.filter(person => person.id !== id);
   response.status(204).end();
 });
-
-app.use(express.json()); //middleware to parse incoming JSON data in request body
 
 // TODO 3.5: implement function to add a new entry to Persons array. 
 // The endpoint should be /api/persons and the new entry should be sent in the request body as JSON.
@@ -110,3 +121,11 @@ app.post('/api/persons', (request, response) => {
 const generateId = () => {
   return Math.floor(Math.random() * 1000000);
 }
+
+// middleware: catches non-existent routes
+// requires to be defined after all existing routes.
+const unknownEndpoint = (request, response) => {
+  response.status(404).send({ error: 'unknown endpoint' })
+}
+
+app.use(unknownEndpoint)
