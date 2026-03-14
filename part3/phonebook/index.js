@@ -96,17 +96,17 @@ app.post('/api/persons', (request, response) => {
     return response.status(400).json({
       error: 'person name must be unique'
     });
-  } 
-  
+  }
+
   newPerson.id = generateId();
   newPerson.name = newPerson.name.trim();
   newPerson.number = newPerson.number.trim();
 
-  persons.push(newPerson);  
+  persons.push(newPerson);
   response.status(201).json(newPerson);
 });
 
 // Generate a unique id for new entries using random number generator.for the entry
 const generateId = () => {
   return Math.floor(Math.random() * 1000000);
-}   
+}
