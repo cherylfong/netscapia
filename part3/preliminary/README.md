@@ -115,3 +115,27 @@ Similarly, idempotence is a HTTP standard recommendation and is not guaranteed.
 Thus, adhere to the RESTful principles. To maintain safe and idempotent requests.
 
 > POST is neither safe nor idempotent.
+
+#### Middleware
+
+Reference: 
+https://expressjs.com/en/guide/using-middleware.html 
+
+Middleware are functions that have access to the: 
+
+1. request object
+1. response object
+1. next middleware function in the application's resquest-response cycle, denoted by variable name `next` 
+
+
+##### Middleware USAGE NOTES
+
+1. Middleware functions are called in the order that they're encountered by the JavaScript engine. 
+1. Middleware functions have to be used before routes when we want them to be executed by the route event handlers.
+    > Sometimes, we want to use middleware functions after routes. We do this when the middleware functions are only called if no route handler processes the HTTP request.
+    > For example, catching non-existent routes.
+
+
+e.g. **Express** is a routing and middleware web framework.
+
+> An Express application is **essentially a series of middleware function calls**.
