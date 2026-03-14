@@ -92,3 +92,26 @@ Using `curl` from the commandline
 `curl -X DELETE http://localhost:3001/api/notes/1`
 
 Using Postman is more interactive via GUI.
+
+#### HTTP Request Types
+
+Safety - NO SIDE EFFECTS to database state as a result of a request or response.
+
+> Nothing can ever guarantee that a GET request is safe...
+
+
+**HEAD** request - Same as GET request except it only returns status code and response headers (body of the response is not returned).
+
+**HEAD** request is consider safe.
+
+All HTTP requests except **POST** should be idempotent:
+
+    Methods can also have the property of "idempotence" in that (aside from error or expiration issues) the side-effects of N > 0 identical requests is the same as for a single request.
+    
+    The methods GET, HEAD, PUT and DELETE share this property.
+
+Similarly, idempotence is a HTTP standard recommendation and is not guaranteed.
+
+Thus, adhere to the RESTful principles. To maintain safe and idempotent requests.
+
+> POST is neither safe nor idempotent.
