@@ -89,6 +89,6 @@ REST is a *uniform interface*, a consistent structure that allows systems to coo
 ##### DELETE Request
 
 Using `curl` from the commandline
-`curl -X DELETE http://localhost:3001/api/notes/1` 
+`curl -X DELETE http://localhost:3001/api/notes/1`
 
 Using Postman is more interactive via GUI.
