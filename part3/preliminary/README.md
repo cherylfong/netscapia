@@ -58,7 +58,7 @@ When adding a custom script command in `package.json`, such as `"dev": "node --w
 npm run dev
 ```
 
-### REST | Representational State Transfer
+#### REST | Representational State Transfer
 
 Architectural style for building scalable web applications.
 
