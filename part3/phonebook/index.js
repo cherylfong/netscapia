@@ -3,6 +3,10 @@
 
 // TODO 3.1: use provided json data and create /api/persons endpoint
 const express = require('express');
+
+// TODO 3.7 Setup using Morgan, a middleware to your application for logging.
+var morgan = require('morgan')
+
 const app = express();
 const PORT = 3001;
 
@@ -34,16 +38,35 @@ let persons = [
 
 app.use(express.json()); //middleware to parse incoming JSON data in request body
 
-// middleware: this will be handled by all routes.
-const requestLogger = (request, response, next) => {
-  console.log('Method:', request.method)
-  console.log('Path:  ', request.path)
-  console.log('Body:  ', request.body)
-  console.log('---')
-  next()
-}
+// log all request in the Apache combined format to STDOUT
+// 
+// TODO 3.7 Configure logging messages to console based on the tiny configuration.
+// https://github.com/expressjs/morgan
+//app.use(morgan('tiny')); 
 
-app.use(requestLogger)
+
+// TODO 3.8 Match the output in the screenshot using Morgan and Stringify
+morgan.token("body", function (req) {
+  return JSON.stringify(req.body);
+});
+
+app.use(morgan(':method :url :status :res[content-length] - :response-time ms :body'));
+
+app.get('/', function (req, res) {
+  res.send('hello, world!')
+})
+
+// TODO This is the section before 3.7 to set up Morgan (application logging)
+//
+// Middleware: this will be handled by all routes.
+// const requestLogger = (request, response, next) => {
+//   console.log('Method:', request.method)
+//   console.log('Path:  ', request.path)
+//   console.log('Body:  ', request.body)
+//   console.log('---')
+//   next()
+// }
+// app.use(requestLogger)
 
 app.get('/api/persons', (request, response) => {
   response.json(persons);
@@ -86,7 +109,8 @@ app.delete('/api/persons/:id', (request, response) => {
 // The endpoint should be /api/persons and the new entry should be sent in the request body as JSON.
 app.post('/api/persons', (request, response) => {
   const newPerson = request.body;
-  console.log(newPerson);
+  // TODO 3.8 - This needs to be printed through Morgan
+  // console.log(newPerson);
 
   // TODO 3.6: ensure that the name or number in the new entry is not missing or completely empty.
   if (!newPerson || !newPerson.name || !newPerson.number) {
@@ -122,10 +146,11 @@ const generateId = () => {
   return Math.floor(Math.random() * 1000000);
 }
 
-// middleware: catches non-existent routes
+// TODO This is the section before 3.7 to set up Morgan (application logging)
+//
+// Middleware: catches non-existent routes
 // requires to be defined after all existing routes.
-const unknownEndpoint = (request, response) => {
-  response.status(404).send({ error: 'unknown endpoint' })
-}
-
-app.use(unknownEndpoint)
+// const unknownEndpoint = (request, response) => {
+//   response.status(404).send({ error: 'unknown endpoint' })
+// }
+// app.use(unknownEndpoint)
