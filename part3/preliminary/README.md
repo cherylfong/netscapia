@@ -130,7 +130,7 @@ Middleware are functions that have access to the:
 
 ##### Middleware USAGE NOTES
 
-1. Middleware functions are called in the order that they're encountered by the JavaScript engine. 
+1. Middleware functions are called **in the order that they're encountered** by the JavaScript engine. 
 1. Middleware functions have to be used before routes when we want them to be executed by the route event handlers.
     > Sometimes, we want to use middleware functions after routes. We do this when the middleware functions are only called if no route handler processes the HTTP request.
     > For example, catching non-existent routes.
@@ -139,3 +139,15 @@ Middleware are functions that have access to the:
 e.g. **Express** is a routing and middleware web framework.
 
 > An Express application is **essentially a series of middleware function calls**.
+
+
+##### CORS | Cross Origin Resource Sharing
+
+The same-origin policy is a security mechanism implemented by browsers in order to **prevent session hijacking** among other security vulnerabilities.
+
+In order to enable legitimate cross-origin requests (requests to URLs that don't share the same origin) W3C came up with a mechanism called CORS(Cross-Origin Resource Sharing). According to Wikipedia:
+
+    Cross-origin resource sharing (CORS) is a mechanism that allows restricted resources (e.g. fonts) on a web page to be requested from another domain outside the domain from which the first resource was served. A web page may freely embed cross-origin images, stylesheets, scripts, iframes, and videos. Certain "cross-domain" requests, notably Ajax requests, are forbidden by default by the same-origin security policy.
+
+The problem is that, by default, the JavaScript code of an application that runs in a browser can only communicate with a server in the same origin. For example, if the backend localhost is on port 3001, while the frontend is in localhost port 5173, they do not have the same origin.
+
