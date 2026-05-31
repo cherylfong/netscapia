@@ -151,3 +151,4 @@ In order to enable legitimate cross-origin requests (requests to URLs that don't
 
 The problem is that, by default, the JavaScript code of an application that runs in a browser can only communicate with a server in the same origin. For example, if the backend localhost is on port 3001, while the frontend is in localhost port 5173, they do not have the same origin.
 
+Reference: https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS 
