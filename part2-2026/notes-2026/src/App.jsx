@@ -14,6 +14,9 @@ const App = (props) => {
     'a new note...'
   )
 
+  const [showAll, setShowAll] = useState(true)
+
+
   console.log(notes) // notes as an array extracted from note object
   console.log(props) // note object from main.jsx
 
@@ -40,11 +43,21 @@ const App = (props) => {
   }
 
 
+  const notesToShow = showAll
+    ? notes
+    : notes.filter(note => note.important === true) //comparison operator is redundant)
+
+
   return (
     <div>
       <h1>Notes</h1>
+      <div>
+        <button onClick={() => setShowAll(!showAll)}>
+          show {showAll ? 'important' : 'all'}
+        </button>
+      </div>
       <ul>
-        {notes.map(note =>
+        {notesToShow.map(note =>
           <Note key={note.id} note={note} />
         )}
       </ul>
