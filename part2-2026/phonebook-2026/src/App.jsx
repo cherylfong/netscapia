@@ -13,8 +13,22 @@ const App = () => {
     const addName = (event) => {
         event.preventDefault() // prevents form submission
 
+        const trimmedName = newName.trim()
+
+        // prevent empty submissions
+        if (trimmedName === '') {
+            alert('Please enter a name')
+            return
+        }
+
+        // check if name already exists (case-insensitive)
+        if (persons.some(person => person.name.toLowerCase() === trimmedName.toLowerCase())) {
+            alert(`${trimmedName} is already added to phonebook`)
+            return
+        }
+
         const personObject = {
-            name: newName,
+            name: trimmedName
         }
 
         setPersons(persons.concat(personObject))
@@ -29,6 +43,7 @@ const App = () => {
         console.log(event.target.value)
         setNewName(event.target.value)
     }
+
     return (
         <div>
             <h2>Phonebook</h2>
