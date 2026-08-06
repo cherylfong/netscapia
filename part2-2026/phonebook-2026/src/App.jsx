@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-import Person from './components/Person'
+import Persons from './components/Persons'
 
 const App = () => {
 
@@ -69,6 +69,7 @@ const App = () => {
         p.name.toLowerCase().includes(filterText)
     )
 
+
     return (
         <div>
             <h1>Phonebook</h1>
@@ -90,9 +91,7 @@ const App = () => {
             </form>
             <h2>Numbers</h2>
             <ul>
-                {personsToShow.map(person =>
-                    <Person key={person.id} person={person} />
-                )}
+                <Persons persons={personsToShow} />
             </ul>
         </div>
     )
