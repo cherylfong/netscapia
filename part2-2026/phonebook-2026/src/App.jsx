@@ -37,9 +37,22 @@ const App = () => {
             return
         }
 
+        const existingPerson = persons.find(p => p.name.toLowerCase() === trimmedName.toLowerCase())
+
         // check if name already exists (case-insensitive)
-        if (persons.some(person => person.name.toLowerCase() === trimmedName.toLowerCase())) {
-            alert(`${trimmedName} is already added to phonebook`)
+        if (existingPerson) {
+            if(confirm(`${trimmedName} is already added to phonebook, replace the old number with a new one?`)){
+                const changedPerson = {...existingPerson,
+                    number: trimmedNumber}
+                
+                phonebookService
+                .update(existingPerson.id, changedPerson)
+                .then(returnedPerson => {
+                    setPersons(persons.map(p =>
+                        p.id === existingPerson.id ? returnedPerson : p
+                    ))
+                })
+            }
             return
         }
 
