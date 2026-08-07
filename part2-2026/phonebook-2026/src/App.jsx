@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react'
-import axios from 'axios'
 
 import Persons from './components/Persons'
 import PersonForm from './components/PersonForm'
@@ -83,6 +82,21 @@ const App = () => {
         p.name.toLowerCase().includes(filterText)
     )
 
+    const toggleRemoval = (id, name) => {
+        if (!window.confirm(`Delete ${name}?`)) {
+            return
+        }
+
+        phonebookService
+        .remove(id)
+        .then(() => {
+            setPersons(persons.filter(p => p.id !== id))
+        })
+        .catch(error => {
+            console.error('Failed to delete person:', error)
+        })
+    }
+
 
     return (
         <div>
@@ -98,7 +112,7 @@ const App = () => {
             />
             <h2>Numbers</h2>
             <ul>
-                <Persons persons={personsToShow} />
+                <Persons persons={personsToShow} toggleRemove={toggleRemoval}/>
             </ul>
         </div>
     )
