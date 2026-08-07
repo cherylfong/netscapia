@@ -61,10 +61,41 @@ const App = (props) => {
       id: String(notes.length + 1),
     }
 
-    setNotes(notes.concat(noteObject)) // THIS DOES NOT MUTATE ORIGINAL notes ARRAY -- append new object to notes
-    setNewNote('') // clear input field
+    axios
+    .post('http://localhost:3001/notes', noteObject)
+    .then(response => {
+      console.log("POSTED !!! ")
+      console.log(response)
+      setNotes(notes.concat(noteObject)) // THIS DOES NOT MUTATE ORIGINAL notes ARRAY -- append new object to notes
+      setNewNote('') // clear input field
+    })
 
     console.log('button clicked !!!', event.target)
+  }
+
+
+  const toggleImportanceOf = (id) => {
+    console.log(`importance of ${id} needs to be toggled`)
+
+    const url = `http://localhost:3001/notes/${id}`
+    const note = notes.find(n => n.id === id)
+
+    // object spread syntax:
+    // must make a new Note object because:
+    // If using the variable note, it is a reference to an item in the notes array
+    // in the component's state, 
+    // and as we recall we must never mutate state directly in React.
+    // 
+    // changedNote is a shallow copy of note
+    // if note contains object references then changedNote
+    // will have copies of references (not new objects)
+    const changedNote = { ...note, important: !note.important }
+
+    axios.put(url, changedNote).then(response => {
+      setNotes(notes.map(note => note.id === id ? response.data : note))
+      // If the condition is false, then copy the item from the old array into the new array
+      // response.data contains the changedNote
+    })
   }
 
   // To enable editing of the input element, register an event handler that synchronizes the changes made to the input with the component's state:
@@ -89,7 +120,7 @@ const App = (props) => {
       </div>
       <ul>
         {notesToShow.map(note =>
-          <Note key={note.id} note={note} />
+          <Note key={note.id} note={note} toggleImportance={() => toggleImportanceOf(note.id)}/>
         )}
       </ul>
       <form onSubmit={addNote}>
