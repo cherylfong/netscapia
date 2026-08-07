@@ -5,6 +5,8 @@ import Persons from './components/Persons'
 import PersonForm from './components/PersonForm'
 import Filter from './components/Filter'
 
+import phonebookService from './services/phonebook'
+
 const App = () => {
 
     const [persons, setPersons] = useState([])
@@ -16,11 +18,11 @@ const App = () => {
     const [newFilter, setNewFilter] = useState('')
 
     useEffect(() => {
-    axios
-      .get('http://localhost:3001/persons')
-      .then(response => {
+    phonebookService
+      .getAll('http://localhost:3001/persons')
+      .then(initialPhonebook => {
         console.log('promise fulfilled')
-        setPersons(response.data)
+        setPersons(initialPhonebook)
       })
   }, [])
 
@@ -48,9 +50,13 @@ const App = () => {
             id: Date.now()
         }
 
-        setPersons(persons.concat(personObject))
-        setNewName('') // clear input field
-        setNewNumber('')
+        phonebookService
+        .create(personObject)
+        .then(returnedPerson => {
+            setPersons(persons.concat(returnedPerson))
+            setNewName('') // clear input field
+            setNewNumber('')
+        })
 
         console.log('button clicked !!!', event.target)
     }
