@@ -17,18 +17,33 @@
     },
     {
       "content": "qweqweqwe",
-      "important": false,
+      "important": true,
       "id": "IPUVG-v3PKU"
     },
     {
       "content": "qwewqeqweqwee1312123123",
-      "important": false,
+      "important": true,
       "id": "dddSTTHpnjg"
     },
     {
       "content": "a new note...",
       "important": true,
       "id": "QsiMQzkYqoc"
+    },
+    {
+      "content": "qweqwewe12312313",
+      "important": true,
+      "id": "j_Htoxa0XRI"
+    },
+    {
+      "content": "",
+      "important": true,
+      "id": "zeABYtyhOrs"
+    },
+    {
+      "content": "qwewqeqe122121fvgerfdvawedvsasdevdsadvsv ",
+      "important": true,
+      "id": "5vuEmLZMMkk"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"

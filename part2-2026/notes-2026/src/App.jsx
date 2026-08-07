@@ -4,6 +4,8 @@ import axios from 'axios'
 
 import Note from './components/Note'
 
+import noteService from './services/notes'
+
 // remove props param and replace props.notes with [] empty array 
 // if want to start with not using notes array from
 // main.jsx
@@ -38,11 +40,11 @@ const App = (props) => {
     // })
     //
     // Chain like this instead:
-    axios
-      .get('http://localhost:3001/notes')
-      .then(response => {
+    noteService
+      .getAll('http://localhost:3001/notes')
+      .then(initialNotes => {
         console.log('promise fulfilled')
-        setNotes(response.data)
+        setNotes(initialNotes)
       })
   }, [])
 
@@ -61,12 +63,12 @@ const App = (props) => {
       id: String(notes.length + 1),
     }
 
-    axios
-    .post('http://localhost:3001/notes', noteObject)
-    .then(response => {
+    noteService
+    .create(noteObject)
+    .then(returnedNote => {
       console.log("POSTED !!! ")
-      console.log(response)
-      setNotes(notes.concat(noteObject)) // THIS DOES NOT MUTATE ORIGINAL notes ARRAY -- append new object to notes
+      console.log(returnedNote)
+      setNotes(notes.concat(returnedNote)) // THIS DOES NOT MUTATE ORIGINAL notes ARRAY -- append new object to notes
       setNewNote('') // clear input field
     })
 
@@ -91,10 +93,18 @@ const App = (props) => {
     // will have copies of references (not new objects)
     const changedNote = { ...note, important: !note.important }
 
-    axios.put(url, changedNote).then(response => {
-      setNotes(notes.map(note => note.id === id ? response.data : note))
+    noteService
+      .update(id, changedNote)
+      .then(returnedNote => {
+        setNotes(notes.map(note => note.id === id ? returnedNote : note))
       // If the condition is false, then copy the item from the old array into the new array
       // response.data contains the changedNote
+    })
+    .catch(error => {
+      alert(
+        `the note '${note.content}' was already deleted from server`
+      )
+      setNotes(notes.filter(n => n.id !== id))
     })
   }
 
