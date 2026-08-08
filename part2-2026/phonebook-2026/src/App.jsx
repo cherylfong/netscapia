@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react'
 import Persons from './components/Persons'
 import PersonForm from './components/PersonForm'
 import Filter from './components/Filter'
+import Notification from './components/Notification'
 
 import phonebookService from './services/phonebook'
 
@@ -16,14 +17,18 @@ const App = () => {
 
     const [newFilter, setNewFilter] = useState('')
 
+    const [notifyMessage, setNotifyMessage] = useState(null)
+
+    const [successFlag, setSuccessFlag] = useState(true)
+
     useEffect(() => {
-    phonebookService
-      .getAll('http://localhost:3001/persons')
-      .then(initialPhonebook => {
-        console.log('promise fulfilled')
-        setPersons(initialPhonebook)
-      })
-  }, [])
+        phonebookService
+            .getAll('http://localhost:3001/persons')
+            .then(initialPhonebook => {
+                console.log('promise fulfilled')
+                setPersons(initialPhonebook)
+            })
+    }, [])
 
     const addEntry = (event) => {
         event.preventDefault() // prevents form submission
@@ -41,17 +46,25 @@ const App = () => {
 
         // check if name already exists (case-insensitive)
         if (existingPerson) {
-            if(confirm(`${trimmedName} is already added to phonebook, replace the old number with a new one?`)){
-                const changedPerson = {...existingPerson,
-                    number: trimmedNumber}
-                
+            if (confirm(`${trimmedName} is already added to phonebook, replace the old number with a new one?`)) {
+                const changedPerson = {
+                    ...existingPerson,
+                    number: trimmedNumber
+                }
+
                 phonebookService
-                .update(existingPerson.id, changedPerson)
-                .then(returnedPerson => {
-                    setPersons(persons.map(p =>
-                        p.id === existingPerson.id ? returnedPerson : p
-                    ))
-                })
+                    .update(existingPerson.id, changedPerson)
+                    .then(returnedPerson => {
+                        setPersons(persons.map(p =>
+                            p.id === existingPerson.id ? returnedPerson : p
+                        ))
+                    })
+                setNotifyMessage(
+                    `UPDATED: ${changedPerson.name} is now ${changedPerson.number}`
+                )
+                setTimeout(() => {
+                    setNotifyMessage(null)
+                }, 5000)
             }
             return
         }
@@ -63,12 +76,18 @@ const App = () => {
         }
 
         phonebookService
-        .create(personObject)
-        .then(returnedPerson => {
-            setPersons(persons.concat(returnedPerson))
-            setNewName('') // clear input field
-            setNewNumber('')
-        })
+            .create(personObject)
+            .then(returnedPerson => {
+                setPersons(persons.concat(returnedPerson))
+                setNewName('') // clear input field
+                setNewNumber('')
+                setNotifyMessage(
+                    `ADDED: ${returnedPerson.name} has the number ${returnedPerson.number}`
+                )
+                setTimeout(() => {
+                    setNotifyMessage(null)
+                }, 5000)
+            })
 
         console.log('button clicked !!!', event.target)
     }
@@ -91,7 +110,7 @@ const App = () => {
     }
 
     const filterText = newFilter.trim().toLowerCase()
-    const personsToShow = persons.filter( p =>
+    const personsToShow = persons.filter(p =>
         p.name.toLowerCase().includes(filterText)
     )
 
@@ -101,31 +120,32 @@ const App = () => {
         }
 
         phonebookService
-        .remove(id)
-        .then(() => {
-            setPersons(persons.filter(p => p.id !== id))
-        })
-        .catch(error => {
-            console.error('Failed to delete person:', error)
-        })
+            .remove(id)
+            .then(() => {
+                setPersons(persons.filter(p => p.id !== id))
+            })
+            .catch(error => {
+                console.error('Failed to delete person:', error)
+            })
     }
 
 
     return (
         <div>
             <h1>Phonebook</h1>
-            <Filter newFilter={newFilter} handleFilterChange={handleFilterChange}/>
+            <Notification message={notifyMessage} success={successFlag} />
+            <Filter newFilter={newFilter} handleFilterChange={handleFilterChange} />
             <h2>add a new</h2>
             <PersonForm
-              addEntry={addEntry}
-              newName={newName}
-              newNumber={newNumber}
-              handleNameChange={handleNameChange}
-              handleNumberChange={handleNumberChange}
+                addEntry={addEntry}
+                newName={newName}
+                newNumber={newNumber}
+                handleNameChange={handleNameChange}
+                handleNumberChange={handleNumberChange}
             />
             <h2>Numbers</h2>
             <ul>
-                <Persons persons={personsToShow} toggleRemove={toggleRemoval}/>
+                <Persons persons={personsToShow} toggleRemove={toggleRemoval} />
             </ul>
         </div>
     )
