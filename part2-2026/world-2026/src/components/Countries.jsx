@@ -1,0 +1,35 @@
+import CountryListItem from './CountryListItem'
+import CountryDisplay from './CountryDisplay'
+
+const Countries = ({ result }) => {
+    console.log('Result is', result)
+    if (result) {
+        if (result.length > 10) {
+
+            console.log(`Number of countries: ${result.length}`)
+            return (
+                <p>Too many matches, specify another filter...</p>
+            )
+        }
+
+        else if (result.length == 1) {
+            console.log(`RESULT IS`, result)
+            return (
+                <CountryDisplay oneCountry={result} />
+            )
+        }
+        else {
+            console.log(`${result.length} is less than 10`)
+            return (
+                <>
+                    {result.map(c => (
+                        <CountryListItem key={c.id} country={c.name} />
+                    ))}
+                </>
+            )
+        }
+
+    }
+}
+
+export default Countries
