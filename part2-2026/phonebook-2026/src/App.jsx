@@ -122,10 +122,22 @@ const App = () => {
         phonebookService
             .remove(id)
             .then(() => {
-                setPersons(persons.filter(p => p.id !== id))
+                // server-side delete succeeded
             })
             .catch(error => {
                 console.error('Failed to delete person:', error)
+                setNotifyMessage(
+                    `WARNING: ${name} already deleted.`
+                )
+                setSuccessFlag(false)
+                setTimeout(() => {
+                    setNotifyMessage(null)
+                    setSuccessFlag(true)
+                }, 5000)
+            })
+            .then(() => {
+                // runs both after success and after the catch above
+                setPersons(persons.filter(p => p.id !== id))
             })
     }
 
