@@ -1,6 +1,8 @@
 import ReactDOM from 'react-dom/client'
 import App from './App'
 
+import './index.css'
+
 // content below is moved into db.json
 // fetching data from server is done in App.jsx
 //

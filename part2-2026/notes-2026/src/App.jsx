@@ -3,6 +3,8 @@ import { useState, useEffect } from 'react'
 import axios from 'axios' 
 
 import Note from './components/Note'
+import Notification from './components/Notification'
+import Footer from './components/Footer'
 
 import noteService from './services/notes'
 
@@ -18,6 +20,7 @@ const App = (props) => {
 
   const [showAll, setShowAll] = useState(true)
 
+  const [errorMessage, setErrorMessage] = useState(null)
 
   //console.log(notes) // notes as an array extracted from note object
   //console.log(props) // note object from main.jsx
@@ -101,9 +104,15 @@ const App = (props) => {
       // response.data contains the changedNote
     })
     .catch(error => {
-      alert(
-        `the note '${note.content}' was already deleted from server`
-      )
+      // alert(
+      //   `the note '${note.content}' was already deleted from server`
+      // )
+      setErrorMessage(
+          `Note '${note.content}' was already removed from server`
+        )
+      setTimeout(() => {
+          setErrorMessage(null)
+        }, 5000)
       setNotes(notes.filter(n => n.id !== id))
     })
   }
@@ -123,6 +132,7 @@ const App = (props) => {
   return (
     <div>
       <h1>Notes</h1>
+      <Notification message={errorMessage} />
       <div>
         <button onClick={() => setShowAll(!showAll)}>
           show {showAll ? 'important' : 'all'}
@@ -137,6 +147,7 @@ const App = (props) => {
         <input value={newNote} onChange={handleNoteChange}/>
         <button type="submit">save</button>
       </form>
+      <Footer/>
    </div>
   )
 }
