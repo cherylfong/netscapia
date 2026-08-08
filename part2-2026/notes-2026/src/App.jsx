@@ -1,6 +1,5 @@
 // to save component states
 import { useState, useEffect } from 'react'
-import axios from 'axios' 
 
 import Note from './components/Note'
 import Notification from './components/Notification'
@@ -24,7 +23,6 @@ const App = (props) => {
 
   //console.log(notes) // notes as an array extracted from note object
   //console.log(props) // note object from main.jsx
-
 
   // Effects  hook:
   // Lets a component connect to and synchronize with external systems.
@@ -67,13 +65,13 @@ const App = (props) => {
     }
 
     noteService
-    .create(noteObject)
-    .then(returnedNote => {
-      console.log("POSTED !!! ")
-      console.log(returnedNote)
-      setNotes(notes.concat(returnedNote)) // THIS DOES NOT MUTATE ORIGINAL notes ARRAY -- append new object to notes
-      setNewNote('') // clear input field
-    })
+      .create(noteObject)
+      .then(returnedNote => {
+        console.log("POSTED !!! ")
+        console.log(returnedNote)
+        setNotes(notes.concat(returnedNote)) // THIS DOES NOT MUTATE ORIGINAL notes ARRAY -- append new object to notes
+        setNewNote('') // clear input field
+      })
 
     console.log('button clicked !!!', event.target)
   }
@@ -100,21 +98,21 @@ const App = (props) => {
       .update(id, changedNote)
       .then(returnedNote => {
         setNotes(notes.map(note => note.id === id ? returnedNote : note))
-      // If the condition is false, then copy the item from the old array into the new array
-      // response.data contains the changedNote
-    })
-    .catch(error => {
-      // alert(
-      //   `the note '${note.content}' was already deleted from server`
-      // )
-      setErrorMessage(
+        // If the condition is false, then copy the item from the old array into the new array
+        // response.data contains the changedNote
+      })
+      .catch(error => {
+        // alert(
+        //   `the note '${note.content}' was already deleted from server`
+        // )
+        setErrorMessage(
           `Note '${note.content}' was already removed from server`
         )
-      setTimeout(() => {
+        setTimeout(() => {
           setErrorMessage(null)
         }, 5000)
-      setNotes(notes.filter(n => n.id !== id))
-    })
+        setNotes(notes.filter(n => n.id !== id))
+      })
   }
 
   // To enable editing of the input element, register an event handler that synchronizes the changes made to the input with the component's state:
@@ -140,15 +138,15 @@ const App = (props) => {
       </div>
       <ul>
         {notesToShow.map(note =>
-          <Note key={note.id} note={note} toggleImportance={() => toggleImportanceOf(note.id)}/>
+          <Note key={note.id} note={note} toggleImportance={() => toggleImportanceOf(note.id)} />
         )}
       </ul>
       <form onSubmit={addNote}>
-        <input value={newNote} onChange={handleNoteChange}/>
+        <input value={newNote} onChange={handleNoteChange} />
         <button type="submit">save</button>
       </form>
-      <Footer/>
-   </div>
+      <Footer />
+    </div>
   )
 }
 
