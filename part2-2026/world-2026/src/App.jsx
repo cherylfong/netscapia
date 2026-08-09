@@ -38,21 +38,49 @@ function App() {
     setNewFilter(event.target.value)
   }
 
-  const onSearch = (event) => {
-    event.preventDefault()
-    setSearchTerm(newFilter.trim().toLowerCase())
+  const getMatches = (term) => {
+    const normalizedTerm = term.trim().toLowerCase()
 
-    console.log (`newFilter is ${newFilter}`)
+    if (!countries || normalizedTerm === '') {
+      return []
+    }
 
-    const m_temp = countries
-      .filter(c => c?.name?.common?.toLowerCase().includes(searchTerm))
-      .map(c => ({ name: c.name.common, capital: c.capital, area: c.area, flag: c.flag, languages: c.languages, flagImage: c.flags.png })) 
-
-    setMatches(m_temp)
-
+    return countries
+      .filter(c => c?.name?.common?.toLowerCase().includes(normalizedTerm))
+      .map(c => ({
+        name: c.name.common,
+        capital: c.capital,
+        area: c.area,
+        flag: c.flag,
+        languages: c.languages,
+        flagImage: c.flags.png
+      }))
   }
 
+  const onSearch = (event) => {
+    event.preventDefault()
+    const normalizedSearch = newFilter.trim().toLowerCase()
+    setSearchTerm(normalizedSearch)
 
+    console.log(`newFilter is ${newFilter}`)
+
+    setMatches(getMatches(normalizedSearch))
+  }
+
+  const toggleShowOne = (param) => {
+    console.log('Selected country: ', param)
+    const normalizedTerm = String(param).trim().toLowerCase()
+    setSearchTerm(normalizedTerm)
+    setMatches(getMatches(normalizedTerm))
+  }
+
+  useEffect(() => {
+    console.log('searchTerm changed:', searchTerm)
+  }, [searchTerm,])
+
+  useEffect(() => {
+    console.log('Match is now', matches)
+  }, [matches])
 
   return (
     <>
@@ -71,7 +99,7 @@ function App() {
       <div className="ticks"></div>
       <section id="spacer"></section>
 
-      <Countries result={matches} />
+      <Countries result={matches} toggleShow={toggleShowOne} />
 
       {/* <pre>
         {JSON.stringify(countries, null, 2)}
