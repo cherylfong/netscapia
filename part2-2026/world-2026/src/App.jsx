@@ -5,8 +5,11 @@ import heroImg from './assets/hero.png'
 import './App.css'
 
 import Filter from './components/Filter'
-import countryService from './services/countryService'
 import Countries from './components/Countries'
+
+import countryService from './services/countryService'
+import weatherService from './services/weatherService'
+
 
 function App() {
 
@@ -17,6 +20,8 @@ function App() {
   const [newFilter, setNewFilter] = useState('')
 
   const [matches, setMatches] = useState([])
+
+  const [weather, setWeather] = useState(null)
 
   useEffect(() => {
     console.log('effect run: getAll')
@@ -80,6 +85,22 @@ function App() {
 
   useEffect(() => {
     console.log('Match is now', matches)
+    if (matches.length == 1) {
+
+      weatherService
+        .getCapitalWeather(matches[0].name)
+        .then(weatherObject => {
+          console.log('weather object is', weatherObject)
+          setWeather(
+            {
+              temp: weatherObject.main.temp,
+              icon: weatherObject.weather[0].icon,
+              wind: weatherObject.wind.speed
+            }
+          )
+        })
+
+    }
   }, [matches])
 
   return (
@@ -99,7 +120,7 @@ function App() {
       <div className="ticks"></div>
       <section id="spacer"></section>
 
-      <Countries result={matches} toggleShow={toggleShowOne} />
+      <Countries result={matches} toggleShow={toggleShowOne} weather={weather} />
 
       {/* <pre>
         {JSON.stringify(countries, null, 2)}

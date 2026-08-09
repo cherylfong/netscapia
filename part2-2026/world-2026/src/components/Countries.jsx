@@ -1,7 +1,7 @@
 import CountryListItem from './CountryListItem'
 import CountryDisplay from './CountryDisplay'
 
-const Countries = ({ result, toggleShow }) => {
+const Countries = ({ result, toggleShow, weather}) => {
     console.log('Result is', result)
     if (result) {
         if (result.length > 10) {
@@ -11,14 +11,14 @@ const Countries = ({ result, toggleShow }) => {
                 <p>Too many matches, specify another filter...</p>
             )
         }
-        else if(result.length == 0){
-            return(<p>NO RESULTS</p>)
+        else if (result.length == 0) {
+            return (<p>NO RESULTS</p>)
 
         }
         else if (result.length == 1) {
             console.log(`RESULT IS`, result)
             return (
-                <CountryDisplay oneCountry={result} />
+                <CountryDisplay oneCountry={result} weather={weather} />
             )
         }
         else {
@@ -26,9 +26,9 @@ const Countries = ({ result, toggleShow }) => {
             return (
                 <>
                     {result.map(c => (
-                        <CountryListItem 
-                            toggleShow={() => toggleShow(c.name)} 
-                            key={c.id} 
+                        <CountryListItem
+                            toggleShow={() => toggleShow(c.name)}
+                            key={c.id}
                             country={c.name} />
                     ))}
                 </>
