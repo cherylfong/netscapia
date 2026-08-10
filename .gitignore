@@ -92,6 +92,8 @@ out
 dist
 !/part3/notes-backend/dist/
 !/part3/notes-backend/dist/**
+!/part3/phonebook/dist/
+!/part3/phonebook/dist/**
 
 # Gatsby files
 .cache/

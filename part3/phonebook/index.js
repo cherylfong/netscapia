@@ -44,6 +44,7 @@ app.use(express.json()); //middleware to parse incoming JSON data in request bod
 // https://github.com/expressjs/morgan
 //app.use(morgan('tiny')); 
 
+app.use(express.static('dist'))
 
 // TODO 3.8 Match the output in the screenshot using Morgan and Stringify
 morgan.token("body", function (req) {
