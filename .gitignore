@@ -90,6 +90,10 @@ out
 # Nuxt.js build / generate output
 .nuxt
 dist
+!/part3/notes-backend/dist/
+!/part3/notes-backend/dist/**
+!/part3/phonebook/dist/
+!/part3/phonebook/dist/**
 
 # Gatsby files
 .cache/

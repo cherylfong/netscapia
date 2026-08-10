@@ -1,0 +1,18 @@
+{
+  "name": "notes-backend",
+  "version": "0.0.1",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "node --watch index.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build:ui": "rm -rf dist && cd ../../part2-2026/notes-2026 && npm run build && cp -r dist ../../part3/notes-backend/",
+    "deploy:full": "npm run build:ui && git add . && git commit -m 'render initiated build:ui' && git push"
+  },
+  "license": "MIT",
+  "description": "",
+  "dependencies": {
+    "cors": "^2.8.6",
+    "express": "^5.2.1"
+  }
+}
