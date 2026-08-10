@@ -1,23 +1,6 @@
 const express = require('express')
 const app = express()
 
-// Cross Origin Resource Sharing (CORS) needed.
-//
-// Reason:
-// forntend is served on localhost:5173
-// backend is hosted on localhost:3001
-// back and front are communicating with different origins 
-// More info at: https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS
-//
-const cors = require('cors')
-app.use(cors())
-
-// to allow rendering of static content using express
-app.use(express.static('dist'))
-// Whenever Express gets an HTTP GET request,
-// it will check if the dist directory contains a file corresponding to the request's address.
-// If a correct file is found, Express will return it
-
 let notes = [
   {
     id: '1',
@@ -45,8 +28,36 @@ const requestLogger = (request, response, next) => {
 }
 
 app.use(requestLogger)
-app.use(express.static('dist'))
 app.use(express.json())
+
+// Cross Origin Resource Sharing (CORS) needed.
+//
+// Reason:
+// forntend is served on localhost:5173
+// backend is hosted on localhost:3001
+// back and front are communicating with different origins 
+// More info at: https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS
+//
+// const cors = require('cors')
+// app.use(cors())
+
+// In reference to `vite.config.js` in the frontend root directory: 
+// After restarting with `npm run dev`, the React development environment will act as proxy. 
+// If the React code makes an HTTP request to a path starting with http://localhost:5173/api, 
+// the request will be forwarded to the server at http://localhost:3001. 
+// Requests to other paths will be handled normally by the development server.
+
+// Since from the frontend's perspective all requests are made to http://localhost:5173, 
+// which is a single origin, 
+// there is no longer a need for the backend's cors middleware.
+// This is the case for both development mode and in production mode.
+
+
+// to allow rendering of static content using express
+app.use(express.static('dist'))
+// Whenever Express gets an HTTP GET request,
+// it will check if the dist directory contains a file corresponding to the request's address.
+// If a correct file is found, Express will return it
 
 app.get('/', (request, response) => {
   response.send('<h1>Hello World!</h1>')
