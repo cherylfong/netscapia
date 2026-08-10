@@ -12,6 +12,12 @@ const app = express()
 const cors = require('cors')
 app.use(cors())
 
+// to allow rendering of static content using express
+app.use(express.static('dist'))
+// Whenever Express gets an HTTP GET request,
+// it will check if the dist directory contains a file corresponding to the request's address.
+// If a correct file is found, Express will return it
+
 let notes = [
   {
     id: '1',

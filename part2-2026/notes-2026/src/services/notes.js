@@ -1,5 +1,14 @@
 import axios from 'axios'
-const baseUrl = 'http://localhost:3001/api/notes'
+
+// when in production with dist directory generated
+const baseUrl = '/api/notes'
+
+// when initiated in development 
+//const baseUrl = 'http://localhost:3001/api/notes'
+
+// when using the json development server
+// const baseUrl = 'http://localhost:3001/notes'
+
 
 const getAll = () => {
   const request = axios.get(baseUrl)
