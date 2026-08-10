@@ -1,6 +1,17 @@
 const express = require('express')
 const app = express()
 
+// Cross Origin Resource Sharing (CORS) needed.
+//
+// Reason:
+// forntend is served on localhost:5173
+// backend is hosted on localhost:3001
+// back and front are communicating with different origins 
+// More info at: https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS
+//
+const cors = require('cors')
+app.use(cors())
+
 let notes = [
   {
     id: '1',
