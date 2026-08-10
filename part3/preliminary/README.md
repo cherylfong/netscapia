@@ -140,6 +140,7 @@ e.g. **Express** is a routing and middleware web framework.
 
 > An Express application is **essentially a series of middleware function calls**.
 
+### Part 3 sub b. | Deploying an App to the Internet
 
 ##### CORS | Cross Origin Resource Sharing
 
@@ -151,4 +152,16 @@ In order to enable legitimate cross-origin requests (requests to URLs that don't
 
 The problem is that, by default, the JavaScript code of an application that runs in a browser can only communicate with a server in the same origin. For example, if the backend localhost is on port 3001, while the frontend is in localhost port 5173, they do not have the same origin.
 
-Reference: https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS 
+Reference: https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS
+
+
+##### Production Notes
+
+A version of the application that is optimized for production does not expose application errors to the end user.
+
+A production build for applications created with Vite can be created with the command `npm run build`.
+
+This creates a _dist_ directory in the root of the project. It contains the minified version of the application:
+
+- An HTML file of the application (index.html) and directory assets
+> All of the JavaScript will be minified into one file. All of the code from all of the application's dependencies will also be minified into this single file.
