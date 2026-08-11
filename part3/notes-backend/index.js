@@ -1,6 +1,11 @@
 const express = require('express')
 const app = express()
 
+// dotenv dependency needs to be declared before /models/note because 
+// models/note requires it too
+require('dotenv').config()
+const Note = require('./models/note')
+
 let notes = [
   {
     id: '1',
@@ -63,19 +68,30 @@ app.get('/', (request, response) => {
   response.send('<h1>Hello World!</h1>')
 })
 
+// before mongodb integration
+// app.get('/api/notes', (request, response) => {
+//   response.json(notes)
+// })
 app.get('/api/notes', (request, response) => {
-  response.json(notes)
+  Note.find({}).then(notes => {
+    response.json(notes)
+  })
 })
 
 app.get('/api/notes/:id', (request, response) => {
-  const id = request.params.id
-  const note = notes.find((note) => note.id === id)
 
-  if (note) {
+  // before mongodb integration
+  // const id = request.params.id
+  // const note = notes.find((note) => note.id === id)
+  // if (note) {
+  //   response.json(note)
+  // } else {
+  //   response.status(404).end()
+  // }
+
+  Note.findById(request.params.id).then((note) => {
     response.json(note)
-  } else {
-    response.status(404).end()
-  }
+  })
 })
 
 const generateId = () => {
@@ -93,15 +109,24 @@ app.post('/api/notes', (request, response) => {
     })
   }
 
-  const note = {
+  // before mongodb integration
+  // const note = {
+  //   content: body.content,
+  //   important: body.important || false,
+  //   id: generateId(),
+  // }
+  // notes = notes.concat(note)
+  // response.json(note)
+
+  const note = new Note({
     content: body.content,
     important: body.important || false,
-    id: generateId(),
-  }
+  })
 
-  notes = notes.concat(note)
-
-  response.json(note)
+  note.save().then(savedNote => {
+    // ensures that response is only sent when save operation is successful
+    response.json(savedNote)
+  })
 })
 
 app.delete('/api/notes/:id', (request, response) => {
