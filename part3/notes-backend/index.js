@@ -32,8 +32,16 @@ const requestLogger = (request, response, next) => {
   next()
 }
 
-app.use(requestLogger)
+// middleware loading order is crucial
+
+// to allow rendering of static content using express
+app.use(express.static('dist'))
+// Whenever Express gets an HTTP GET request,
+// it will check if the dist directory contains a file corresponding to the request's address.
+// If a correct file is found, Express will return it
+
 app.use(express.json())
+app.use(requestLogger)
 
 // Cross Origin Resource Sharing (CORS) needed.
 //
@@ -58,20 +66,11 @@ app.use(express.json())
 // This is the case for both development mode and in production mode.
 
 
-// to allow rendering of static content using express
-app.use(express.static('dist'))
-// Whenever Express gets an HTTP GET request,
-// it will check if the dist directory contains a file corresponding to the request's address.
-// If a correct file is found, Express will return it
-
 app.get('/', (request, response) => {
   response.send('<h1>Hello World!</h1>')
 })
 
-// before mongodb integration
-// app.get('/api/notes', (request, response) => {
-//   response.json(notes)
-// })
+
 app.get('/api/notes', (request, response) => {
   Note.find({}).then(notes => {
     response.json(notes)
@@ -80,25 +79,17 @@ app.get('/api/notes', (request, response) => {
 
 app.get('/api/notes/:id', (request, response) => {
 
-  // before mongodb integration
-  // const id = request.params.id
-  // const note = notes.find((note) => note.id === id)
-  // if (note) {
-  //   response.json(note)
-  // } else {
-  //   response.status(404).end()
-  // }
 
-  Note.findById(request.params.id).then((note) => {
-    response.json(note)
+  Note.findById(request.params.id).then(note => {
+    if (note) {
+      response.json(note)
+    } else {
+      response.status(404).end()
+    }
   })
+    .catch(error => next(error))
+  // if next was called without an argument, then the execution would simply move onto the next route or middleware
 })
-
-const generateId = () => {
-  const maxId =
-    notes.length > 0 ? Math.max(...notes.map((n) => Number(n.id))) : 0
-  return String(maxId + 1)
-}
 
 app.post('/api/notes', (request, response) => {
   const body = request.body
@@ -109,14 +100,6 @@ app.post('/api/notes', (request, response) => {
     })
   }
 
-  // before mongodb integration
-  // const note = {
-  //   content: body.content,
-  //   important: body.important || false,
-  //   id: generateId(),
-  // }
-  // notes = notes.concat(note)
-  // response.json(note)
 
   const note = new Note({
     content: body.content,
@@ -129,20 +112,54 @@ app.post('/api/notes', (request, response) => {
   })
 })
 
-app.delete('/api/notes/:id', (request, response) => {
-  const id = request.params.id
-  notes = notes.filter((note) => note.id !== id)
+app.put('/api/notes/:id', (request, response, next) => {
+  const { content, important } = request.body
 
-  response.status(204).end()
+  Note.findById(request.params.id)
+    .then(note => {
+      if (!note) {
+        return response.status(404).end()
+      }
+
+      note.content = content
+      note.important = important
+
+      return note.save().then((updatedNote) => {
+        response.json(updatedNote)
+      })
+    })
+    .catch(error => next(error))
+})
+
+app.delete('/api/notes/:id', (request, response, next) => {
+  Note.findByIdAndDelete(request.params.id)
+    .then(result => {
+      response.status(204).end()
+    })
+    .catch(error => next(error))
 })
 
 const unknownEndpoint = (request, response) => {
   response.status(404).send({ error: 'unknown endpoint' })
 }
 
+// the middleware for handling unsupported routes is loaded only after all the endpoints have been defined,
 app.use(unknownEndpoint)
 
 const PORT = process.env.PORT || 3001
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`)
 })
+
+const errorHandler = (error, request, response, next) => {
+  console.error("ERROR", error.message)
+
+  if (error.name === 'CastError') {
+    return response.status(400).send({ error: 'malformatted id' })
+  }
+
+  next(error)
+}
+
+// this has to be the last loaded middleware, also all the routes should be registered before this!
+app.use(errorHandler)
