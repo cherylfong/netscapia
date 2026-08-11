@@ -78,29 +78,11 @@ app.get('/api/persons/:id', async (request, response, next) => {
 // will still responde with 204 even if the note with the given id does not exist
 app.delete('/api/persons/:id', async (request, response, next) => {
 
-  const { id } = request.params;
-
-  if (!mongoose.Types.ObjectId.isValid(id)) {
-    return response.status(400).json({ error: 'malformatted id' });
-  }
-
-  try {
-
-    const person = await Phonebook.findByIdAndDelete(id)
-
-    if (person) {
-      response.status(204).end();
-    } else {
-      response.status(404).json({ error: 'person not found' });
-    }
-
-  } catch (error) {
-
-    console.log(error)
-    next(error)
-  }
-
-
+  Phonebook.findByIdAndDelete(request.params.id)
+    .then(result => {
+      response.status(204).end()
+    })
+    .catch(error => next(error))
 
 });
 
