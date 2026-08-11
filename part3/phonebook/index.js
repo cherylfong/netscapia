@@ -70,6 +70,8 @@ app.get('/api/persons/:id', async (request, response, next) => {
       response.status(404).json({ error: 'person not found' });
     }
   } catch (error) {
+    console.log(error)
+    response.status(500).end()
     next(error);
   }
 });
@@ -119,8 +121,47 @@ app.post('/api/persons', (request, response) => {
 
   entry.save().then(result => {
     console.log(`added ${newPerson.name} number ${newPerson.number} to phonebook`)
-    mongoose.connection.close()
   })
   // persons.push(newPerson);
   response.status(201).json(newPerson);
 });
+
+app.put('/api/persons/:id', async (request, response, next) => {
+
+  const { id } = request.params;
+
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return response.status(400).json({ error: 'malformatted id' });
+  }
+
+  const { name, number } = request.body
+
+  Phonebook.findById(id)
+    .then(person => {
+      if (!person) {
+        return response.status(404).end()
+      }
+
+      person.name = name
+      person.number = number
+
+      return person.save().then((updatedPerson) => {
+        response.json(updatedPerson)
+      })
+    })
+    .catch(error => next(error))
+})
+
+
+const errorHandler = (error, request, response, next) => {
+  console.error("ERROR", error.message)
+
+  if (error.name === 'CastError') {
+    return response.status(400).send({ error: 'malformatted id' })
+  }
+
+  next(error)
+}
+
+// this has to be the last loaded middleware, also all the routes should be registered before this!
+app.use(errorHandler)
