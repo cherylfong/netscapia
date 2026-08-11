@@ -165,3 +165,15 @@ This creates a _dist_ directory in the root of the project. It contains the mini
 
 - An HTML file of the application (index.html) and directory assets
 > All of the JavaScript will be minified into one file. All of the code from all of the application's dependencies will also be minified into this single file.
+
+### Part 3 sub c. | Saving Data to MongoDB
+
+#### Mongoose
+
+Document databases are schemaless, i.e., the database does not have strict structure of data stored. It is possible to store documents with completely different fields in the same collection.
+
+Mongoose allows storing data in a schema format at the application level which defines structure of documents stored in any given collection.
+
+> Unfortunately the Mongoose documentation is not very consistent, with parts of it using callbacks in its examples and other parts, other styles, so it is not recommended to copy and paste code directly from there.
+>
+> Mixing promises with old-school callbacks in the same code is not recommended.
