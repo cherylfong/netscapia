@@ -1,0 +1,69 @@
+const mongoose = require('mongoose')
+
+
+if (process.argv.length < 3) {
+    console.log('give password as argument')
+    process.exit(1)
+}
+else {
+
+    const password = process.argv[2]
+
+    const url = `mongodb+srv://cherylfong_db_user:${password}@cluster0.52qsfwq.mongodb.net/phonebookApp?appName=Cluster0`
+
+    mongoose.set('strictQuery', false)
+
+
+    const phonebookSchema = new mongoose.Schema({
+        name: String,
+        number: String,
+    })
+
+    const PhonebookEntry = mongoose.model('PhonebookEntry', phonebookSchema)
+
+
+    if (process.argv.length == 3) {
+
+        console.log(`PRINT ENTRIES: connecting to MongoDB...`)
+        mongoose.connect(url, { family: 4 })
+
+        console.log(`\nphonebook:`)
+        PhonebookEntry.find({}).then(result => {
+            result.forEach(person => {
+                console.log(`${person.name} ${person.number}`)
+            })
+            mongoose.connection.close()
+        })
+
+    }
+
+    else if (process.argv.length == 5) {
+
+        console.log(`ADD ENTRY: connecting to MongoDB...`)
+        mongoose.connect(url, { family: 4 })
+
+
+        const name = process.argv[3]
+        const phoneNumber = process.argv[4]
+
+        const entry = new PhonebookEntry({
+            name: name,
+            number: phoneNumber
+        })
+
+        entry.save().then(result => {
+            console.log(`added ${name} number ${phoneNumber} to phonebook`)
+            mongoose.connection.close()
+        })
+    }
+
+    else {
+        console.log('INVALID Number of arguments!!!')
+        process.exit(1)
+    }
+
+}
+
+
+
+
