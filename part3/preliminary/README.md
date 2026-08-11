@@ -177,3 +177,62 @@ Mongoose allows storing data in a schema format at the application level which d
 > Unfortunately the Mongoose documentation is not very consistent, with parts of it using callbacks in its examples and other parts, other styles, so it is not recommended to copy and paste code directly from there.
 >
 > Mixing promises with old-school callbacks in the same code is not recommended.
+
+##### Note to self about Mongose
+
+Even though the `_id` property of Mongoose objects looks like a string, it is in fact an **object**. 
+
+The toJSON method defined in `note.js`:
+
+```javascript
+noteSchema.set('toJSON', {
+    transform: (document, returnedObject) => {
+        returnedObject.id = returnedObject._id.toString()
+        delete returnedObject._id
+        delete returnedObject.__v
+    }
+})
+```
+
+Transforms `_id` into a string for convenience.
+
+`"2"` is not a valid string cast to ObjectId when using Mongoose `findById()` method. A valid string is composed of this many digits `6a7ae2b66397f71ade48a490`
+
+What it looks like on MongoDB Atlas:
+
+```json
+_id : ObjectId('6a7ae2b66397f71ade48a490')
+content : "the sky is blue"
+importance : true
+__v: 0
+```
+For example, when performing a GET request from the URL `http://localhost:3001/api/notes/6` will cause the server to crash with the following error:
+
+```bash
+...node_modules/mongoose/lib/schema/objectId.js:252
+    throw new CastError('ObjectId', value, this.path, error, this);
+          ^
+
+CastError: Cast to ObjectId failed for value "6" (type string) at path "_id" for model "Note"
+    at SchemaObjectId.cast
+    .
+    .
+    .
+  stringValue: '"6"',
+  messageFormat: undefined,
+  kind: 'ObjectId',
+  value: '6',
+  path: '_id',
+  reason: BSONError: input must be a 24 character hex string, 12 byte Uint8Array, or an integer
+      at new ObjectId
+      .
+      .
+      .
+  valueType: 'string'
+}
+
+Node.js v25.8.0
+```
+Becuase it is expecting a string in this format:
+
+`http://localhost:3001/api/notes/6a7ae2b66397f71ade48a490`
