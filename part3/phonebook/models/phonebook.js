@@ -19,7 +19,17 @@ const entrySchema = new mongoose.Schema({
         minLength: 3,
         required: true
     },
-    number: String,
+    number: {
+        type: String,
+        minLength: 8,
+        required: [ true,'User phone number required'],
+        validate: {
+            validator: function (v) {
+                return /^\d{2,3}-\d{7,8}$/.test(v);
+            },
+            message: props => `${props.value} is not a valid phone number! \nThe format is {2 to 3 digits}-{7 to 8 digits}, there is a hypen in the middle.`
+        }
+    }
 })
 
 entrySchema.set('toJSON', {

@@ -147,7 +147,7 @@ app.put('/api/persons/:id', async (request, response, next) => {
       person.name = name
       person.number = number
 
-      return person.save().then((updatedPerson) => {
+      return person.save({ validateBeforeSave: true }).then((updatedPerson) => {
         response.json(updatedPerson)
       })
     })

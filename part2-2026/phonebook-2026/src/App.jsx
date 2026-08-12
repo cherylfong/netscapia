@@ -58,13 +58,17 @@ const App = () => {
                         setPersons(persons.map(p =>
                             p.id === existingPerson.id ? returnedPerson : p
                         ))
+
+                        setNotifyMessage(
+                            `UPDATED: ${changedPerson.name} is now ${changedPerson.number}`
+                        )
+                    }).catch(error => {
+                        console.log(error.response.data.error)
+                        setNotifyMessage(`ERROR: ${error.response.data.error}`)
+                        setSuccessFlag(false)
                     })
-                setNotifyMessage(
-                    `UPDATED: ${changedPerson.name} is now ${changedPerson.number}`
-                )
-                setTimeout(() => {
-                    setNotifyMessage(null)
-                }, 5000)
+                    .finally(resetNotification)
+
             }
             return
         }
@@ -84,15 +88,12 @@ const App = () => {
                 setNotifyMessage(
                     `ADDED: ${returnedPerson.name} has the number ${returnedPerson.number}`
                 )
-                setTimeout(() => {
-                    setNotifyMessage(null)
-                    setSuccessFlag(true)
-                }, 5000)
             }).catch(error => {
                 console.log(error.response.data.error)
                 setNotifyMessage(`ERROR: ${error.response.data.error}`)
                 setSuccessFlag(false)
             })
+            .finally(resetNotification)
 
         console.log('button clicked !!!', event.target)
     }
@@ -135,10 +136,7 @@ const App = () => {
                     `WARNING: ${name} already deleted.`
                 )
                 setSuccessFlag(false)
-                setTimeout(() => {
-                    setNotifyMessage(null)
-                    setSuccessFlag(true)
-                }, 5000)
+                resetNotification()
             })
             .then(() => {
                 // runs both after success and after the catch above
@@ -146,6 +144,12 @@ const App = () => {
             })
     }
 
+    const resetNotification = () => {
+        setTimeout(() => {
+            setNotifyMessage(null)
+            setSuccessFlag(true)
+        }, 5000)
+    }
 
     return (
         <div>
