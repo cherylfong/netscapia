@@ -1,8 +1,8 @@
 const mongoose = require('mongoose')
 
 if (process.argv.length < 3) {
-    console.log('give password as argument')
-    process.exit(1)
+  console.log('give password as argument')
+  process.exit(1)
 }
 
 const password = process.argv[2]
@@ -11,17 +11,17 @@ const url = `mongodb+srv://cherylfong_db_user:${password}@cluster0.52qsfwq.mongo
 
 mongoose.set('strictQuery', false)
 
-console.log(`connecting to MongoDB...`)
+console.log('connecting to MongoDB...')
 mongoose.connect(url, { family: 4 })
 
 const noteSchema = new mongoose.Schema({
-    content: String,
-    important: Boolean,
+  content: String,
+  important: Boolean,
 })
 
 
-// the first "Note" parameter is the singular name of the model. 
-// The name of the collection will be the lowercase plural notes, 
+// the first "Note" parameter is the singular name of the model.
+// The name of the collection will be the lowercase plural notes,
 // because the Mongoose convention is to automatically name collections as the plural (e.g. notes)s
 const Note = mongoose.model('Note', noteSchema)
 
@@ -45,14 +45,14 @@ const Note = mongoose.model('Note', noteSchema)
 // The parameter is an empty object{},
 // thus all of the notes stored in the notes collection are returned
 Note.find({}).then(result => {
-    result.forEach(note => {
-        console.log(note)
-    })
+  result.forEach(note => {
+    console.log(note)
+  })
 })
 
 Note.find({ important: true }).then(result => {
-    result.forEach(note => {
-        console.log(note)
-    })
-    mongoose.connection.close()
+  result.forEach(note => {
+    console.log(note)
+  })
+  mongoose.connection.close()
 })
