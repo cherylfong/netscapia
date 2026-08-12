@@ -39,3 +39,13 @@ Similarly with Part 1, each listed directory is its own React App.
 - [`/phonebook`](part2/phonebook/src/App.js) : fulfills instructions from 2.6 to 2.17.
 
 - [`/world`](part2/world/src/App.js) : fulfills instructions from 2.18 to 2.20.
+
+### [Part 3]([part3])
+
+Server side programming with NodeJS and Express.
+
+- [`/preliminary`](part3/preliminary/README.md) : notes from [Part 3](https://fullstackopen.com/en/part3).
+
+- [`/notes-backend`](part3/notes-backend/src/App.js) : Communicates with [notes-2026](part2-2026/notes-2026) as frontend. Live preview can be found at this [URL](https://netscapia-notes-backend.onrender.com/). Fulfills all guided instructions from [Part 3](https://fullstackopen.com/en/part3).
+
+- [`/phonebook`](part2/phonebook/src/App.js) : Communicates with [phonebook-2026](part2-2026/phonebook-2026) as frontend. Live preview can be found at this [URL](https://netscapia-phonebook-backend.onrender.com/). Fulfills all exercises from 3.1 to 3.22 of [Part 3](https://fullstackopen.com/en/part3).
