@@ -4,7 +4,7 @@ const mongoose = require('mongoose')
 
 var morgan = require('morgan')
 
-// mongodb intergration 
+// mongodb intergration
 require('dotenv').config()
 const Phonebook = require('./models/phonebook')
 
@@ -14,13 +14,13 @@ const PORT = 3001
 app.listen(PORT)
 console.log(`Server running on port ${PORT}`)
 
-app.use(express.json()); //middleware to parse incoming JSON data in request body
+app.use(express.json()) //middleware to parse incoming JSON data in request body
 
 app.use(express.static('dist'))
 
 
-morgan.token("body", function (req) {
-  return JSON.stringify(req.body);
+morgan.token('body', function (req) {
+  return JSON.stringify(req.body)
 })
 
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms :body'))
@@ -31,75 +31,77 @@ app.get('/', function (req, res) {
 
 app.get('/api/persons', (request, response) => {
   Phonebook.find({}).then(entries => {
-    response.json(entries);
+    response.json(entries)
   })
 
 })
 
 app.get('/info', (request, response) => {
   Phonebook.find({}).then(entries => {
-    const numPersons = entries.length;
-    const timeReceived = new Date().toString();
-    response.send(`Phonebook has info for ${numPersons} people <br><br> ${timeReceived}`);
+    const numPersons = entries.length
+    const timeReceived = new Date().toString()
+    response.send(`Phonebook has info for ${numPersons} people <br><br> ${timeReceived}`)
   }).catch(error => {
-    response.status(500).send({ error: 'server error' });
-  });
-});
+    console.log('GET ERROR: ', error)
+    response.status(500).send({ error: 'server error' })
+  })
+})
 
 
 app.get('/api/persons/:id', async (request, response, next) => {
-  const { id } = request.params; // destructuring, extract id from value assigned
+  const { id } = request.params // destructuring, extract id from value assigned
 
   if (!mongoose.Types.ObjectId.isValid(id)) {
-    return response.status(400).json({ error: 'malformatted id' });
+    return response.status(400).json({ error: 'malformatted id' })
   }
 
   try {
-    const person = await Phonebook.findById(id);
+    const person = await Phonebook.findById(id)
 
     if (person) {
-      response.json(person);
+      response.json(person)
     } else {
-      response.status(404).json({ error: 'person not found' });
+      response.status(404).json({ error: 'person not found' })
     }
   } catch (error) {
     console.log(error)
     response.status(500).end()
-    next(error);
+    next(error)
   }
-});
+})
 
-// TODO 3.4: implement function to remove a singple persons entry by id 
+// TODO 3.4: implement function to remove a singple persons entry by id
 // will still responde with 204 even if the note with the given id does not exist
 app.delete('/api/persons/:id', async (request, response, next) => {
 
   Phonebook.findByIdAndDelete(request.params.id)
     .then(result => {
+      console.log('Delete Result is ', result)
       response.status(204).end()
     })
     .catch(error => next(error))
 
-});
+})
 
 
 app.post('/api/persons', (request, response, next) => {
-  const newPerson = request.body;
+  const newPerson = request.body
 
   if (!newPerson || !newPerson.name || !newPerson.number) {
     return response.status(400).json({
       error: 'person name or number is missing'
-    });
+    })
   }
 
   if (newPerson.name.trim() === '' || newPerson.number.trim() === '') {
     return response.status(400).json({
       error: 'person name or number cannot be empty'
-    });
+    })
   }
 
 
-  newPerson.name = newPerson.name.trim();
-  newPerson.number = newPerson.number.trim();
+  newPerson.name = newPerson.name.trim()
+  newPerson.number = newPerson.number.trim()
 
   const entry = new Phonebook({
     name: newPerson.name,
@@ -108,19 +110,20 @@ app.post('/api/persons', (request, response, next) => {
 
 
   entry.save().then(result => {
+    console.log('Save Result is', result)
     console.log(`added ${newPerson.name} number ${newPerson.number} to phonebook`)
-    response.status(201).json(newPerson);
+    response.status(201).json(newPerson)
   }).catch(error => next(error))
 
 
-});
+})
 
 app.put('/api/persons/:id', (request, response, next) => {
 
-  const { id } = request.params;
+  const { id } = request.params
 
   if (!mongoose.Types.ObjectId.isValid(id)) {
-    return response.status(400).json({ error: 'malformatted id' });
+    return response.status(400).json({ error: 'malformatted id' })
   }
 
   const { name, number } = request.body
@@ -143,7 +146,7 @@ app.put('/api/persons/:id', (request, response, next) => {
 
 
 const errorHandler = (error, request, response, next) => {
-  console.error("ERROR", error.message)
+  console.error('ERROR', error.message)
 
   if (error.name === 'CastError') {
     return response.status(400).send({ error: 'malformatted id' })
@@ -152,7 +155,7 @@ const errorHandler = (error, request, response, next) => {
     return response.status(400)
       .json({ error: error.message })
   } else if (error.name === 'ReferenceError') {
-    return reponse.status(400)
+    return response.status(400)
       .json({ error: error.message })
   }
 
