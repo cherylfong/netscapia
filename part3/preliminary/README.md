@@ -236,3 +236,74 @@ Node.js v25.8.0
 Becuase it is expecting a string in this format:
 
 `http://localhost:3001/api/notes/6a7ae2b66397f71ade48a490`
+
+### Part 3 sub d. | ESLint or Linting
+
+Linting - ... any tool that detects and flags errors in programming languages, including stylistic errors. The term lint-like behavior is sometimes applied to the process of flagging suspicious language usage. Lint-like tools generally perform static analysis of source code.
+
+**Setup Summary**
+
+1. Install packages: `npm install eslint @eslint/js @stylistic/eslint-plugin --save-dev`
+
+1. Install VSCode ESLint extension.
+
+1. Add this to `package.json` for convenience to lint all files in the root directory
+
+```json
+{
+  // ...
+  "scripts": {
+    "start": "node index.js",
+    "dev": "node --watch index.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint ."
+    // ...
+  },
+  // ...
+}
+```
+
+**Setup Summary continued...**
+
+1. Generate a lint configuration file: `npx eslint --init`
+
+1. Look at suggested course lint configuration or use Airbnb lint configuration: https://github.com/airbnb/javascript/tree/master/packages/eslint-config-airbnb 
+
+1. Lint a specific file: `npx eslint index.js`
+
+**Suggested course ESLint configuration:**
+
+```javascript
+import globals from 'globals'
+import js from '@eslint/js'
+import stylisticJs from '@stylistic/eslint-plugin'
+
+export default [
+  js.configs.recommended,
+  {
+    files: ['**/*.js'],
+    languageOptions: {
+      sourceType: 'commonjs',
+      globals: { ...globals.node },
+      ecmaVersion: 'latest',
+    },
+    plugins: {
+      '@stylistic/js': stylisticJs,
+    },
+    rules: {
+      '@stylistic/js/indent': ['error', 2],
+      '@stylistic/js/linebreak-style': ['error', 'unix'],
+      '@stylistic/js/quotes': ['error', 'single'],
+      '@stylistic/js/semi': ['error', 'never'],
+      eqeqeq: 'error',
+      'no-trailing-spaces': 'error',
+      'object-curly-spacing': ['error', 'always'],
+      'arrow-spacing': ['error', { before: true, after: true }],
+      'no-console': 'off',
+    },
+  },
+  {
+    ignores: ['dist/**'],
+  },
+]
+```
