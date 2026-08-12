@@ -21,6 +21,8 @@ const App = () => {
 
     const [successFlag, setSuccessFlag] = useState(true)
 
+    const [refreshFlag, setRefreshFlag] = useState(false)
+
     useEffect(() => {
         phonebookService
             .getAll('http://localhost:3001/persons')
@@ -28,7 +30,7 @@ const App = () => {
                 console.log('promise fulfilled')
                 setPersons(initialPhonebook)
             })
-    }, [])
+    }, [refreshFlag])
 
     const addEntry = (event) => {
         event.preventDefault() // prevents form submission
@@ -52,13 +54,15 @@ const App = () => {
                     number: trimmedNumber
                 }
 
+                const personId = existingPerson.id ?? existingPerson._id
+
                 phonebookService
-                    .update(existingPerson.id, changedPerson)
+                    .update(personId, changedPerson)
                     .then(returnedPerson => {
                         setPersons(persons.map(p =>
                             p.id === existingPerson.id ? returnedPerson : p
                         ))
-
+                        setSuccessFlag(true)
                         setNotifyMessage(
                             `UPDATED: ${changedPerson.name} is now ${changedPerson.number}`
                         )
@@ -76,18 +80,22 @@ const App = () => {
         const personObject = {
             name: trimmedName,
             number: trimmedNumber,
-            id: Date.now()
+            id: ''
         }
 
         phonebookService
             .create(personObject)
             .then(returnedPerson => {
-                setPersons(persons.concat(returnedPerson))
+                console.log("returnedPerson:", returnedPerson)
+
+                setRefreshFlag(value => !value)
+
                 setNewName('') // clear input field
                 setNewNumber('')
                 setNotifyMessage(
                     `ADDED: ${returnedPerson.name} has the number ${returnedPerson.number}`
                 )
+                setSuccessFlag(true)
             }).catch(error => {
                 console.log(error.response.data.error)
                 setNotifyMessage(`ERROR: ${error.response.data.error}`)
@@ -124,6 +132,7 @@ const App = () => {
         if (!window.confirm(`Delete ${name}?`)) {
             return
         }
+        console.log(`ID ${id}`)
 
         phonebookService
             .remove(id)

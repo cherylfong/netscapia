@@ -29,13 +29,6 @@ app.get('/', function (req, res) {
   res.send('hello, world! This is a Phonebook App :)')
 })
 
-// global persons variable contains all entries in the database
-let persons = []
-const loadPersons = async () => {
-  persons = await Phonebook.find({});
-}
-loadPersons().catch(console.error)
-
 app.get('/api/persons', (request, response) => {
   Phonebook.find({}).then(entries => {
     response.json(entries);
@@ -105,12 +98,6 @@ app.post('/api/persons', (request, response, next) => {
   }
 
 
-  if (persons.some(person => person.name === newPerson.name)) {
-    return response.status(400).json({
-      error: 'person name must be unique'
-    });
-  }
-
   newPerson.name = newPerson.name.trim();
   newPerson.number = newPerson.number.trim();
 
@@ -128,7 +115,7 @@ app.post('/api/persons', (request, response, next) => {
 
 });
 
-app.put('/api/persons/:id', async (request, response, next) => {
+app.put('/api/persons/:id', (request, response, next) => {
 
   const { id } = request.params;
 
