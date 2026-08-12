@@ -86,7 +86,12 @@ const App = () => {
                 )
                 setTimeout(() => {
                     setNotifyMessage(null)
+                    setSuccessFlag(true)
                 }, 5000)
+            }).catch(error => {
+                console.log(error.response.data.error)
+                setNotifyMessage(`ERROR: ${error.response.data.error}`)
+                setSuccessFlag(false)
             })
 
         console.log('button clicked !!!', event.target)

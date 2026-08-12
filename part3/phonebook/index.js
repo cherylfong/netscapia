@@ -89,7 +89,7 @@ app.delete('/api/persons/:id', async (request, response, next) => {
 });
 
 
-app.post('/api/persons', (request, response) => {
+app.post('/api/persons', (request, response, next) => {
   const newPerson = request.body;
 
   if (!newPerson || !newPerson.name || !newPerson.number) {
@@ -119,11 +119,13 @@ app.post('/api/persons', (request, response) => {
     number: newPerson.number
   })
 
+
   entry.save().then(result => {
     console.log(`added ${newPerson.name} number ${newPerson.number} to phonebook`)
-  })
-  // persons.push(newPerson);
-  response.status(201).json(newPerson);
+    response.status(201).json(newPerson);
+  }).catch(error => next(error))
+
+
 });
 
 app.put('/api/persons/:id', async (request, response, next) => {
@@ -158,6 +160,13 @@ const errorHandler = (error, request, response, next) => {
 
   if (error.name === 'CastError') {
     return response.status(400).send({ error: 'malformatted id' })
+  }
+  else if (error.name === 'ValidationError') {
+    return response.status(400)
+      .json({ error: error.message })
+  } else if (error.name === 'ReferenceError') {
+    return reponse.status(400)
+      .json({ error: error.message })
   }
 
   next(error)
