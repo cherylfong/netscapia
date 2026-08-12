@@ -1,28 +1,28 @@
 const express = require('express')
 const app = express()
 
-// dotenv dependency needs to be declared before /models/note because 
+// dotenv dependency needs to be declared before /models/note because
 // models/note requires it too
 require('dotenv').config()
 const Note = require('./models/note')
 
-let notes = [
-  {
-    id: '1',
-    content: 'HTML is easy',
-    important: true,
-  },
-  {
-    id: '2',
-    content: 'Browser can execute only JavaScript',
-    important: false,
-  },
-  {
-    id: '3',
-    content: 'GET and POST are the most important methods of HTTP protocol',
-    important: true,
-  },
-]
+// let notes = [
+//   {
+//     id: '1',
+//     content: 'HTML is easy',
+//     important: true,
+//   },
+//   {
+//     id: '2',
+//     content: 'Browser can execute only JavaScript',
+//     important: false,
+//   },
+//   {
+//     id: '3',
+//     content: 'GET and POST are the most important methods of HTTP protocol',
+//     important: true,
+//   },
+// ]
 
 const requestLogger = (request, response, next) => {
   console.log('Method:', request.method)
@@ -48,20 +48,20 @@ app.use(requestLogger)
 // Reason:
 // forntend is served on localhost:5173
 // backend is hosted on localhost:3001
-// back and front are communicating with different origins 
+// back and front are communicating with different origins
 // More info at: https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS
 //
 // const cors = require('cors')
 // app.use(cors())
 
-// In reference to `vite.config.js` in the frontend root directory: 
-// After restarting with `npm run dev`, the React development environment will act as proxy. 
-// If the React code makes an HTTP request to a path starting with http://localhost:5173/api, 
-// the request will be forwarded to the server at http://localhost:3001. 
+// In reference to `vite.config.js` in the frontend root directory:
+// After restarting with `npm run dev`, the React development environment will act as proxy.
+// If the React code makes an HTTP request to a path starting with http://localhost:5173/api,
+// the request will be forwarded to the server at http://localhost:3001.
 // Requests to other paths will be handled normally by the development server.
 
-// Since from the frontend's perspective all requests are made to http://localhost:5173, 
-// which is a single origin, 
+// Since from the frontend's perspective all requests are made to http://localhost:5173,
+// which is a single origin,
 // there is no longer a need for the backend's cors middleware.
 // This is the case for both development mode and in production mode.
 
@@ -77,7 +77,7 @@ app.get('/api/notes', (request, response) => {
   })
 })
 
-app.get('/api/notes/:id', (request, response) => {
+app.get('/api/notes/:id', (request, response, next) => {
 
 
   Note.findById(request.params.id).then(note => {
@@ -135,6 +135,7 @@ app.put('/api/notes/:id', (request, response, next) => {
 app.delete('/api/notes/:id', (request, response, next) => {
   Note.findByIdAndDelete(request.params.id)
     .then(result => {
+      console.log('Result from delete', result)
       response.status(204).end()
     })
     .catch(error => next(error))
@@ -153,13 +154,13 @@ app.listen(PORT, () => {
 })
 
 const errorHandler = (error, request, response, next) => {
-  console.error("ERROR", error.message)
+  console.error('ERROR', error.message)
 
   if (error.name === 'CastError') {
     return response.status(400).send({ error: 'malformatted id' })
   }
   else if (error.name === 'ValidationError') {
-    return reponse.status(400)
+    return response.status(400)
       .json({ error: error.message })
   }
 
