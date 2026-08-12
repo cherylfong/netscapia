@@ -91,7 +91,7 @@ app.get('/api/notes/:id', (request, response) => {
   // if next was called without an argument, then the execution would simply move onto the next route or middleware
 })
 
-app.post('/api/notes', (request, response) => {
+app.post('/api/notes', (request, response, next) => {
   const body = request.body
 
   if (!body.content) {
@@ -110,6 +110,7 @@ app.post('/api/notes', (request, response) => {
     // ensures that response is only sent when save operation is successful
     response.json(savedNote)
   })
+    .catch(error => next(error))
 })
 
 app.put('/api/notes/:id', (request, response, next) => {
@@ -156,6 +157,10 @@ const errorHandler = (error, request, response, next) => {
 
   if (error.name === 'CastError') {
     return response.status(400).send({ error: 'malformatted id' })
+  }
+  else if (error.name === 'ValidationError') {
+    return reponse.status(400)
+      .json({ error: error.message })
   }
 
   next(error)
