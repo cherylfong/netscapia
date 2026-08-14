@@ -141,7 +141,7 @@ const blogsTwoMostAuthored = [
     title: 'TDD harms architecture',
     author: 'Robert C. Martin',
     url: 'http://blog.cleancoder.com/uncle-bob/2017/03/03/TDD-Harms-Architecture.html',
-    likes: 0,
+    likes: 15,
     __v: 0
   },
   {
@@ -228,7 +228,7 @@ describe('TESTING: mostBlogs function', () => {
 
   test('of empty list is zero', () => {
     const result = listHelper.mostBlogs([])
-    assert.deepStrictEqual(result, {})
+    assert.deepStrictEqual(result, [{}])
   })
 
   test('when list has only one blog, return 1 author and blog count 1', () => {
@@ -263,4 +263,44 @@ describe('TESTING: mostBlogs function', () => {
     assert.deepStrictEqual(result,answer)
   })
 
+}) // mostBlogs
+
+describe('TESTING: mostLikes function', () => {
+
+  test('of empty list is zero', () => {
+    const result = listHelper.mostLikes([])
+    assert.deepStrictEqual(result, [{}])
+  })
+
+  test('when list has only one blog, return 1 author and blog count 1', () => {
+    const result = listHelper.mostLikes(listWithOneBlog)
+    assert.deepStrictEqual(result, [{
+      author: 'Edsger W. Dijkstra',
+      likes: 5
+    }])
+  })
+
+  test('when list has more than one blog, return the author with the highest of likes ', () => {
+    const result = listHelper.mostLikes(blogs)
+    assert.deepStrictEqual(result,
+      [{
+        author: 'Edsger W. Dijkstra',
+        likes: 17
+      }])
+  })
+
+  test('when list has more than one blog with at least two authors who has the same highest likes', () => {
+
+    const answer = [  {
+      author: 'Edsger W. Dijkstra',
+      likes: 17
+    },
+    {
+      author: 'Robert C. Martin',
+      likes: 17
+    }]
+
+    const result = listHelper.mostLikes(blogsTwoMostAuthored)
+    assert.deepStrictEqual(result,answer)
+  })
 })
