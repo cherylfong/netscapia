@@ -7,7 +7,7 @@ const middleware = require('./utils/middleware')
 
 const app = express()
 
-logger.info('connecting to', config.MONGODB_URI)
+logger.info('APP is connecting to', config.MONGODB_URI)
 
 mongoose
   .connect(config.MONGODB_URI)
