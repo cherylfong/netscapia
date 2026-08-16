@@ -8,7 +8,7 @@ const helper = require('../tests/test_helper')
 
 const api = supertest(app)
 
-beforeEach( async () => {
+beforeEach(async () => {
   await Blog.deleteMany({})
   await Blog.insertMany(helper.initialBlogs)
 })
@@ -50,6 +50,31 @@ describe('TESTING: viewing blogs', () => {
       .expect('Content-Type', /application\/json/)
 
     assert.deepStrictEqual(resultBlog.body, blogToRetrive)
+  })
+})
+
+describe('TESTING: add new blogs', () => {
+  test('a valid blog can be added', async () => {
+
+    const newBlog = {
+      title: 'The Meaning of Life?',
+      author: 'The Great Guru',
+      url: 'http://www.lifeasweknowtobetrue.com',
+      likes: 10
+    }
+
+    await api
+      .post('/api/blogs')
+      .send(newBlog)
+      .expect(201)
+      .expect('Content-Type', /application\/json/)
+
+    const blogsAfterAddingOne = await helper.getTestBlogsInDB()
+
+    assert.strictEqual(blogsAfterAddingOne.length, helper.initialBlogs.length + 1)
+
+    const authors = blogsAfterAddingOne.map(n => n.author)
+    assert(authors.includes('The Great Guru'))
   })
 })
 
