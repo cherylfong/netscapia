@@ -197,3 +197,9 @@ beforeEach(async () => {
   await Note.insertMany(helper.initialNotes)
 })
 ```
+
+### Part 4 sub c. | User Administration
+
+#### Test-driven Development (TDD)
+
+Tests for new functionality are written before the functionality is implemented.
