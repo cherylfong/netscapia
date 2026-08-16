@@ -105,6 +105,63 @@ describe('TESTING: add new blogs', () => {
       url: 'http://nowheredotcom.com',
       likes: 0
     })
+  })
+
+  test('Adding a blog without title', async() => {
+
+    const newBlog = {
+      author: 'I am incomplete!',
+      url: 'http://nowheredotcom.com',
+      likes: 100
+    }
+
+    await api
+      .post('/api/blogs')
+      .send(newBlog)
+      .expect(400)
+
+    const blogsInDBNow = await helper.getTestBlogsInDB()
+
+    assert.strictEqual(blogsInDBNow.length, helper.initialBlogs.length)
+
+  })
+
+  test('Adding a blog without a url', async() => {
+
+    const newBlog = {
+      title: 'No idea?',
+      author: 'I am also incomplete?',
+      likes: 100
+    }
+
+    await api
+      .post('/api/blogs')
+      .send(newBlog)
+      .expect(400)
+
+
+    const blogsInDBNow = await helper.getTestBlogsInDB()
+
+    assert.strictEqual(blogsInDBNow.length, helper.initialBlogs.length)
+
+  })
+
+  test('Adding a blog without title and url', async() => {
+
+    const newBlog = {
+      author: 'I am very incomplete',
+      likes: 100
+    }
+
+    await api
+      .post('/api/blogs')
+      .send(newBlog)
+      .expect(400)
+
+    const blogsInDBNow = await helper.getTestBlogsInDB()
+
+    assert.strictEqual(blogsInDBNow.length, helper.initialBlogs.length)
+
 
   })
 })
