@@ -11,12 +11,12 @@ const helper = require('../tests/test_helper')
 const api = supertest(app)
 
 beforeEach(async () => {
-  await Note.deleteMany({})
+    await Note.deleteMany({})
 
-  const noteObjects = helper.initialNotes
-    .map(note => new Note(note))
-  const promiseArray = noteObjects.map(note => note.save())
-  await Promise.all(promiseArray)
+    const noteObjects = helper.initialNotes
+        .map(note => new Note(note))
+    const promiseArray = noteObjects.map(note => note.save())
+    await Promise.all(promiseArray)
 })
 
 describe('TESTING: superagent json return', () => {
@@ -103,6 +103,18 @@ describe('TESTING: viewing details of notes using async/await', () => {
 
         assert.deepStrictEqual(resultNote.body, noteToView)
     })
+
+    test('fails with statuscode 404 if note does not exist', async () => {
+        const validNonexistingId = await helper.nonExistingId()
+
+        await api.get(`/api/notes/${validNonexistingId}`).expect(404)
+    })
+
+    test('fails with statuscode 400 id is invalid', async () => {
+        const invalidId = '5a3d5da59070081a82a3445'
+
+        await api.get(`/api/notes/${invalidId}`).expect(400)
+    })
 })
 
 describe('TESTING: deleting notes using async/await', () => {
@@ -123,6 +135,8 @@ describe('TESTING: deleting notes using async/await', () => {
         assert.strictEqual(notesAtEnd.length, helper.initialNotes.length - 1)
     })
 })
+
+
 
 after(async () => {
     // close connection after test completes
