@@ -6,10 +6,10 @@ const Blog = require('../models/bloglist')
 // Since defined in app.js that any route which
 // begins with /api/blogs will use definitons in this module.
 
-bloglistRouter.get('/', (request, response) => {
-  Blog.find({}).then((blogs) => {
-    response.json(blogs)
-  })
+bloglistRouter.get('/', async (request, response) => {
+
+  const blogs = await Blog.find({})
+  response.json(blogs)
 })
 
 bloglistRouter.post('/', (request, response) => {
