@@ -203,3 +203,102 @@ beforeEach(async () => {
 #### Test-driven Development (TDD)
 
 Tests for new functionality are written before the functionality is implemented.
+
+#### Mongodb vs Relational DB
+
+ Document databases like Mongo do not support join queries that are available in relational databases, used for aggregating data from multiple tables. However, starting from version 3.2. Mongo has supported [lookup aggregation queries](https://docs.mongodb.com/manual/reference/operator/aggregation/lookup/).
+
+ Mongoose offers joining and aggregating data, which gives the appearance of a join query. However, Mongoose makes multiple queries to the database in the background to achieve this operation.
+
+ The Mongoose join is done with the [`populate()`](http://mongoosejs.com/docs/populate.html) method.
+
+ The functionality of the `populate()` method of Mongoose is based on the fact that we have defined `types` to the references in the Mongoose schema with the `ref` option. For example,
+
+ ```javascript
+ const noteSchema = new mongoose.Schema({
+  content: {
+    type: String,
+    required: true,
+    minlength: 5
+  },
+  important: Boolean,
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User'
+  }
+})
+ ```
+
+Schema-less databases like Mongo require developers to make far more radical design decisions about data organization at the beginning of the project than relational databases with schemas. On average, relational databases offer a more or less suitable way of organizing data for many applications.
+
+### Part 4 sub d. | Token Authentication
+
+#### Token-based Authentication
+
+
+1. Expiration Time
+
+The shorter the expiration time of the authentication token, the safer the solution is.
+
+However, requires users to log in more frequently.
+
+2. Saving Tokens by User
+
+Save info about each token to the backend database and to check for each API request if the access rights corresponding to the tokens are still valid. With this scheme, access rights can be revoked at any time. This kind of solution is often called a **server-side session**.
+
+However, increases backend complexity and reduces performance since token validity needs to be check for each API request to the database.
+
+Database access is considerably slower compared to checking the validity of the token itself.
+
+That is why it is quite common to save the session corresponding to a token to a key-value database such as **Redis**, that is limited in functionality compared to eg. MongoDB or a relational database, but extremely fast in some usage scenarios.
+
+For each API request, the server fetches the relevant information about the identity of the user from the database. 
+
+3. Using Cookies instead of an Authorization-header
+
+Cookies are used as the mechanism for transferring the token between the client and the server.
+
+4. Credentials need to travel over HTTPS
+
+Usernames, passwords and applications using token authentication must always be used over HTTPS. Node HTTPS servers requires more configuration.
+
+**Bearer Token**
+
+
+
+To retrieve the bearer token:
+
+1. POST credentials to `http://localhost:3001/api/users`.
+
+```json
+{ 
+    "username": "some-username",
+    "password": "some-password"
+}
+```
+
+2. Copy the string value from the `token` key in the response body:
+
+```json
+{
+    "token": "eyJhb...",
+    "username": "Cabbage",
+    "name": "Vegetable"
+}
+```
+
+3. Using the Postman application.
+
+To POST a new note to `http://localhost:3001/api/notes`:
+
+Select the button `Authorization`, set `Auth Type` as `Bearer Token`, and then add the string from the response body in step 2., i.e., `eyJhb...` into the token input field.
+
+In the request body:
+
+```json
+{    "content" : "some interesting content",
+    "important" : true
+}
+```
+
+Then click on the send button in Postman. 
