@@ -13,12 +13,12 @@ const initialBlogs = [{
   likes: 6
 }]
 
-const addTestBlogsToDB = async () => {
+const getTestBlogsInDB = async () => {
   const blogs = await Blog.find({})
   return blogs.map(b => b.toJSON())
 }
 
 module.exports = {
   initialBlogs,
-  addTestBlogsToDB
+  getTestBlogsInDB
 }

@@ -38,6 +38,21 @@ describe('TESTING: superagent response body contents', () => {
   })
 })
 
+describe('TESTING: viewing blogs', () => {
+
+  test('Retrieve blog via valid id', async () => {
+    const blogsAtStart = await helper.getTestBlogsInDB()
+    const blogToRetrive = blogsAtStart[0]
+
+    const resultBlog = await api
+      .get(`/api/blogs/${blogToRetrive.id}`)
+      .expect(200)
+      .expect('Content-Type', /application\/json/)
+
+    assert.deepStrictEqual(resultBlog.body, blogToRetrive)
+  })
+})
+
 
 after(async () => {
   // close connection after test completes
