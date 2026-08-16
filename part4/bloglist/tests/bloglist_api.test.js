@@ -166,6 +166,60 @@ describe('TESTING: add new blogs', () => {
   })
 })
 
+describe('TESTING: deleting blogs using async/await', () => {
+
+  test('a blog can be deleted', async () => {
+    const blogsAtStart = await helper.getTestBlogsInDB()
+    const blogToDelete = blogsAtStart[0]
+
+    await api
+      .delete(`/api/blogs/${blogToDelete.id}`)
+      .expect(204)
+
+    const blogsAtEnd = await helper.getTestBlogsInDB()
+
+    const ids = blogsAtEnd.map(n => n.id)
+    assert(!ids.includes(blogToDelete.id))
+
+    assert.strictEqual(blogsAtEnd.length, helper.initialBlogs.length - 1)
+  })
+})
+
+describe('TESTING: updating blogs using async/await', () => {
+
+  test('a blog can be updated', async () => {
+    const blogsAtStart = await helper.getTestBlogsInDB()
+    const blogToUpdate = blogsAtStart[0]
+
+    blogToUpdate.likes = blogToUpdate.likes * 2
+
+    await api
+      .put(`/api/blogs/${blogToUpdate.id}`)
+      .send(blogToUpdate)
+      .expect(200)
+
+    const blogsAtEnd = await helper.getTestBlogsInDB()
+
+    const ids = blogsAtEnd.map(n => n.id)
+    assert(ids.includes(blogToUpdate.id))
+
+
+    const match = blogsAtEnd.find(b => b.title === blogToUpdate.title)
+
+    const subset = (({ title, author, url, likes }) => ({ title, author, url, likes }))(match)
+
+    assert.strictEqual(blogsAtEnd.length, helper.initialBlogs.length)
+
+    assert.deepStrictEqual(subset, {
+      title: blogToUpdate.title,
+      author: blogToUpdate.author,
+      url: blogToUpdate.url,
+      likes: blogToUpdate.likes
+    })
+  })
+})
+
+
 
 after(async () => {
   // close connection after test completes
