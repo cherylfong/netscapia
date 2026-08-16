@@ -76,6 +76,37 @@ describe('TESTING: add new blogs', () => {
     const authors = blogsAfterAddingOne.map(n => n.author)
     assert(authors.includes('The Great Guru'))
   })
+
+  test('adding a blog without starting likes', async () => {
+
+    const newBlog = {
+      title: 'Emptiness',
+      author: 'Who am I?',
+      url: 'http://nowheredotcom.com',
+    }
+
+    await api
+      .post('/api/blogs')
+      .send(newBlog)
+      .expect(201)
+      .expect('Content-Type', /application\/json/)
+
+    const blogsAfterAddingOne = await helper.getTestBlogsInDB()
+
+    assert.strictEqual(blogsAfterAddingOne.length, helper.initialBlogs.length + 1)
+
+    const match = blogsAfterAddingOne.find(b => b.title === newBlog.title)
+
+    const subset = (({ title, author, url, likes }) => ({ title, author, url, likes }))(match)
+
+    assert.deepStrictEqual(subset, {
+      title: 'Emptiness',
+      author: 'Who am I?',
+      url: 'http://nowheredotcom.com',
+      likes: 0
+    })
+
+  })
 })
 
 
