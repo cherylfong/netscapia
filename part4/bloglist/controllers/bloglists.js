@@ -59,8 +59,34 @@ bloglistRouter.post('/', async (request, response) => {
 })
 
 bloglistRouter.delete('/:id', async (request, response) => {
-  await Blog.findByIdAndDelete(request.params.id)
-  response.status(204).end()
+  try {
+    if (!request.token) {
+      return response.status(401).json({ error: 'login required' })
+    }
+
+    const decodedToken = jwt.verify(request.token, process.env.SECRET)
+    if (!decodedToken.id) {
+      return response.status(401).json({ error: 'token invalid' })
+    }
+
+    const blog = await Blog.findById(request.params.id)
+    if (!blog) return response.status(404).end()
+
+    // only get blog owner username if needed for the error message
+    const userIDFromBlog = blog.user.toString()
+    const userIDFromLogin = decodedToken.id.toString()
+
+    if (userIDFromLogin !== userIDFromBlog) {
+      const owner = await User.findById(blog.user)
+      const ownerName = owner ? owner.username : 'unknown'
+      return response.status(401).json({ error: `Only original poster can delete posted blog - blog owner: ${ownerName}` })
+    }
+
+    await Blog.findByIdAndDelete(request.params.id)
+    return response.status(204).end()
+  } catch (error) {
+    return response.status(400).json({ error: error.message })
+  }
 })
 
 bloglistRouter.put('/:id', async (request, response) => {
