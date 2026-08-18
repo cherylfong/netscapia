@@ -33,6 +33,12 @@ Any tests defined in the path will be executed.
 
 Executes tests with a specific name pattern. This can be describe block or test object description.For example, the command `npm run test -- --test-name-pattern="notes"` will run all of the tests that contain the string `notes`.
 
+4. `--test-concurrency=1` flag
+
+ By default, each test file is executed in its own process (see Test execution model in the [documentation](https://nodejs.org/api/test.html#test-runner-execution-model)). 
+ 
+ The consequence of this is that different test files are executed at the same time. Since the tests share the same database, simultaneous execution may cause problems, which can be avoided by executing the tests with the **option --test-concurrency=1, i.e. defining them to be executed sequentially**.
+
 
 #### `async` and `await`
 
@@ -301,4 +307,4 @@ In the request body:
 }
 ```
 
-Then click on the send button in Postman. 
+Then click on the send button in Postman.
