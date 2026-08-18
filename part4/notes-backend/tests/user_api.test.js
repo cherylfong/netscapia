@@ -34,7 +34,7 @@ describe('TESTING: superagent response body contents', () => {
 
         // execution gets here only after the HTTP request is complete
         // the result of HTTP request is saved in variable response
-        assert.strictEqual(response.body.length, helper.initialNotes.length)
+        assert.strictEqual(response.body.length, helper.initialUsers.length)
     })
 })
 
