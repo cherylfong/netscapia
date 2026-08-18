@@ -23,6 +23,8 @@ mongoose
 app.use(express.static('dist'))
 app.use(express.json())
 app.use(middleware.requestLogger)
+app.use(middleware.tokenExtractor)  // need to be before all routers - function needs to return
+
 
 app.use('/api/blogs', bloglistRouter)
 app.use('/api/users', usersRouter)
@@ -32,3 +34,4 @@ app.use(middleware.unknownEndpoint)
 app.use(middleware.errorHandler)
 
 module.exports = app
+
