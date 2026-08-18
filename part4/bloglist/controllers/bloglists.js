@@ -5,6 +5,9 @@ const User = require('../models/user')
 
 const jwt = require('jsonwebtoken')
 
+const { userExtractor } = require('../utils/middleware')
+
+
 // Use relative path of the URL:
 // Since defined in app.js that any route which
 // begins with /api/blogs will use definitons in this module.
@@ -24,16 +27,10 @@ bloglistRouter.get('/:id', async (request, response) => {
   }
 })
 
-bloglistRouter.post('/', async (request, response) => {
+bloglistRouter.post('/', userExtractor, async (request, response) => {
   const body = request.body
 
-  const decodedToken = jwt.verify(request.token, process.env.SECRET)
-
-  if (!decodedToken.id) {
-    return response.status(401).json({ error: 'token invalid' })
-  }
-  const user = await User.findById(decodedToken.id)
-
+  const user = request.user
 
   if (!user) {
     return response.status(400).json({ error: 'userId missing or not valid' })
@@ -58,23 +55,16 @@ bloglistRouter.post('/', async (request, response) => {
   response.status(201).json(savedBlog)
 })
 
-bloglistRouter.delete('/:id', async (request, response) => {
+bloglistRouter.delete('/:id', userExtractor, async (request, response) => {
   try {
-    if (!request.token) {
-      return response.status(401).json({ error: 'login required' })
-    }
-
-    const decodedToken = jwt.verify(request.token, process.env.SECRET)
-    if (!decodedToken.id) {
-      return response.status(401).json({ error: 'token invalid' })
-    }
 
     const blog = await Blog.findById(request.params.id)
     if (!blog) return response.status(404).end()
 
     // only get blog owner username if needed for the error message
+    const user = request.user
     const userIDFromBlog = blog.user.toString()
-    const userIDFromLogin = decodedToken.id.toString()
+    const userIDFromLogin = user.id.toString()
 
     if (userIDFromLogin !== userIDFromBlog) {
       const owner = await User.findById(blog.user)
@@ -89,10 +79,21 @@ bloglistRouter.delete('/:id', async (request, response) => {
   }
 })
 
-bloglistRouter.put('/:id', async (request, response) => {
-  const { likes } = request.body
+bloglistRouter.put('/:id', userExtractor, async (request, response) => {
+  const { likes, url, author, title } = request.body
 
-  const blog = await Blog.findById(request.params.id)
+  let blog = await Blog.findById(request.params.id)
+
+  const user = request.user
+
+  const userIDFromBlog = blog.user.toString()
+  const userIDFromLogin = user.id.toString()
+
+  if (userIDFromLogin !== userIDFromBlog) {
+    const owner = await User.findById(blog.user)
+    const ownerName = owner ? owner.username : 'unknown'
+    return response.status(401).json({ error: `Only original poster can update the posted blog - blog owner: ${ownerName}` })
+  }
 
   if (!blog) {
 
@@ -100,7 +101,10 @@ bloglistRouter.put('/:id', async (request, response) => {
 
   } else {
 
-    blog.likes = likes
+    blog.likes = likes? likes : blog.likes
+    blog.url = url? url : blog.url
+    blog.author = author? author : blog.author
+    blog.title = title? title : blog.title
 
     const updatedBlog = await blog.save()
     response.status(200).json(updatedBlog)
