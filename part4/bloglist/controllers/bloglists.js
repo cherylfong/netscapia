@@ -3,8 +3,6 @@ const bloglistRouter = require('express').Router()
 const Blog = require('../models/bloglist')
 const User = require('../models/user')
 
-const jwt = require('jsonwebtoken')
-
 const { userExtractor } = require('../utils/middleware')
 
 

@@ -26,6 +26,16 @@ const initialUsers = [{
 }
 ]
 
+// used by bloglist_api.test.js only
+const testUsernamesAndPasswords = [{
+  username: 'root',
+  password: 'sekret'
+},
+{
+  username:'beagle',
+  password: 'blahblahblah'
+}]
+
 const getTestBlogsInDB = async () => {
   const blogs = await Blog.find({})
   return blogs.map(b => b.toJSON())
@@ -40,5 +50,6 @@ module.exports = {
   initialBlogs,
   getTestBlogsInDB,
   initialUsers,
-  usersInDb
+  usersInDb,
+  testUsernamesAndPasswords
 }
