@@ -5,6 +5,8 @@ import Note from './components/Note'
 import Notification from './components/Notification'
 import Footer from './components/Footer'
 import LoginForm from './components/LoginForm'
+import Togglable from './components/Togglable'
+import NoteForm from './components/NoteForm'
 
 import noteService from './services/notes'
 import loginService from './services/login'
@@ -26,8 +28,6 @@ const App = () => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
-
-  const [loginVisible, setLoginVisible] = useState(false)
 
   // Effects  hook:
   // Lets a component connect to and synchronize with external systems.
@@ -80,7 +80,6 @@ const App = () => {
     const noteObject = {
       content: newNote,
       important: Math.random() < 0.5,
-      id: String(notes.length + 1),
     }
 
     noteService
@@ -119,7 +118,7 @@ const App = () => {
         // If the condition is false, then copy the item from the old array into the new array
         // response.data contains the changedNote
       })
-      .catch(error => {
+      .catch(() => {
         // alert(
         //   `the note '${note.content}' was already deleted from server`
         // )
@@ -144,8 +143,8 @@ const App = () => {
     : notes.filter(note => note.important === true) //comparison operator is redundant)
 
   const handleLogin = async event => {
-    event
-      .preventDefault()
+
+    event.preventDefault()
 
     try {
       const user = await loginService.login({ username, password })
@@ -174,37 +173,28 @@ const App = () => {
     setUser(null)
   }
 
-  const loginForm = () => {
+  const loginForm = () => (
 
-    const hideWhenVisible = { display: loginVisible ? 'none' : '' }
-    const showWhenVisible = { display: loginVisible ? '' : 'none' }
+    <Togglable buttonLabel='Welcome! Want to Login?'>
+      <LoginForm
+        username={username}
+        password={password}
+        handleUsernameChange={({ target }) => setUsername(target.value)}
+        handlePasswordChange={({ target }) => setPassword(target.value)}
+        handleLogin={handleLogin}
+      />
+    </Togglable>
 
-    return (
-      <div>
-        <div style={hideWhenVisible}>
-          <button onClick={() => setLoginVisible(true)}>Welcome! Wanna Login?</button>
-        </div>
-        <div style={showWhenVisible}>
-          <LoginForm
-            username={username}
-            password={password}
-            handleUsernameChange={({ target }) => setUsername(target.value)}
-            handlePasswordChange={({ target }) => setPassword(target.value)}
-            handleSubmit={handleLogin}
-          />
-          <button onClick={() => setLoginVisible(false)}>hide login form</button>
-        </div>
-      </div>
-    )
-  }
-
-
+  )
 
   const noteForm = () => (
-    <form onSubmit={addNote}>
-      <input value={newNote} onChange={handleNoteChange} />
-      <button type="submit">save</button>
-    </form>
+    <Togglable buttonLabel="Create a new note?">
+      <NoteForm
+        onSubmit={addNote}
+        value={newNote}
+        handleChange={handleNoteChange}
+      />
+    </Togglable>
   )
 
   return (
@@ -213,6 +203,7 @@ const App = () => {
       <Notification message={errorMessage} />
 
       {!user && loginForm()}
+
       {user && (
         <div>
           <p>{user.name ?? user.username} is logged in.</p>
