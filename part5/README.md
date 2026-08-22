@@ -1,5 +1,5 @@
-This is part 5 of the fullstack open course by https://studies.cs.helsinki.fi 
- 
+This is part 5 of the fullstack open course by https://studies.cs.helsinki.fi
+
 ### Part 5 sub a. | Login in frontend
 
 #### Storing session token in browser storage
@@ -12,7 +12,7 @@ Although this is convenient it comes with risks.
 
 Token-based authentication should have two aspects in mind, token expiration/validity and token management. Implementing both adds complexity to the server's functionality. This approach is called server-side session.
 
-Saving a token in local storage allow Cross Site Scripting (XSS) attacks. These attacks are when users inject Javascript code using a form that would execute. However, React sanitizes all text that is renders. 
+Saving a token in local storage allow Cross Site Scripting (XSS) attacks. These attacks are when users inject Javascript code using a form that would execute. However, React sanitizes all text that is renders.
 
 The identity of a signed-in user should be saved as `httpOnly` cookies, so that JavaScript code could not have any access to the token. The drawback of this solution is that it would make implementing Single Page  Applications (SPAs) a bit more complex. A separate page for logging in would be needed.
 
@@ -25,3 +25,57 @@ The identity of a signed-in user should be saved as `httpOnly` cookies, so that 
 To have two components change state together, best practice is to move their state to their common parent and pass down via props. Ths is known as _lifting state up_ and is considered the most common approaches.
 
 Reference [link](https://react.dev/learn/sharing-state-between-components).
+
+#### References to component functions and members
+
+For example, to access a component's function named `Hello.jsx`:
+
+```javascript
+
+import { useState, useImperativeHandle } from 'react'
+
+const Hello = (props) => {  
+const [greeting, setGreeting] = useState('')
+
+.
+.
+.
+
+  const makeHello = (someWords) => {
+    setGreeting(someWords)
+  }
+
+  useImperativeHandle(props.ref, () => {
+    return { makeHello }
+  })
+  .
+  .
+  return (
+    <div>
+        <p> Message is: {greeting}</p>
+    </div>
+  )
+
+  export default Hello
+}
+```
+
+So that `makeHello()` can be used wherever needed like so:
+
+```javascript
+
+const App = () => {
+
+import { useRef } from 'react'
+
+const helloRef = useRef()
+
+return (
+    <div>
+        <Hello ref={helloRef}>
+    </div>
+)
+}
+```
+
+Each instance of a component has its own internal state. This state is not shared between different instances of the same component type. This is like creating two separate objects from the same class: each object keeps its own values, even though they were created from the same template.
