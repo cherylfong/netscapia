@@ -19,3 +19,9 @@ The identity of a signed-in user should be saved as `httpOnly` cookies, so that 
 `httpOnly` cookies are not any safer than the use of local storage.
 
 [Reference to minimize XSS Attacks.](https://cheatsheetseries.owasp.org/cheatsheets/DOM_based_XSS_Prevention_Cheat_Sheet.html)
+
+### Part 5 sub b. | Component States
+
+To have two components change state together, best practice is to move their state to their common parent and pass down via props. Ths is known as _lifting state up_ and is considered the most common approaches.
+
+Reference [link](https://react.dev/learn/sharing-state-between-components).
