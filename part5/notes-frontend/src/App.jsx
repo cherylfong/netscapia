@@ -1,5 +1,5 @@
 // to save component states
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 
 import Note from './components/Note'
 import Notification from './components/Notification'
@@ -24,6 +24,8 @@ const App = () => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
+
+  const noteFormRef = useRef(null)
 
   // Effects  hook:
   // Lets a component connect to and synchronize with external systems.
@@ -71,7 +73,9 @@ const App = () => {
 
   // this event handler is called when the form is submitted
   const createNote = (noteObject) => {
-    // event.preventDefault() // prevents form submission
+
+    // hides the note form after submit button is clicked
+    noteFormRef.current.toggleVisibility()
 
     noteService
       .create(noteObject)
@@ -172,8 +176,9 @@ const App = () => {
 
   )
 
+
   const noteForm = () => (
-    <Togglable buttonLabel="Create a new note?">
+    <Togglable buttonLabel="Create a new note?" ref={noteFormRef}>
       <NoteForm
         createNote={createNote}
       />
