@@ -17,10 +17,6 @@ import loginService from './services/login'
 const App = () => {
   const [notes, setNotes] = useState([])
 
-  const [newNote, setNewNote] = useState(
-    'a new note...'
-  )
-
   const [showAll, setShowAll] = useState(true)
 
   const [errorMessage, setErrorMessage] = useState(null)
@@ -74,13 +70,8 @@ const App = () => {
   console.log('render', notes.length, 'notes')
 
   // this event handler is called when the form is submitted
-  const addNote = (event) => {
-    event.preventDefault() // prevents form submission
-
-    const noteObject = {
-      content: newNote,
-      important: Math.random() < 0.5,
-    }
+  const createNote = (noteObject) => {
+    // event.preventDefault() // prevents form submission
 
     noteService
       .create(noteObject)
@@ -88,7 +79,6 @@ const App = () => {
         console.log("POSTED !!! ")
         console.log(returnedNote)
         setNotes(notes.concat(returnedNote)) // THIS DOES NOT MUTATE ORIGINAL notes ARRAY -- append new object to notes
-        setNewNote('') // clear input field
       })
 
     console.log('button clicked !!!', event.target)
@@ -132,19 +122,14 @@ const App = () => {
       })
   }
 
-  // To enable editing of the input element, register an event handler that synchronizes the changes made to the input with the component's state:
-  const handleNoteChange = (event) => {
-    console.log(event.target.value)
-    setNewNote(event.target.value)
-  }
 
   const notesToShow = showAll
     ? notes
     : notes.filter(note => note.important === true) //comparison operator is redundant)
 
-  const handleLogin = async event => {
+  const handleLogin = async (username, password, setUsername, setPassword) => {
 
-    event.preventDefault()
+    // event.preventDefault()
 
     try {
       const user = await loginService.login({ username, password })
@@ -190,9 +175,7 @@ const App = () => {
   const noteForm = () => (
     <Togglable buttonLabel="Create a new note?">
       <NoteForm
-        onSubmit={addNote}
-        value={newNote}
-        handleChange={handleNoteChange}
+        createNote={createNote}
       />
     </Togglable>
   )
