@@ -19,7 +19,7 @@ const Togglable = forwardRef(({ buttonLabel, children }, ref) => {
 
       <div style={{ display: visible ? '' : 'none' }}>
         {children}
-         {/* shows the nested elements within Togglable */}
+        {/* shows the nested elements within Togglable */}
         <button onClick={toggleVisibility}>hide form</button>
       </div>
     </div>

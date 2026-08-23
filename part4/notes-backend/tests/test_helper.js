@@ -15,13 +15,13 @@ const initialNotes = [
 ]
 
 const initialUsers = [{
-    username: 'root',
-    password: bcrypt.hash('sekret', 10)
+  username: 'root',
+  password: bcrypt.hash('sekret', 10)
 },
 {
-    username: 'beagle',
-    name: 'dog',
-    password: bcrypt.hash('blahblahblah',10)
+  username: 'beagle',
+  name: 'dog',
+  password: bcrypt.hash('blahblahblah',10)
 }
 ]
 
