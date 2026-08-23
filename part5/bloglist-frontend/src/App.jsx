@@ -5,6 +5,7 @@ import LoginForm from './components/LoginForm'
 import BlogForm from './components/BlogForm'
 import Notification from './components/Notification'
 import Togglable from './components/Togglable'
+import FilterBlogs from './components/FilterBlogs'
 
 import blogService from './services/blogs'
 import loginService from './services/login'
@@ -177,11 +178,13 @@ const App = () => {
         </div>
       )}
 
-      {blogs.map(blog =>
+      <FilterBlogs blogs={blogs} user={user} updateBlogLikes={updateBlogLikes}/>
+
+      {/* {blogs.map(blog =>
         <Blog key={blog.id}
           blog={blog}
           loggedInUser={user?.username} updateBlogLikes={updateBlogLikes}/>
-      )}
+      )} */}
     </div>
   )
 }
