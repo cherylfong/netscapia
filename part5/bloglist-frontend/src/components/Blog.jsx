@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-const Blog = ({ blog, loggedInUser, updateLikes }) => {
+const Blog = ({ blog, loggedInUser, updateBlogLikes }) => {
 
   const [view, setView] = useState(true)
 
@@ -14,6 +14,18 @@ const Blog = ({ blog, loggedInUser, updateLikes }) => {
     borderWidth: 1,
     marginBottom: 5
   }
+
+  const addLikes = () => {
+
+    {updateBlogLikes(blog.id,
+      {
+        title: blog.title,
+        author: blog.author,
+        url: blog.url,
+        likes: blog.likes + 1
+      })}
+  }
+
   return (
     < div style={blogItemStyle} >
 
@@ -21,7 +33,7 @@ const Blog = ({ blog, loggedInUser, updateLikes }) => {
 
       <div style={{ display: view ? 'none' : '' }} >
         <a style={{ color : 'green' }}>{blog.url}</a>
-        <p>{blog.likes} {blog.likes > 1 ? 'likes' : 'like'} <button onClick={null}>👍</button></p>
+        <p>{blog.likes} {blog.likes > 1 ? 'likes' : 'like'} <button onClick={addLikes}>👍</button></p>
         <p>Added by: {blog.user?.username ?? 'unknown user'}</p>
         <button onClick={toggleView}>hide view</button>
 

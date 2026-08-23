@@ -62,6 +62,30 @@ const App = () => {
 
   }
 
+  const updateBlogLikes = (blogId, blogObject) => {
+
+    blogService
+      .update(blogId, blogObject)
+      // update blogs with the new updated blog
+      .then(() => blogService.getAll())
+      .then(refreshedBlogs => {
+        console.log(refreshedBlogs)
+
+        setBlogs(refreshedBlogs)
+
+        setNotifyMessage(
+          `Blog item titled "${blogObject.title}" updated with ${blogObject.likes} 👍`
+        )
+        setNotifyFlag(true)
+
+      })
+      .catch(error => {
+        setNotifyMessage(`ERROR: ${error.message}`)
+        setNotifyFlag(false)})
+      .finally(resetNotification)
+
+  }
+
   const handleLogin = async (username, password, setUsername, setPassword) => {
 
 
@@ -154,7 +178,9 @@ const App = () => {
       )}
 
       {blogs.map(blog =>
-        <Blog key={blog.id} blog={blog} loggedInUser={user.username} />
+        <Blog key={blog.id}
+          blog={blog}
+          loggedInUser={user?.username} updateBlogLikes={updateBlogLikes}/>
       )}
     </div>
   )

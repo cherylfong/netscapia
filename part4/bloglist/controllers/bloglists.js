@@ -87,10 +87,18 @@ bloglistRouter.put('/:id', userExtractor, async (request, response) => {
   const userIDFromBlog = blog.user.toString()
   const userIDFromLogin = user.id.toString()
 
-  if (userIDFromLogin !== userIDFromBlog) {
-    const owner = await User.findById(blog.user)
-    const ownerName = owner ? owner.username : 'unknown'
-    return response.status(401).json({ error: `Only original poster can update the posted blog - blog owner: ${ownerName}` })
+  // if updated likes are the same as the original likes OR
+  // likes is not provided at all
+  // then check if logged in user is the one making updates
+  // to the blog they have added
+  if(likes === blog.likes || likes === null ){
+
+    if (userIDFromLogin !== userIDFromBlog) {
+      const owner = await User.findById(blog.user)
+      const ownerName = owner ? owner.username : 'unknown'
+      return response.status(401).json({ error: `Only original poster can update the posted blog - blog owner: ${ownerName}` })
+    }
+
   }
 
   if (!blog) {
