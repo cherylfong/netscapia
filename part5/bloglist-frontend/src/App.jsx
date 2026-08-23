@@ -41,9 +41,11 @@ const App = () => {
 
     blogService
       .create(blogItemObject)
-      .then(returnedBlog => {
-        console.log(returnedBlog)
-        setBlogs(blogs.concat(returnedBlog))
+      .then(() => blogService.getAll())
+      .then(refreshedBlogs => {
+        console.log(refreshedBlogs)
+
+        setBlogs(refreshedBlogs)
 
         setNotifyMessage(`Blog item titled "${blogItemObject.title}" added`)
         setNotifyFlag(true)
@@ -81,6 +83,27 @@ const App = () => {
 
       })
       .catch(error => {
+        setNotifyMessage(`ERROR: ${error.message}`)
+        setNotifyFlag(false)})
+      .finally(resetNotification)
+
+  }
+
+  // only the logged-in users who is the original poster
+  // (the user who added it) can delete the blog item
+  const removeBlog = (blogId) => {
+
+    blogService
+      .remove(blogId)
+      .then(() => blogService.getAll())
+      .then(refreshedBlogs => {
+        console.log('REMOVED: ', refreshedBlogs)
+
+        setBlogs(refreshedBlogs)
+
+        setNotifyMessage('Blog item removed!')
+        setNotifyFlag(true)
+      }).catch(error => {
         setNotifyMessage(`ERROR: ${error.message}`)
         setNotifyFlag(false)})
       .finally(resetNotification)
@@ -178,13 +201,10 @@ const App = () => {
         </div>
       )}
 
-      <FilterBlogs blogs={blogs} user={user} updateBlogLikes={updateBlogLikes}/>
+      <p><i>*Blogs can only be deleted by the original user who added it. Login to see delete button</i></p>
 
-      {/* {blogs.map(blog =>
-        <Blog key={blog.id}
-          blog={blog}
-          loggedInUser={user?.username} updateBlogLikes={updateBlogLikes}/>
-      )} */}
+      <FilterBlogs blogs={blogs} user={user} updateBlogLikes={updateBlogLikes} removeBlog={removeBlog}/>
+
     </div>
   )
 }

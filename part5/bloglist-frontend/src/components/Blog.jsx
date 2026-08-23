@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-const Blog = ({ blog, loggedInUser, updateBlogLikes }) => {
+const Blog = ({ blog, loggedInUser, updateBlogLikes, removeBlog }) => {
 
   const [view, setView] = useState(true)
 
@@ -26,6 +26,11 @@ const Blog = ({ blog, loggedInUser, updateBlogLikes }) => {
       })}
   }
 
+  const removeBlogByID = (blogID) => {
+    confirm(`🚨 Remove blog "${blog.title}" by ${blog.author}??`)
+    removeBlog(blogID)
+  }
+
   return (
     < div style={blogItemStyle} >
 
@@ -38,7 +43,7 @@ const Blog = ({ blog, loggedInUser, updateBlogLikes }) => {
         <button onClick={toggleView}>hide view</button>
 
         {/* show delete button only if logged in user is the creator */}
-        <button style={{ display: loggedInUser === blog.user?.username ? '' : 'none' }}  onClick={toggleView}>DETELE</button>
+        <button style={{ display: loggedInUser === blog.user?.username ? '' : 'none' }}  onClick={() => removeBlogByID(blog.id)}>DETELE</button>
       </div>
 
       <div style={{ display: view ? '' : 'none' }}  >
