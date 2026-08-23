@@ -59,7 +59,7 @@ const App = () => {
       }).catch(error => {
         // console.log(error.response.status)
         if (error.response.status === 400) {
-          setNotifyMessage(`Fill in all fields`)
+          setNotifyMessage('Fill in all fields')
         } else {
           setNotifyMessage(`ERROR: status ${error.response.status}`)
         }
