@@ -34,7 +34,7 @@ const Blog = ({ blog, loggedInUser, updateBlogLikes, removeBlog }) => {
   return (
     < div style={blogItemStyle} >
 
-      <p><b><i>{blog.title}</i></b> by {blog.author}</p>
+      <p id='title-author-test'><b><i>{blog.title}</i></b> by {blog.author}</p>
 
       <div style={{ display: view ? 'none' : '' }} >
         <a style={{ color : 'green' }}>{blog.url}</a>
