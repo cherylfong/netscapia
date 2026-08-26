@@ -188,3 +188,19 @@ It is also possible to use CSS-selectors to find rendered elements by using the 
 1. [`mock.calls`](https://vitest.dev/api/mock#mock-calls) -- used to save calls to the mock function
 
 are commonly used stub components in testing that are used for replacing dependencies of the components being tested. Mocks make it possible to return hardcoded responses, and to verify the number of times the mock functions are called and with what parameters.
+
+#### Frontend Integration Tests
+
+The backend testing done in Part 4 were integration tests.
+
+Integration testing involves a collaboration of multiple components including mock data from the server which can be considerably more difficult than unit testing.
+
+So far all tests for the frontend in this portion of Part 5 section C are unit tests. These tests validated correct functioning of individual components. Note that even a comprehensive suite of unit tests is not enough to validate that the application works as a whole.
+
+#### Snapshot Testing
+
+Vitest offers [snapshot](https://vitest.dev/guide/snapshot) testing which compares HTML code defined by components with HTML code that existed before it was changed.
+
+Changes are categorized as either new functionality or a bug. Snapshot tests notify the if HTML code of the component changes.
+
+The role of the developer is to tell Vitest if the change was desired or undesired. If the change to the HTML code is unexpected, it strongly implies a bug, and the developer can become aware of these potential issues easily.
