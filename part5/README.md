@@ -79,3 +79,100 @@ return (
 ```
 
 Each instance of a component has its own internal state. This state is not shared between different instances of the same component type. This is like creating two separate objects from the same class: each object keeps its own values, even though they were created from the same template.
+
+#### Frontend Testing
+
+**Setup**:
+
+1. `npm install --save-dev vitest jsdom`
+
+`jsdom` simulates the bowser
+
+2. `npm install --save-dev @testing-library/react @testing-library/jest-dom`
+3. Add to `package.json` :
+
+```json
+{
+  "scripts": {
+    // ...
+    "test": "vitest run"
+  }
+  // ...
+}
+```
+
+4. Add to `vite.config.js` :
+
+```json
+export default defineConfig({
+  // ...
+  test: {
+    environment: 'jsdom',
+    globals: true, // no need to import keywords such as describe, test and expect into the tests
+    setupFiles: './testSetup.js', 
+  }
+})
+```
+
+5. `npm install --save-dev @testing-library/user-event`
+
+This is used to simulate user input.
+
+6. `npm test -- --coverage`
+
+Pick yes to install dependencies.
+
+```bash
+> notes-2026@0.0.0 test
+> vitest run --coverage
+
+ MISSING DEPENDENCY  Cannot find dependency '@vitest/coverage-v8'
+
+✔ Do you want to install @vitest/coverage-v8? … yes
+
+> notes-2026@0.0.0 test
+> vitest run --coverage
+
+# Example output
+
+ RUN  v4.1.11 /home/puggle/github/cherylfong-github/netscapia/part5/notes-frontend
+      Coverage enabled with v8
+
+ ✓ src/components/Note.test.jsx (2 tests) 139ms
+ ✓ src/components/Togglable.test.jsx (4 tests) 199ms
+ ✓ src/components/NoteForm.test.jsx (1 test) 213ms
+
+ Test Files  3 passed (3)
+      Tests  7 passed (7)
+   Start at  14:52:58
+   Duration  896ms (transform 89ms, setup 286ms, import 143ms, tests 550ms, environment 1.13s)
+
+ % Coverage report from v8
+---------------|---------|----------|---------|---------|-------------------
+File           | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s 
+---------------|---------|----------|---------|---------|-------------------
+All files      |      95 |    83.33 |    87.5 |     100 |                   
+ Note.jsx      |     100 |       50 |     100 |     100 | 2                 
+ NoteForm.jsx  |     100 |      100 |     100 |     100 |                   
+ Togglable.jsx |   88.88 |      100 |      75 |     100 |                   
+---------------|---------|----------|---------|---------|-------------------
+```
+
+A HTML report will be generated to the _coverage_ directory.
+
+##### React Testing Render
+
+Normally React components are rendered to the [DOM](https://developer.mozilla.org/en-US/docs/Web/API/Document_Object_Model).
+
+`render(<Note note={note} />)`
+
+The [render](https://testing-library.com/docs/react-testing-library/api#render) method  used renders the components in a format that is suitable for tests without rendering them to the DOM.
+
+It is also possible to use CSS-selectors to find rendered elements by using the method `querySelector()` of an object container.
+
+##### Mock objects and functions
+
+1. [`vi.fn()`](https://vitest.dev/api/mock)
+1. [`mock.calls`](https://vitest.dev/api/mock#mock-calls) -- used to save calls to the mock function
+
+are commonly used stub components in testing that are used for replacing dependencies of the components being tested. Mocks make it possible to return hardcoded responses, and to verify the number of times the mock functions are called and with what parameters.
