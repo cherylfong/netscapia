@@ -114,6 +114,18 @@ export default defineConfig({
 })
 ```
 
+Create a file named _testSetup.js_ and save it to the root directory of the project:
+
+```javascript
+import { afterEach } from 'vitest'
+import { cleanup } from '@testing-library/react'
+import '@testing-library/jest-dom/vitest'
+
+afterEach(() => {
+  cleanup()
+})
+```
+
 5. `npm install --save-dev @testing-library/user-event`
 
 This is used to simulate user input.
