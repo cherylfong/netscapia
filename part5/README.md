@@ -80,7 +80,7 @@ return (
 
 Each instance of a component has its own internal state. This state is not shared between different instances of the same component type. This is like creating two separate objects from the same class: each object keeps its own values, even though they were created from the same template.
 
-#### Frontend Testing
+### Part 5 sub c. Testing React apps
 
 **Setup**:
 
@@ -204,3 +204,212 @@ Vitest offers [snapshot](https://vitest.dev/guide/snapshot) testing which compar
 Changes are categorized as either new functionality or a bug. Snapshot tests notify the if HTML code of the component changes.
 
 The role of the developer is to tell Vitest if the change was desired or undesired. If the change to the HTML code is unexpected, it strongly implies a bug, and the developer can become aware of these potential issues easily.
+
+### Part 5 sub d. End to end testing
+
+Part 4 tested the backed on the API level using integration tests.
+
+While Part 5 sub c. tested the frontend components individually using unit tests.
+
+**End to End (E2E)** tests is one way to test the system as a whole.
+
+Testing libraries and tools:
+
+1. [Selenium](http://www.seleniumhq.org/)
+1. Headless browsers (no GUI) i.e. Chrome.
+1. [Playwright](https://playwright.dev/)
+1. [Cypress](https://www.cypress.io/)
+
+E2E test the system through the same interface as real users use.
+
+Configuring E2E tests is more challenging than unit or integration tests.
+
+E2E usually has slow execution depending on how big the system is. This can be impractical for development because it is beneficial to run tests as often as possible in case of code [regressions](https://en.wikipedia.org/wiki/Regression_testing).
+
+Cypress tests are run entirely within the browser.
+
+Playwright tests are executed in the Node process, which is connected to the browser via programming interfaces.
+
+#### Initializing Tests
+
+E2E tests do not need to be located in the same `npm` project where the application code is. 
+
+1. In a new directory run,
+
+`npm init playwright@latest`
+
+```bash
+ npm init playwright@latest
+Need to install the following packages:
+create-playwright@1.17.139
+Ok to proceed? (y) y
+
+> npx
+> 'create-playwright'
+
+Getting started with writing end-to-end tests with Playwright:
+Initializing project in '.'
+✔ Do you want to use TypeScript or JavaScript? · JavaScript
+✔ Where to put your end-to-end tests? · tests
+✔ Add a GitHub Actions workflow? (Y/n) · false
+✔ Install Playwright browsers (can be done manually via 'npx playwright install')? (Y/n) · false
+✔ Install Playwright operating system dependencies (requires sudo / root - can be done manually via 'sudo npx playwright install-deps')? (y/N) · true
+Initializing NPM project (npm init -y)…
+Wrote to /home/puggle/github/cherylfong-github/netscapia/part5/notes-e2e/package.json:
+
+{
+  "name": "notes-e2e",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs"
+}
+
+
+Installing Playwright Test (npm install --save-dev @playwright/test)…
+
+added 3 packages, and audited 4 packages in 6s
+
+found 0 vulnerabilities
+Installing Types (npm install --save-dev @types/node)…
+
+added 2 packages, and audited 6 packages in 3s
+
+found 0 vulnerabilities
+Writing playwright.config.js.
+Writing tests/example.spec.js.
+Writing package.json.
+✔ Success! Created a Playwright Test project at /home/puggle/github/cherylfong-github/netscapia/part5/notes-e2e
+
+Inside that directory, you can run several commands:
+
+  npx playwright test
+    Runs the end-to-end tests.
+
+  npx playwright test --ui
+    Starts the interactive UI mode.
+
+  npx playwright test --project=chromium
+    Runs the tests only on Desktop Chrome.
+
+  npx playwright test example
+    Runs the tests in a specific file.
+
+  npx playwright test --debug
+    Runs the tests in debug mode.
+
+  npx playwright codegen
+    Auto generate tests with Codegen.
+
+We suggest that you begin by typing:
+
+    npx playwright test
+
+And check out the following files:
+  - ./tests/example.spec.js - Example end-to-end test
+  - ./playwright.config.js - Playwright Test configuration
+
+Visit https://playwright.dev/docs/intro for more information. ✨
+
+Happy hacking! 🎭
+```
+
+2. Download playwright specific browser support e.g. firefox and chromium.
+
+```bash
+npx playwright install firefox
+
+BEWARE: your OS is not officially supported by Playwright; downloading fallback build for ubuntu24.04-x64.
+Downloading Firefox 153.0 (playwright firefox v1538) from https://cdn.playwright.dev/dbazure/download/playwright/builds/firefox/1538/firefox-ubuntu-24.04.zip
+108.2 MiB [====================] 100% 0.0s
+Firefox 153.0 (playwright firefox v1538) downloaded to /home/puggle/.cache/ms-playwright/firefox-1538
+BEWARE: your OS is not officially supported by Playwright; downloading fallback build for ubuntu24.04-x64.
+Downloading FFmpeg (playwright ffmpeg v1011) from https://cdn.playwright.dev/dbazure/download/playwright/builds/ffmpeg/1011/ffmpeg-linux.zip
+2.3 MiB [====================] 100% 0.0s
+FFmpeg (playwright ffmpeg v1011) downloaded to /home/puggle/.cache/ms-playwright/ffmpeg-1011
+```
+
+```bash
+npx playwright install chromium 
+
+BEWARE: your OS is not officially supported by Playwright; downloading fallback build for ubuntu24.04-x64.
+Downloading Chrome for Testing 151.0.7922.34 (playwright chromium v1234) from https://cdn.playwright.dev/builds/cft/151.0.7922.34/linux64/chrome-linux64.zip
+184.3 MiB [====================] 100% 0.0s
+Chrome for Testing 151.0.7922.34 (playwright chromium v1234) downloaded to /home/puggle/.cache/ms-playwright/chromium-1234
+BEWARE: your OS is not officially supported by Playwright; downloading fallback build for ubuntu24.04-x64.
+BEWARE: your OS is not officially supported by Playwright; downloading fallback build for ubuntu24.04-x64.
+Downloading Chrome Headless Shell 151.0.7922.34 (playwright chromium-headless-shell v1234) from https://cdn.playwright.dev/builds/cft/151.0.7922.34/linux64/chrome-headless-shell-linux64.zip
+114.7 MiB [====================] 100% 0.0s
+Chrome Headless Shell 151.0.7922.34 (playwright chromium-headless-shell v1234) downloaded to /home/puggle/.cache/ms-playwright/chromium_headless_shell-1234
+```
+
+3. Add test command to `package.json`
+
+```json
+{
+  // ...
+  "scripts": {
+    "test": "playwright test --project=chromium --project=firefox",
+    "test:report": "playwright show-report"
+  },
+  // ...
+}
+```
+
+4. Make sure the appropriate browser is defined in `playwright.config.js`:
+
+```javascript
+  projects: [
+    {
+      name: 'chromium',
+      use: { ...devices['Desktop Chrome'] },
+    },
+
+    {
+      name: 'firefox',
+      use: { ...devices['Desktop Firefox'] },
+    },
+
+```
+
+5. When `npm test` is first executed the example test file used i.e. `tess/example.spec.js`
+
+```bash
+npm test
+
+> notes-e2e@1.0.0 test
+> playwright test --project=chromium --project=firefox
+
+
+Running 2 tests using 2 workers
+  2 passed (4.2s)
+
+To open last HTML report run:
+
+  npx playwright show-report
+```
+
+6. Using the `test:report` npm command defined in `package.json` to view the playwright report, run
+
+`npm run test:report`
+
+```bash
+
+> notes-e2e@1.0.0 test:report
+> playwright show-report
+
+
+  Serving HTML report at http://localhost:9323. Press Ctrl+C to quit.
+```
+
+7. Playwright UI requires chromium browser support even if was executed without the `--project=chromium` flag.
+
+`npx playwright test --project=chromium --project=firefox --ui`
+
+The above is equivalent to `npm run test -- --ui` which is defined in `packages.json`.
