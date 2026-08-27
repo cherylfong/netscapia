@@ -457,3 +457,5 @@ export default defineConfig({
 ```
 
 This enables all tests to be [executed one at a time](https://playwright.dev/docs/test-parallel).
+
+The execution of each test starts from the browser's "zero state", all changes made to the browser's state by the previous tests are reset.
