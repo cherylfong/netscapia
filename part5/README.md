@@ -1,4 +1,4 @@
-This is part 5 of the fullstack open course by https://studies.cs.helsinki.fi
+This is part 5 of the fullstack open course by <https://studies.cs.helsinki.fi>
 
 ### Part 5 sub a. | Login in frontend
 
@@ -88,8 +88,8 @@ Each instance of a component has its own internal state. This state is not share
 
 `jsdom` simulates the bowser
 
-2. `npm install --save-dev @testing-library/react @testing-library/jest-dom`
-3. Add to `package.json` :
+1. `npm install --save-dev @testing-library/react @testing-library/jest-dom`
+2. Add to `package.json` :
 
 ```json
 {
@@ -101,7 +101,7 @@ Each instance of a component has its own internal state. This state is not share
 }
 ```
 
-4. Add to `vite.config.js` :
+1. Add to `vite.config.js` :
 
 ```json
 export default defineConfig({
@@ -126,11 +126,11 @@ afterEach(() => {
 })
 ```
 
-5. `npm install --save-dev @testing-library/user-event`
+1. `npm install --save-dev @testing-library/user-event`
 
 This is used to simulate user input.
 
-6. `npm test -- --coverage`
+1. `npm test -- --coverage`
 
 Pick yes to install dependencies.
 
@@ -230,9 +230,9 @@ Cypress tests are run entirely within the browser.
 
 Playwright tests are executed in the Node process, which is connected to the browser via programming interfaces.
 
-#### Initializing Tests
+#### Initializing Tests | Setting Up Playwright
 
-E2E tests do not need to be located in the same `npm` project where the application code is. 
+E2E tests do not need to be located in the same `npm` project where the application code is.
 
 1. In a new directory run,
 
@@ -320,7 +320,7 @@ Visit https://playwright.dev/docs/intro for more information. ✨
 Happy hacking! 🎭
 ```
 
-2. Download playwright specific browser support e.g. firefox and chromium.
+1. Download playwright specific browser support e.g. firefox and chromium.
 
 ```bash
 npx playwright install firefox
@@ -349,7 +349,7 @@ Downloading Chrome Headless Shell 151.0.7922.34 (playwright chromium-headless-sh
 Chrome Headless Shell 151.0.7922.34 (playwright chromium-headless-shell v1234) downloaded to /home/puggle/.cache/ms-playwright/chromium_headless_shell-1234
 ```
 
-3. Add test command to `package.json`
+1. Add test command to `package.json`
 
 ```json
 {
@@ -362,7 +362,7 @@ Chrome Headless Shell 151.0.7922.34 (playwright chromium-headless-shell v1234) d
 }
 ```
 
-4. Make sure the appropriate browser is defined in `playwright.config.js`:
+1. Make sure the appropriate browser is defined in `playwright.config.js`:
 
 ```javascript
   projects: [
@@ -378,7 +378,7 @@ Chrome Headless Shell 151.0.7922.34 (playwright chromium-headless-shell v1234) d
 
 ```
 
-5. When `npm test` is first executed the example test file used i.e. `tess/example.spec.js`
+1. When `npm test` is first executed the example test file used i.e. `tess/example.spec.js`
 
 ```bash
 npm test
@@ -395,7 +395,7 @@ To open last HTML report run:
   npx playwright show-report
 ```
 
-6. Using the `test:report` npm command defined in `package.json` to view the playwright report, run
+1. Using the `test:report` npm command defined in `package.json` to view the playwright report, run
 
 `npm run test:report`
 
@@ -408,8 +408,52 @@ To open last HTML report run:
   Serving HTML report at http://localhost:9323. Press Ctrl+C to quit.
 ```
 
-7. Playwright UI requires chromium browser support even if was executed without the `--project=chromium` flag.
+1. Playwright UI requires chromium browser support even if was executed without the `--project=chromium` flag.
 
 `npx playwright test --project=chromium --project=firefox --ui`
 
 The above is equivalent to `npm run test -- --ui` which is defined in `packages.json`.
+
+#### Testing own code | Using Playwright
+
+Steps:
+
+1. For the backend application, edit `package.json`:
+
+```json
+"scripts": {
+  //
+
+  "start:test": "NODE_ENV=test node --watch index.js"
+},
+```
+
+2. Run backend application with the `start:test` command:
+
+`npm run start:test`
+
+3. In a new terminal, for the frontend application run:
+
+`npm run dev`
+
+4. Check to make sure that front and back applications are communicating.
+
+5. Using `playwright` for E2E testing, go to the e2d playwright configured project directory and add tests to `/test` with the follwing filename format `note_app.spec.js`
+
+6. When ready to initiate E2E testing, in a new terminal run `npm run test`. The test command is defined in the E2E `package.json` file. 
+
+7. Inspect the generated report at `playwright-report/index.html` or launch using `npx playwright show-report`
+
+8. To speed up the timeout time for failling tests, for example, if an element is not found, a TimeoutError is raisedd and the test fails.
+
+```javascript
+export default defineConfig({
+  // ...
+  timeout: 3000,
+  fullyParallel: false,
+  workers: 1,  
+// ...
+})
+```
+
+This enables all tests to be [executed one at a time](https://playwright.dev/docs/test-parallel).
