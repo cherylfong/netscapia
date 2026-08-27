@@ -1,11 +1,12 @@
 const { describe, test, expect, beforeEach } = require('@playwright/test')
+const { loginWith, createNote } = require('./helper')
 
 describe('Note app', () => {
 
     beforeEach(async ({ page, request }) => {
 
-        await request.post('http://localhost:3001/api/testing/reset')
-        await request.post('http://localhost:3001/api/users', {
+        await request.post('/api/testing/reset')
+        await request.post('/api/users', {
             data: {
                 name: 'jelly',
                 username: 'jelly',
@@ -13,7 +14,7 @@ describe('Note app', () => {
             }
         })
 
-        await page.goto('http://localhost:5173')
+        await page.goto('/')
 
     })
 
@@ -26,12 +27,7 @@ describe('Note app', () => {
 
     test('login fails with wrong password', async ({ page }) => {
 
-        await page.getByRole('button', { name: 'Welcome! Want to Login?' }).click()
-
-        await page.getByLabel('username').fill('jelly')
-        await page.getByLabel('password').fill('wrong')
-        await page.getByRole('button', { name: 'login' }).click()
-
+        await loginWith(page, 'jelly', 'wrong')
         // using CSS selector
         const errorDiv = page.locator('.error')
         await expect(errorDiv).toContainText('wrong credentials')
@@ -43,29 +39,9 @@ describe('Note app', () => {
     })
 
 
-    test('user can log in', async ({ page }) => {
+    test('user can log in with correct credentials', async ({ page }) => {
 
-        await page.getByRole('button', { name: 'Welcome! Want to Login?' }).click()
-
-        // use first() and last() when there are more than 1 textbox
-        //
-        // await page.getByRole('textbox').first().fill('jelly')
-        // await page.getByRole('textbox').last().fill('password')
-
-        // const textboxes = await page.getByRole('textbox').all()
-        // await textboxes[0].fill('jelly')
-        // await textboxes[1].fill('password')
-        // if the registration form is changed, the tests may break, 
-        // as they rely on the fields to be on the page in a certain order
-        //
-        // option to use:
-        // https://playwright.dev/docs/api/class-page#page-get-by-test-id
-
-
-        await page.getByLabel('username').fill('jelly')
-        await page.getByLabel('password').fill('password')
-
-        await page.getByRole('button', { name: 'login' }).click()
+        await loginWith(page, 'jelly', 'password')
 
         await expect(page.getByText('jelly is logged in.')).toBeVisible()
 
@@ -73,25 +49,17 @@ describe('Note app', () => {
 
     describe('when logged in', () => {
         beforeEach(async ({ page }) => {
-            await page.getByRole('button', { name: 'Welcome! Want to Login?' }).click()
-            await page.getByLabel('username').fill('jelly')
-            await page.getByLabel('password').fill('password')
-
-            await page.getByRole('button', { name: 'login' }).click()
+            await loginWith(page, 'jelly', 'password')
         })
 
         test('a new note can be created', async ({ page }) => {
-            await page.getByRole('button', { name: 'Create a new note?' }).click()
-            await page.getByLabel('content').fill('a note created by playwright')
-            await page.getByRole('button', { name: 'save' }).click()
+            await createNote(page, 'a note created by playwright')
             await expect(page.getByText('a note created by playwright')).toBeVisible()
         })
 
         describe('and a note exists', () => {
             beforeEach(async ({ page }) => {
-                await page.getByRole('button', { name: 'Create a new note?' }).click()
-                await page.getByLabel('content').fill('another note by playwright')
-                await page.getByRole('button', { name: 'save' }).click()
+                await createNote(page, 'another note by playwright')
             })
 
             test('importance can be changed', async ({ page }) => {
