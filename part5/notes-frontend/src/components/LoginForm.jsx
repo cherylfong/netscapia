@@ -1,46 +1,46 @@
 import { useState } from 'react'
 
 const LoginForm = (
-    {
-        handleLogin
-    }
+  {
+    handleLogin
+  }
 ) => {
 
-    const [username, setUsername] = useState('')
-    const [password, setPassword] = useState('')
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
 
-    const login = (event) => {
-        event.preventDefault()
+  const login = (event) => {
+    event.preventDefault()
 
-        handleLogin(username, password, setUsername, setPassword)
-    }
+    handleLogin(username, password, setUsername, setPassword)
+  }
 
-    return (
+  return (
+    <div>
+      <h2>Login</h2>
+      <form onSubmit={login}>
         <div>
-            <h2>Login</h2>
-            <form onSubmit={login}>
-                <div>
-                    <label>
+          <label>
                         username
-                        <input
-                            type="text"
-                            value={username}
-                            onChange={event => setUsername(event.target.value)} />
-                    </label>
-                </div>
-                <div>
-                    <label>
-                        password
-                        <input
-                            type="password"
-                            value={password}
-                            onChange={event => setPassword(event.target.value)} />
-                    </label>
-                </div>
-                <button type="submit">login</button>
-            </form>
+            <input
+              type="text"
+              value={username}
+              onChange={event => setUsername(event.target.value)} />
+          </label>
         </div>
-    )
+        <div>
+          <label>
+                        password
+            <input
+              type="password"
+              value={password}
+              onChange={event => setPassword(event.target.value)} />
+          </label>
+        </div>
+        <button type="submit">login</button>
+      </form>
+    </div>
+  )
 }
 
 export default LoginForm
