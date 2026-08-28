@@ -467,3 +467,50 @@ Options:
 1. `npm test -- -g "contents  of the test string"`
 
 1. using `test.only()` which requires removal from the test code when there is no longer need for it.
+
+#### Test development and debugging
+
+Debugging a test of a specific test title:
+
+1. `npm test -- -g 'name of the test' --debug`
+
+By default, debugging steps through the test commands sequentially. If it is a complex test, it can take many steps to get the test to the point of interest. This can be avoided by using the command `await page.pause()`
+
+Use the Fast Forward green arrow button pointing to the right to fast forward to the line `await page.pause()` instead steping through each command with the green arrow over a dot button.
+
+2. To view the test report with a visual view of the browser for each test command the following command can save the playback of the command trace for each test.
+
+This initiates the test with trace turned on:
+
+`npm run test -- --trace on`
+
+To view the report, run:
+
+`npx playwright show-report` OR `npm run test:report` which is defined in the `package.json` for the E2E project directory.
+
+3. Playwright Locator GUI
+
+Inspecting an element via the debug GUI can be done using the double circle or bullseye icon. The playwright _Locator_ in the bottom panel of the debug GUI suggests element locator or element selector identity for targeting the specific element that is clicked on when the bullseye icon is enaged.
+
+For example, to target the _make important_ button of note:
+
+Playwright _Locator_ states `page.locator('li').filter({ hasText: 'some note' }).getByRole('button')`
+
+While is it also possible to select the button with `page.getByText('first note').locator('..').getByRole('button', { name: 'make not important' })`
+
+4. [Playwright Test Generator](https://playwright.dev/docs/codegen-intro)
+
+The generator can be initiated using:
+
+`npx playwright codegen http://localhost:5173/`
+
+When the Record mode is on, the test generator "records" the user's interaction in the Playwright inspector, from where it is possible to copy the locators and actions to the actual test scripts.
+
+#### Playwright References
+
+- [Intro documentation](https://playwright.dev/docs/intro)
+- [Locators](https://playwright.dev/docs/locators) to find elements for testing
+- [Actions](https://playwright.dev/docs/input) are used to simulate interactions with the browser in tests
+- [Assertions](https://playwright.dev/docs/test-assertions) are types of test expectations
+- [Page class](https://playwright.dev/docs/api/class-page) corresponds to the test browser window
+
