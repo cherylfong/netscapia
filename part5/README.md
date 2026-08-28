@@ -320,7 +320,7 @@ Visit https://playwright.dev/docs/intro for more information. ✨
 Happy hacking! 🎭
 ```
 
-1. Download playwright specific browser support e.g. firefox and chromium.
+2. Download playwright specific browser support e.g. firefox and chromium.
 
 ```bash
 npx playwright install firefox
@@ -349,7 +349,7 @@ Downloading Chrome Headless Shell 151.0.7922.34 (playwright chromium-headless-sh
 Chrome Headless Shell 151.0.7922.34 (playwright chromium-headless-shell v1234) downloaded to /home/puggle/.cache/ms-playwright/chromium_headless_shell-1234
 ```
 
-1. Add test command to `package.json`
+3. Add test command to `package.json`
 
 ```json
 {
@@ -362,7 +362,7 @@ Chrome Headless Shell 151.0.7922.34 (playwright chromium-headless-shell v1234) d
 }
 ```
 
-1. Make sure the appropriate browser is defined in `playwright.config.js`:
+4. Make sure the appropriate browser is defined in `playwright.config.js`:
 
 ```javascript
   projects: [
@@ -378,7 +378,7 @@ Chrome Headless Shell 151.0.7922.34 (playwright chromium-headless-shell v1234) d
 
 ```
 
-1. When `npm test` is first executed the example test file used i.e. `tess/example.spec.js`
+5. When `npm test` is first executed the example test file used i.e. `tess/example.spec.js`
 
 ```bash
 npm test
@@ -395,7 +395,7 @@ To open last HTML report run:
   npx playwright show-report
 ```
 
-1. Using the `test:report` npm command defined in `package.json` to view the playwright report, run
+6. Using the `test:report` npm command defined in `package.json` to view the playwright report, run
 
 `npm run test:report`
 
@@ -408,11 +408,13 @@ To open last HTML report run:
   Serving HTML report at http://localhost:9323. Press Ctrl+C to quit.
 ```
 
-1. Playwright UI requires chromium browser support even if was executed without the `--project=chromium` flag.
+6. Playwright UI requires chromium browser support even if was executed without the `--project=chromium` flag.
 
 `npx playwright test --project=chromium --project=firefox --ui`
 
 The above is equivalent to `npm run test -- --ui` which is defined in `packages.json`.
+
+**🚨 Continue setup using instructions below ⬇️.**
 
 #### Testing own code | Using Playwright
 
