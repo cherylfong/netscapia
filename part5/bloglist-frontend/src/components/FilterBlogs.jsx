@@ -32,9 +32,10 @@ const FilterBlogs = ({ blogs, user, updateBlogLikes, removeBlog }) => {
         </button>
       </div>
 
-      <div>
-        {sortedBlogs.map(blog => (
+      <div id='blog-stack'>
+        {sortedBlogs.map((blog, idx) => (
           <Blog
+            counter={idx + 1}
             key={blog.id}
             blog={blog}
             loggedInUser={user?.username}

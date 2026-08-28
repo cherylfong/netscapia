@@ -117,8 +117,96 @@ describe('Blog app', () => {
       await expect(page.getByText('Blog item removed!')).toBeVisible()
 
     })
+  }) // when logged in
 
+  describe('sorting blog items', () => {
+    beforeEach(async ({ page }) => {
+      await loginWith(page, 'jelly', 'password')
 
-  })
+      await createBlog(page, 'Test title 0', 'Playwright Test', 'playwright.dev')
+      await createBlog(page, 'Test title 1', 'Playwright Test', 'playwright.dev')
+      await createBlog(page, 'Test title 2', 'Playwright Test', 'playwright.dev')
+      await createBlog(page, 'Test title 3', 'Playwright Test', 'playwright.dev')
+
+    })
+
+    test('sort blog items by most likes', async ({ page }) => {
+
+      // title 0
+      await page.getByRole('button', { name: 'view' }).first().click()
+
+      // title 1
+      await page.getByRole('button', { name: 'view' }).nth(1).click()
+
+      const titleOneLikesParagraph = page.locator('#likes-id-2')
+
+      await titleOneLikesParagraph.getByRole('button', { name: '👍' }).click()
+      await expect(titleOneLikesParagraph).toContainText('1 like')
+
+      // title 2
+      const titleTwoLikesParagraph = page.locator('#likes-id-3')
+
+      await page.getByRole('button', { name: 'view' }).nth(2).click()
+
+      for (let i = 0; i < 2; i++) {
+        await titleTwoLikesParagraph.getByRole('button', { name: '👍' }).click()
+        if (i === 0) {
+          await expect(titleTwoLikesParagraph).toContainText('1 like')
+        }
+      }
+      await expect(titleTwoLikesParagraph).toContainText('2 likes')
+
+      // title 3
+      const titleThreeLikesParagraph = page.locator('#likes-id-4')
+
+      await page.getByRole('button', { name: 'view' }).last().click()
+      await titleThreeLikesParagraph.getByRole('button', { name: '👍' }).click()
+      await expect(titleThreeLikesParagraph).toContainText('1 like')
+      await titleThreeLikesParagraph.getByRole('button', { name: '👍' }).click()
+      await expect(titleThreeLikesParagraph).toContainText('2 likes')
+      await titleThreeLikesParagraph.getByRole('button', { name: '👍' }).click()
+      await expect(titleThreeLikesParagraph).toContainText('3 likes')
+
+      // sort by most likes
+
+      await page.getByRole('button', { name: 'Sort by Most Likes' }).click()
+
+      // reference the div that contains the whole list of blogs
+      const parentOfTopMostElement = page.locator('#blog-stack')
+
+      // get the top most child of parent div
+      // CSS parent.locator(':scope > div').first()
+      // OR XPath parent.locator('xpath=./div[1]')
+      const topMostChild = parentOfTopMostElement.locator(':scope > div').first()
+      const topMostParagraph = topMostChild.locator('p').first()
+
+      await expect(topMostParagraph).toContainText('Test title 3')
+
+      // get the next nested div after test title 3 div
+      const topSecondParagraph = parentOfTopMostElement.locator('xpath=./div[2]').locator('p').first()
+      await expect(topSecondParagraph).toContainText('Test title 2')
+
+      // get the next nested div after test title 2 div
+      const topThirdParagraph = parentOfTopMostElement.locator('xpath=./div[3]').locator('p').first()
+      await expect(topThirdParagraph).toContainText('Test title 1')
+
+      // get the next nested div after test title 1 div
+      const lastParagraph = parentOfTopMostElement.locator('xpath=./div[4]').locator('p').first()
+      await expect(lastParagraph).toContainText('Test title 0')
+
+      // div id='blog-stack'
+      //  div 
+      //    p Test title 3
+      //  div 
+      //    p Test title 2
+      //  div 
+      //    p Test title 1
+      //  div 
+      //    p Test title 0
+      // div - closing of blog stack div
+
+    })
+
+  }) // sorting blog items
 
 })
