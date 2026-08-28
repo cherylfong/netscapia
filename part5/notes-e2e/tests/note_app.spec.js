@@ -67,6 +67,27 @@ describe('Note app', () => {
                 await expect(page.getByText('make important')).toBeVisible()
             })
         })
+
+        describe('and several notes exists', () => {
+            beforeEach(async ({ page }) => {
+                await createNote(page, 'first note')
+                await createNote(page, 'second note')
+                await createNote(page, 'third note')
+
+            })
+
+            test('one of those can be made nonimportant', async ({ page }) => {
+                await page.pause()
+                const secondNoteElement = page.getByText('second note')
+                const parentSecondNoteElement = secondNoteElement.locator('..') // retrieves element's parent
+                // possible options with, 
+                // XPath: https://developer.mozilla.org/en-US/docs/Web/XPath
+                // CSS selectors: https://playwright.dev/docs/locators#locate-by-css-or-xpath
+
+                await parentSecondNoteElement.getByRole('button', { name: 'make not important' }).click()
+                await expect(parentSecondNoteElement.getByText('make important')).toBeVisible()
+            })
+        })
     })
 
 })

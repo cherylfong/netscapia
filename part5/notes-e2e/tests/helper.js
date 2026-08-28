@@ -24,5 +24,6 @@ const createNote = async (page, content) => {
     await page.getByRole('button', { name: 'Create a new note?' }).click()
     await page.getByRole('textbox').fill(content)
     await page.getByRole('button', { name: 'save' }).click()
+    await page.getByText(content).waitFor() // to wait for the inserted note to render
 }
 export { loginWith, createNote }
