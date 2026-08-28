@@ -43,7 +43,7 @@ const Blog = ({ blog, loggedInUser, updateBlogLikes, removeBlog }) => {
         <button onClick={toggleView}>hide view</button>
 
         {/* show delete button only if logged in user is the creator */}
-        <button style={{ display: loggedInUser === blog.user?.username ? '' : 'none' }}  onClick={() => removeBlogByID(blog.id)}>DETELE</button>
+        <button style={{ display: loggedInUser === blog.user?.username ? '' : 'none' }}  onClick={() => removeBlogByID(blog.id)}>DELETE</button>
       </div>
 
       <div style={{ display: view ? '' : 'none' }}  >

@@ -59,7 +59,7 @@ describe('Blog app', () => {
       await expect(page.getByText('Playwright Initiated Entry by Playwright Test')).toBeVisible()
     })
 
-     test('a new blog item can be liked', async ({ page }) => {
+    test('a new blog item can be liked', async ({ page }) => {
       await createBlog(page, 'Playwright Initiated Entry', 'Playwright Test', 'playwright.dev')
       await expect(page.getByText('Playwright Initiated Entry by Playwright Test')).toBeVisible()
 
@@ -71,6 +71,22 @@ describe('Blog app', () => {
       await expect(page.getByText('1 like')).toBeVisible()
 
     })
+
+    test('a blog created by logged in user can be deleted', async ({ page }) => {
+      await createBlog(page, 'Playwright Initiated Entry', 'Playwright Test', 'playwright.dev')
+      await expect(page.getByText('Playwright Initiated Entry by Playwright Test')).toBeVisible()
+
+      await page.getByRole('button', { name: 'view' }).click()
+
+      page.on('dialog', dialog => dialog.accept());
+      await page.getByRole('button', { name: 'DELETE' }).click();
+
+      await expect(page.getByText('Playwright Initiated Entry by Playwright Test')).not.toBeVisible()
+
+      await expect(page.getByText('Blog item removed!')).toBeVisible()
+
+    })
+
 
   })
 
