@@ -13,4 +13,4 @@ const createBlog = async (page, title, author, url) => {
     await page.getByRole('button', { name: 'Save' }).click()
     await page.getByText(content).waitFor() // to wait for the inserted note to render
 }
-export { loginWith, createNote }
+export { loginWith, createBlog }

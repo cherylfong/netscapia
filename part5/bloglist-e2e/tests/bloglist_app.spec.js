@@ -1,6 +1,8 @@
 const { test, expect, beforeEach, describe } = require('@playwright/test')
+const { loginWith, createBlog } = require('./helper')
 
 describe('Blog app', () => {
+
   beforeEach(async ({ page, request }) => {
 
     await request.post('/api/testing/reset')
@@ -24,4 +26,26 @@ describe('Blog app', () => {
     await expect(page.getByLabel('password')).toBeVisible()
 
   })
+
+  test('login fails with wrong credentials', async ({ page }) => {
+
+        await loginWith(page, 'jelly', 'wrong')
+        // using CSS selector
+        const errorDiv = page.locator('.error')
+        await expect(errorDiv).toContainText('Invalid credentials! 🔐 Try again 😀')
+
+        await expect(errorDiv).toHaveCSS('border-style', 'solid')
+        await expect(errorDiv).toHaveCSS('color', 'rgb(255, 0, 0)')
+
+        await expect(page.getByText('jelly logged in.')).not.toBeVisible()
+    })
+
+
+    test('login succeeds with correct credentials', async ({ page }) => {
+
+        await loginWith(page, 'jelly', 'password')
+
+        await expect(page.getByText('jelly is logged in.')).toBeVisible()
+
+    })
 })
