@@ -29,23 +29,37 @@ describe('Blog app', () => {
 
   test('login fails with wrong credentials', async ({ page }) => {
 
-        await loginWith(page, 'jelly', 'wrong')
-        // using CSS selector
-        const errorDiv = page.locator('.error')
-        await expect(errorDiv).toContainText('Invalid credentials! 🔐 Try again 😀')
+    await loginWith(page, 'jelly', 'wrong')
+    // using CSS selector
+    const errorDiv = page.locator('.error')
+    await expect(errorDiv).toContainText('Invalid credentials! 🔐 Try again 😀')
 
-        await expect(errorDiv).toHaveCSS('border-style', 'solid')
-        await expect(errorDiv).toHaveCSS('color', 'rgb(255, 0, 0)')
+    await expect(errorDiv).toHaveCSS('border-style', 'solid')
+    await expect(errorDiv).toHaveCSS('color', 'rgb(255, 0, 0)')
 
-        await expect(page.getByText('jelly logged in.')).not.toBeVisible()
+    await expect(page.getByText('jelly logged in.')).not.toBeVisible()
+  })
+
+
+  test('login succeeds with correct credentials', async ({ page }) => {
+
+    await loginWith(page, 'jelly', 'password')
+
+    await expect(page.getByText('jelly is logged in.')).toBeVisible()
+
+  })
+
+  describe('when logged in', () => {
+    beforeEach(async ({ page }) => {
+      await loginWith(page, 'jelly', 'password')
     })
 
-
-    test('login succeeds with correct credentials', async ({ page }) => {
-
-        await loginWith(page, 'jelly', 'password')
-
-        await expect(page.getByText('jelly is logged in.')).toBeVisible()
-
+    test('a new blog item can be created', async ({ page }) => {
+      await createBlog(page, 'Playwright Initiated Entry', 'Playwright Test', 'playwright.dev')
+      await expect(page.getByText('Playwright Initiated Entry by Playwright Test')).toBeVisible()
     })
+
+   
+  })
+
 })

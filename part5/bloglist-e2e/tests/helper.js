@@ -11,6 +11,6 @@ const createBlog = async (page, title, author, url) => {
     await page.getByLabel('author:').fill(author)
     await page.getByLabel('url:').fill(url)
     await page.getByRole('button', { name: 'Save' }).click()
-    await page.getByText(content).waitFor() // to wait for the inserted note to render
+    await page.getByText(`${title} by ${author}`).waitFor() // to wait for the inserted note to render
 }
 export { loginWith, createBlog }
