@@ -48,6 +48,8 @@ const userExtractor = async (request, response, next) => {
   if (request.method === 'GET') return next()
 
   if (!request.token) {
+    if(request.method === 'PUT') return next()
+
     return response.status(401).json({ error: 'token missing' })
   }
 

@@ -78,43 +78,60 @@ bloglistRouter.delete('/:id', userExtractor, async (request, response) => {
 })
 
 bloglistRouter.put('/:id', userExtractor, async (request, response) => {
-  const { likes, url, author, title } = request.body
 
   let blog = await Blog.findById(request.params.id)
+
+  if (!blog) {
+
+    return response.status(404).end()
+  }
 
   const user = request.user
 
   const userIDFromBlog = blog.user.toString()
   const userIDFromLogin = user.id.toString()
 
+  const { likes, url, author, title } = request.body
+
+  // The user who posted the blog making changes?
+  const isOwner = userIDFromBlog === userIDFromLogin
+
   // if updated likes are the same as the original likes OR
   // likes is not provided at all
   // then check if logged in user is the one making updates
   // to the blog they have added
-  if(likes === blog.likes || likes === null ){
+  const changesOwnerField =
+    (title !== undefined && title !== blog.title) ||
+    (author !== undefined && author !== blog.author) ||
+    (url !== undefined && url !== blog.url)
 
-    if (userIDFromLogin !== userIDFromBlog) {
-      const owner = await User.findById(blog.user)
-      const ownerName = owner ? owner.username : 'unknown'
-      return response.status(401).json({ error: `Only original poster can update the posted blog - blog owner: ${ownerName}` })
+  if (!isOwner && changesOwnerField) {
+
+    if(!request.token){
+      return response.status(401).json({
+        error: 'Login to change title, author, or url'
+      })
     }
+    return response.status(403).json({
+      error: 'Only the original poster can update title, author, or url'
+    })
 
   }
 
-  if (!blog) {
-
-    return response.status(404).end()
-
-  } else {
-
-    blog.likes = likes? likes : blog.likes
-    blog.url = url? url : blog.url
-    blog.author = author? author : blog.author
-    blog.title = title? title : blog.title
-
-    const updatedBlog = await blog.save()
-    response.status(200).json(updatedBlog)
+  // any user can update likes
+  if (likes !== undefined) {
+    blog.likes = likes
   }
+
+  if (isOwner) {
+    blog.url = url ? url : blog.url
+    blog.author = author ? author : blog.author
+    blog.title = title ? title : blog.title
+
+  }
+
+  const updatedBlog = await blog.save()
+  return response.status(200).json(updatedBlog)
 
 })
 
