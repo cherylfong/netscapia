@@ -72,6 +72,37 @@ describe('Blog app', () => {
 
     })
 
+    test('DELETE button is only visible to user who posted the blog item', async ({ page, request }) => {
+      await createBlog(page, 'Playwright Initiated Entry', 'Playwright Test', 'playwright.dev')
+      await expect(page.getByText('Playwright Initiated Entry by Playwright Test')).toBeVisible()
+
+      await page.getByRole('button', { name: 'view' }).click()
+
+      await expect(page.getByRole('button', { name: 'DELETE' })).toBeVisible()
+
+      await page.getByRole('button', { name: 'Log Out' }).click()
+
+      await expect(page.getByText('Log off successful')).toBeVisible()
+
+      await expect(page.getByText('jelly is logged in.')).not.toBeVisible()
+
+      await expect(page.getByRole('button', { name: 'DELETE' })).not.toBeVisible()
+
+      await request.post('/api/users', {
+        data: {
+          name: 'bean',
+          username: 'bean',
+          password: 'password'
+        }
+      })
+
+      await loginWith(page, 'bean', 'password')
+
+      await expect(page.getByText('bean is logged in.')).toBeVisible()
+
+      await expect(page.getByRole('button', { name: 'DELETE' })).not.toBeVisible()
+    })
+
     test('a blog created by logged in user can be deleted', async ({ page }) => {
       await createBlog(page, 'Playwright Initiated Entry', 'Playwright Test', 'playwright.dev')
       await expect(page.getByText('Playwright Initiated Entry by Playwright Test')).toBeVisible()

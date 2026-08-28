@@ -89,33 +89,41 @@ bloglistRouter.put('/:id', userExtractor, async (request, response) => {
   const user = request.user
 
   const userIDFromBlog = blog.user.toString()
-  const userIDFromLogin = user.id.toString()
 
   const { likes, url, author, title } = request.body
+  if (user) {
+    const userIDFromLogin = user.id.toString()
 
-  // The user who posted the blog making changes?
-  const isOwner = userIDFromBlog === userIDFromLogin
+    // The user who posted the blog making changes?
+    const isOwner = userIDFromBlog === userIDFromLogin
 
-  // if updated likes are the same as the original likes OR
-  // likes is not provided at all
-  // then check if logged in user is the one making updates
-  // to the blog they have added
-  const changesOwnerField =
-    (title !== undefined && title !== blog.title) ||
-    (author !== undefined && author !== blog.author) ||
-    (url !== undefined && url !== blog.url)
+    // if updated likes are the same as the original likes OR
+    // likes is not provided at all
+    // then check if logged in user is the one making updates
+    // to the blog they have added
+    const changesOwnerField =
+      (title !== undefined && title !== blog.title) ||
+      (author !== undefined && author !== blog.author) ||
+      (url !== undefined && url !== blog.url)
 
-  if (!isOwner && changesOwnerField) {
+    if (!isOwner && changesOwnerField) {
 
-    if(!request.token){
-      return response.status(401).json({
-        error: 'Login to change title, author, or url'
+      if (!request.token) {
+        return response.status(401).json({
+          error: 'Login to change title, author, or url'
+        })
+      }
+      return response.status(403).json({
+        error: 'Only the original poster can update title, author, or url'
       })
     }
-    return response.status(403).json({
-      error: 'Only the original poster can update title, author, or url'
-    })
 
+    if (isOwner) {
+      blog.url = url ? url : blog.url
+      blog.author = author ? author : blog.author
+      blog.title = title ? title : blog.title
+
+    }
   }
 
   // any user can update likes
@@ -123,12 +131,7 @@ bloglistRouter.put('/:id', userExtractor, async (request, response) => {
     blog.likes = likes
   }
 
-  if (isOwner) {
-    blog.url = url ? url : blog.url
-    blog.author = author ? author : blog.author
-    blog.title = title ? title : blog.title
 
-  }
 
   const updatedBlog = await blog.save()
   return response.status(200).json(updatedBlog)
