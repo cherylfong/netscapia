@@ -1,6 +1,15 @@
 // to save component states
 import { useState, useEffect, useRef } from 'react'
 
+import {
+  BrowserRouter as Router,
+  Routes, Route, Link
+} from 'react-router-dom'
+
+import NoteList from './components/NoteList'
+import Home from './components/Home'
+import Login from './components/Login'
+
 import Note from './components/Note'
 import Notification from './components/Notification'
 import Footer from './components/Footer'
@@ -11,13 +20,11 @@ import NoteForm from './components/NoteForm'
 import noteService from './services/notes'
 import loginService from './services/login'
 
-// remove props param and replace props.notes with [] empty array 
+// remove props param and replace props.notes with [] empty array
 // if want to start with not using notes array from
 // main.jsx
 const App = () => {
   const [notes, setNotes] = useState([])
-
-  const [showAll, setShowAll] = useState(true)
 
   const [errorMessage, setErrorMessage] = useState(null)
 
@@ -80,7 +87,7 @@ const App = () => {
     noteService
       .create(noteObject)
       .then(returnedNote => {
-        console.log("POSTED !!! ")
+        console.log('POSTED !!! ')
         console.log(returnedNote)
         setNotes(notes.concat(returnedNote)) // THIS DOES NOT MUTATE ORIGINAL notes ARRAY -- append new object to notes
       })
@@ -97,9 +104,9 @@ const App = () => {
     // object spread syntax:
     // must make a new Note object because:
     // If using the variable note, it is a reference to an item in the notes array
-    // in the component's state, 
+    // in the component's state,
     // and as we recall we must never mutate state directly in React.
-    // 
+    //
     // changedNote is a shallow copy of note
     // if note contains object references then changedNote
     // will have copies of references (not new objects)
@@ -127,9 +134,7 @@ const App = () => {
   }
 
 
-  const notesToShow = showAll
-    ? notes
-    : notes.filter(note => note.important === true) //comparison operator is redundant)
+
 
   const handleLogin = async (username, password, setUsername, setPassword) => {
 
@@ -177,42 +182,75 @@ const App = () => {
   )
 
 
-  const noteForm = () => (
-    <Togglable buttonLabel="Create a new note?" ref={noteFormRef}>
-      <NoteForm
-        createNote={createNote}
-      />
-    </Togglable>
-  )
+  const noteForm = () => {
+
+    if(!user){
+      return(
+        <p><a href='/login'>Login</a> to add a new note.</p>
+      )
+    }else{
+      return(
+        <Togglable buttonLabel="Create a new note?" ref={noteFormRef}>
+          <NoteForm
+            createNote={createNote}
+          />
+        </Togglable>
+      )
+    }
+
+  }
+
+
+
+  const linkPadding = {
+    padding: 5
+  }
 
   return (
-    <div>
+
+    <>
       <h1>Notes</h1>
-      <Notification message={errorMessage} />
-
-      {!user && loginForm()}
-
-      {user && (
+      <Router>
         <div>
-          <p>{user.name ?? user.username} is logged in.</p>
-          {noteForm()}
-          <button onClick={handleLogOff}>Log Off</button>
+          <Link style={linkPadding} to="/">HOME</Link>
+          <Link style={linkPadding} to="/notes">NOTES</Link>
+          <Link style={linkPadding} to="/create">ADD NEW NOTE</Link>
+
+          <Link to='/Login'> {!user && (
+            <>LOGIN</>
+          )}
+          {user && (
+            <>
+              {user.name ?? user.username} is logged in.
+            </>
+          )}
+          </Link>
+
         </div>
-      )}
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/notes" element={<NoteList
+            notes={notes}
+            user={user}
+            toggleImportanceOf={toggleImportanceOf}/>}
+          />
+          <Route path="/create" element={noteForm()}/>
+          <Route path="/login" element={loginForm()} />
+        </Routes>
+      </Router>
 
       <div>
-        <button onClick={() => setShowAll(!showAll)}>
-          show {showAll ? 'important' : 'all'}
-        </button>
-      </div>
-      <ul>
-        {notesToShow.map(note =>
-          <Note key={note.id} note={note} toggleImportance={() => toggleImportanceOf(note.id)} />
-        )}
-      </ul>
+        <Notification message={errorMessage} />
 
-      <Footer />
-    </div>
+        {user && (
+          <div>
+            <button onClick={handleLogOff}>Log Off</button>
+          </div>
+        )}
+
+        <Footer />
+      </div>
+    </>
   )
 }
 
