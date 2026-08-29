@@ -516,3 +516,14 @@ When the Record mode is on, the test generator "records" the user's interaction 
 - [Assertions](https://playwright.dev/docs/test-assertions) are types of test expectations
 - [Page class](https://playwright.dev/docs/api/class-page) corresponds to the test browser window
 
+### Part 5 sub e. React Router and UI Frameworks
+
+#### [React Router](https://reactrouter.com/)
+
+Install via `npm install react-router-dom`
+
+`BrowserRouter` uses the [HTML5 History API](https://css-tricks.com/using-the-html5-history-api/) to allow the URL in the browser's address bar to be used for internal "routing" within a React application.
+
+Page content is manipulated solely through JavaScript, and the browser does not load new content from the server. However, the usual browser behavior for going back and forth different addresses and bookmarking works just like [traditional](https://fullstackopen.com/en/part0/fundamentals_of_web_apps#traditional-web-applications) websites (i.e. ones that send a new HTTP GET request per page and renders a new page).
+
+The JavaScript code executed in the browser creates the illusion of different "pages." If HTTP requests are made when changing views, they are used solely to fetch JSON-formatted data that may be required to display the new view.
