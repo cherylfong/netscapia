@@ -1,7 +1,7 @@
 import { useState } from 'react'
-import Note from './Note'
+import { Link } from 'react-router-dom'
 
-const NoteList = ({ notes, toggleImportanceOf }) => {
+const NoteList = ({ notes }) => {
 
   const [showAll, setShowAll] = useState(true)
 
@@ -16,12 +16,15 @@ const NoteList = ({ notes, toggleImportanceOf }) => {
     <div>
       <div>
         <button onClick={() => setShowAll(!showAll)}>
-                    show {showAll ? 'important' : 'all'}
+          show {showAll ? 'important' : 'all'}
         </button>
       </div>
       <ul>
-        {notesToShow.map(note => <Note key={note.id} note={note} toggleImportance={() => toggleImportanceOf(note.id)} />
-        )}
+        {notesToShow.map(note => (
+          <li key={note.id}>
+            <Link to={`/notes/${note.id}`}>{note.content}</Link>
+          </li>
+        ))}
       </ul>
 
     </div>

@@ -3,7 +3,8 @@ import { useState, useEffect, useRef } from 'react'
 
 import {
   BrowserRouter as Router,
-  Routes, Route, Link
+  Routes, Route, Link,
+  useMatch
 } from 'react-router-dom'
 
 import NoteList from './components/NoteList'
@@ -184,12 +185,12 @@ const App = () => {
 
   const noteForm = () => {
 
-    if(!user){
-      return(
+    if (!user) {
+      return (
         <p><a href='/login'>Login</a> to add a new note.</p>
       )
-    }else{
-      return(
+    } else {
+      return (
         <Togglable buttonLabel="Create a new note?" ref={noteFormRef}>
           <NoteForm
             createNote={createNote}
@@ -206,38 +207,53 @@ const App = () => {
     padding: 5
   }
 
+  const deleteNote = (id) => {
+    noteService.remove(id).then(() => {
+      setNotes(notes.filter(n => n.id !== id))
+    })
+  }
+
+  const match = useMatch('/notes/:id')
+  const note = match
+    ? notes.find(note => note.id === match.params.id)
+    : null
+
   return (
 
     <>
       <h1>Notes</h1>
-      <Router>
-        <div>
-          <Link style={linkPadding} to="/">HOME</Link>
-          <Link style={linkPadding} to="/notes">NOTES</Link>
-          <Link style={linkPadding} to="/create">ADD NEW NOTE</Link>
 
-          <Link to='/Login'> {!user && (
-            <>LOGIN</>
-          )}
-          {user && (
-            <>
-              {user.name ?? user.username} is logged in.
-            </>
-          )}
-          </Link>
+      <div>
+        <Link style={linkPadding} to="/">HOME</Link>
+        <Link style={linkPadding} to="/notes">NOTES</Link>
+        <Link style={linkPadding} to="/create">ADD NEW NOTE</Link>
 
-        </div>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/notes" element={<NoteList
-            notes={notes}
-            user={user}
-            toggleImportanceOf={toggleImportanceOf}/>}
-          />
-          <Route path="/create" element={noteForm()}/>
-          <Route path="/login" element={loginForm()} />
-        </Routes>
-      </Router>
+        <Link to='/Login'> {!user && (
+          <>LOGIN</>
+        )}
+        {user && (
+          <>
+            {user.name ?? user.username} is logged in.
+          </>
+        )}
+        </Link>
+      </div>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/notes" element={<NoteList
+          notes={notes}
+          user={user}
+          toggleImportanceOf={toggleImportanceOf} />}
+        />
+        <Route path="/create" element={noteForm()} />
+        <Route path="/login" element={loginForm()} />
+        <Route path="/notes/:id" element={
+          <Note note={note}
+            toggleImportanceOf={toggleImportanceOf}
+            deleteNote={deleteNote} />
+        } />
+      </Routes>
+
 
       <div>
         <Notification message={errorMessage} />
