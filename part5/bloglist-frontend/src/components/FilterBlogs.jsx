@@ -18,6 +18,8 @@ const FilterBlogs = ({ blogs, user, updateBlogLikes, removeBlog }) => {
 
   return (
     <>
+      <p style={{ fontSize: 'small' }}>**All users including unauthenticated users can <b>like</b> blog items.</p>
+
       <div>
         <button onClick={() => setSortOrder('earliest')}>
           Sort by Earliest Add First
