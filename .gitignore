@@ -51,6 +51,9 @@ web_modules/
 # Optional npm cache directory
 .npm
 
+# Vite cache
+.vite
+
 # Optional eslint cache
 .eslintcache
 
