@@ -1,7 +1,8 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { TextField, Button } from '@mui/material'
 
-const BlogForm = ( { createBlog } ) => {
+const BlogForm = ({ createBlog }) => {
 
   const [newBlogTitle, setBlogTitle] = useState('')
   const [newBlogAuthor, setBlogAuthor] = useState('')
@@ -28,25 +29,42 @@ const BlogForm = ( { createBlog } ) => {
 
   return (
     <form onSubmit={addBlog}>
-      <div><label>title:
-        <input
+      <div >
+
+        <TextField
+          required
+          id="outlined-required"
+          label="title"
+          placeholder="What's the name of the blog?"
           value={newBlogTitle}
           onChange={event => setBlogTitle(event.target.value)}
+          style={{ marginTop: 10 }}
         />
-      </label></div>
-      <div><label>author:
-        <input
+      </div>
+      <div>
+        <TextField
+          required
+          id="outlined-required"
+          label="author"
+          placeholder='Who wrote the blog?'
           value={newBlogAuthor}
           onChange={event => setBlogAuthor(event.target.value)}
+          style={{ marginTop: 10 }}
         />
-      </label></div>
-      <div><label>url:
-        <input
+      </div>
+      <div>
+        <TextField
+          required
+          id="outlined-required"
+          label="url"
           value={newBlogUrl}
           onChange={event => setBlogUrl(event.target.value)}
+          style={{ marginTop: 10 }}
         />
-      </label></div>
-      <button type="submit">Save</button>
+      </div>
+      <Button type="submit" variant='contained' style={{ marginTop: 10 }}>
+        save
+      </Button>
     </form>
   )
 }
