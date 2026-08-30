@@ -6,6 +6,7 @@ import {
 } from 'react-router-dom'
 
 import About from './components/About'
+import BlogPage from './components/BlogPage'
 
 import Blog from './components/Blog'
 import LoginForm from './components/LoginForm'
@@ -101,8 +102,7 @@ const App = () => {
   // only the logged-in users who is the original poster
   // (the user who added it) can delete the blog item
   const removeBlog = (blogId) => {
-
-    blogService
+    return blogService
       .remove(blogId)
       .then(() => blogService.getAll())
       .then(refreshedBlogs => {
@@ -202,6 +202,11 @@ const App = () => {
     padding: 5
   }
 
+  const match = useMatch('/:id')
+  const blog = match
+    ? blogs.find(b => b.id === match.params.id)
+    : null
+
   return (
     <div>
 
@@ -226,8 +231,34 @@ const App = () => {
       <Routes>
         <Route path='/how-to-use' element={<About />} />
         <Route path='/' element={
-          <FilterBlogs blogs={blogs} user={user} updateBlogLikes={updateBlogLikes} removeBlog={removeBlog} />}/>
+          <FilterBlogs blogs={blogs} user={user} updateBlogLikes={updateBlogLikes} removeBlog={removeBlog} />} />
         <Route path='/login' element={<LoginForm handleLogin={handleLogin} />} />
+
+        {/* <Route path="/:id" element={
+          <Blog blog={blog}
+            loggedInUser={user?.username}
+            updateBlogLikes={updateBlogLikes}
+            removeBlog={removeBlog}/>
+        } /> */}
+
+        {/*NOTE TO SELF ^^^
+          *
+          * The above code for Route to the id of a blog item works.
+          * HOWEVER, when that page is refreshed,
+          * An error occurs with the value of blog as being undefined.
+          * The blog UseState is populated asynchronously.
+          * The refreshed page loses the passed-in blog prop until the client fetch finishes.
+          * The code below using BlogPage fetches a blog by id from the server when rendered.
+          */}
+
+        <Route path="/:id" element={
+          <BlogPage
+            blogs={blogs}
+            loggedInUser={user?.username}
+            updateBlogLikes={updateBlogLikes}
+            removeBlog={removeBlog}
+          />
+        } />
       </Routes>
 
 

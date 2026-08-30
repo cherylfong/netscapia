@@ -1,8 +1,9 @@
 import { useState } from 'react'
+import { Link } from 'react-router-dom'
 
-const Blog = ({ blog, loggedInUser, updateBlogLikes, removeBlog, counter }) => {
+const Blog = ({ blog, loggedInUser, updateBlogLikes, removeBlog, counter, startCollapsed = true }) => {
 
-  const [view, setView] = useState(true)
+  const [view, setView] = useState(startCollapsed)
 
   const toggleView = () => {
     setView(viewable => !viewable)
@@ -31,10 +32,12 @@ const Blog = ({ blog, loggedInUser, updateBlogLikes, removeBlog, counter }) => {
     removeBlog(blogID)
   }
 
+  if (!counter) counter = 0
+
   return (
     < div style={blogItemStyle} >
 
-      <p id={`title-author-test-${counter}`}><b><i>{blog.title}</i></b> by {blog.author}</p>
+      <p id={`title-author-test-${counter}`}><b><i>{blog.title}</i></b> by {blog.author} | <Link to={`/${blog.id}`}>Details</Link></p>
 
       <div style={{ display: view ? 'none' : '' }} >
         <a style={{ color : 'green' }}>{blog.url}</a>
