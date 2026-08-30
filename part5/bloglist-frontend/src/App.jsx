@@ -46,7 +46,10 @@ const App = () => {
 
   const createBlog = (blogItemObject) => {
 
-    blogFormRef.current.toggleVisibility()
+    if (blogFormRef.current) {
+      blogFormRef.current.toggleVisibility()
+    }
+
 
     blogService
       .create(blogItemObject)
@@ -211,8 +214,12 @@ const App = () => {
     <div>
 
       <div>
-        <Link style={linkPadding} to="/how-to-use">USAGE GUIDE</Link>
-        <Link style={linkPadding} to="/">BLOGS</Link>
+        <Link style={linkPadding} to='/how-to-use'>USAGE GUIDE</Link>
+        <Link style={linkPadding} to='/'>BLOGS</Link>
+
+        {user && <Link style={linkPadding} to='/add'>ADD</Link>}
+
+        {/* <Link style={linkPadding} to="/add">{user && 'ADD'}</Link> */}
         {user && (
           <button onClick={handleLogOff}>Log Out</button>
         )}
@@ -234,6 +241,8 @@ const App = () => {
           <FilterBlogs blogs={blogs} user={user} updateBlogLikes={updateBlogLikes} removeBlog={removeBlog} />} />
         <Route path='/login' element={<LoginForm handleLogin={handleLogin} />} />
 
+        <Route path='/add' element={<BlogForm createBlog={createBlog} />} />
+
         {/* <Route path="/:id" element={
           <Blog blog={blog}
             loggedInUser={user?.username}
@@ -251,7 +260,7 @@ const App = () => {
           * The code below using BlogPage fetches a blog by id from the server when rendered.
           */}
 
-        <Route path="/:id" element={
+        <Route path='/:id' element={
           <BlogPage
             blogs={blogs}
             loggedInUser={user?.username}
