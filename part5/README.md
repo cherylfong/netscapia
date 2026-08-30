@@ -546,3 +546,36 @@ Installation for Google's [Material Design](https://material.io/) UI framework:
 `npm install @mui/material @emotion/react @emotion/styled`
 
 The entire app is usually rendered inside the `<Container></Container>` component.
+
+##### Styled Components
+
+The [styled-components](https://www.styled-components.com/) UI library uses ES6's [tagged template literal syntax](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals).
+
+[Install](https://styled-components.com/docs/basics#installation) with the following command:
+
+`npm install styled-components`
+
+An example of styled-components:
+
+```javascript
+import styled from 'styled-components'
+
+const ButtonSC = styled.button`
+  background: Bisque;
+  font-size: 1em;
+  margin: 1em;
+  padding: 0.25em 1em;
+  border: 2px solid Chocolate;
+  border-radius: 3px;
+`
+
+const FooterSC = styled.div`
+  background: rgba(130, 255, 184, 0.14);
+  padding: 1em;
+  margin-top: 1em;
+`
+
+export default { ButtonSC, FooterSC }
+```
+
+**Do not forget the `;` at the end of each key-value**.
