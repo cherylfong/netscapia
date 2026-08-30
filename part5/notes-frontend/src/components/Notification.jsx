@@ -2,6 +2,7 @@ import { Alert } from '@mui/material'
 
 // notification object has the fields
 // 1. type - determines the color of the notification
+// The types are success (the default), info, warning, and error
 // 2. text - the notification message
 const Notification = ({ notification }) => {
   if (notification === null) {

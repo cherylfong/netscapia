@@ -14,7 +14,7 @@ import Home from './components/Home'
 
 import Note from './components/Note'
 import Notification from './components/Notification'
-import Footer from './components/Footer'
+import FooterSC from './components/FooterSC'
 import LoginForm from './components/LoginForm'
 import Togglable from './components/Togglable'
 import NoteForm from './components/NoteForm'
@@ -286,7 +286,11 @@ const App = () => {
           </div>
         )}
 
-        <Footer />
+        <FooterSC>
+          <div>
+            NOTE APP <span style={{ fontSize: 'small' }}>2026</span>
+          </div>
+        </FooterSC>
       </div>
     </Container>
   )
