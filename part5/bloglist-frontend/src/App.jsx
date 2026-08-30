@@ -1,5 +1,12 @@
 import { useState, useEffect, useRef } from 'react'
 
+import {
+  Routes, Route, Link,
+  useMatch, useNavigate
+} from 'react-router-dom'
+
+import About from './components/About'
+
 import Blog from './components/Blog'
 import LoginForm from './components/LoginForm'
 import BlogForm from './components/BlogForm'
@@ -18,6 +25,7 @@ const App = () => {
   const [notifyMessage, setNotifyMessage] = useState(null)
   const [notifyFlag, setNotifyFlag] = useState(true) // false for errors
 
+  const navigate = useNavigate()
 
   useEffect(() => {
     blogService.getAll().then(blogs =>
@@ -84,7 +92,8 @@ const App = () => {
       })
       .catch(error => {
         setNotifyMessage(`ERROR: ${error.message}`)
-        setNotifyFlag(false)})
+        setNotifyFlag(false)
+      })
       .finally(resetNotification)
 
   }
@@ -105,7 +114,8 @@ const App = () => {
         setNotifyFlag(true)
       }).catch(error => {
         setNotifyMessage(`ERROR: ${error.message}`)
-        setNotifyFlag(false)})
+        setNotifyFlag(false)
+      })
       .finally(resetNotification)
 
   }
@@ -132,6 +142,7 @@ const App = () => {
 
       setUsername('')
       setPassword('')
+      navigate('/')
 
       setNotifyMessage(`🎊 Welcome back ${username}!`)
       setNotifyFlag(true)
@@ -157,6 +168,7 @@ const App = () => {
   const handleLogOff = () => {
     window.localStorage.clear()
     setUser(null)
+    navigate('/')
     setNotifyMessage('Log off successful')
     setNotifyFlag(true)
     resetNotification()
@@ -186,24 +198,38 @@ const App = () => {
     </Togglable>
   )
 
+  const linkPadding = {
+    padding: 5
+  }
+
   return (
     <div>
+
+      <div>
+        <Link style={linkPadding} to="/how-to-use">USAGE GUIDE</Link>
+        <Link style={linkPadding} to="/">BLOGS</Link>
+        {user && (
+          <button onClick={handleLogOff}>Log Out</button>
+        )}
+        {user && (
+          <span style={linkPadding} to=''>| {user.name ?? user.username} is logged in.</span>
+        )}
+        <Link style={linkPadding} to='/login'> {!user && (
+          <>LOGIN</>
+        )}</Link>
+      </div>
+
       <h1>blogs</h1>
 
       <Notification message={notifyMessage} success={notifyFlag} />
 
-      {!user && loginForm()}
-      {user && (
-        <div>
-          <p>{user.name ?? user.username} is logged in.</p>
-          {blogForm()}
-          <button onClick={handleLogOff}>Log Out</button>
-        </div>
-      )}
+      <Routes>
+        <Route path='/how-to-use' element={<About />} />
+        <Route path='/' element={
+          <FilterBlogs blogs={blogs} user={user} updateBlogLikes={updateBlogLikes} removeBlog={removeBlog} />}/>
+        <Route path='/login' element={<LoginForm handleLogin={handleLogin} />} />
+      </Routes>
 
-      <p><i>*Blogs can only be deleted by the original user who added it. Login to see delete button</i></p>
-
-      <FilterBlogs blogs={blogs} user={user} updateBlogLikes={updateBlogLikes} removeBlog={removeBlog}/>
 
     </div>
   )
