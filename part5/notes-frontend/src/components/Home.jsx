@@ -1,7 +1,11 @@
 const Home = () => {
   return (
     <div>
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+      <p>The <i>NOTE APP</i> is Node.js + React application that displays notes in a table format using Google's Material UI framework.
+      </p>
+      <p>This application allows all users to toggle notes as important or unimportant.</p>
+      <p>Only authenticated users can add new notes.</p>
+      <p><b>New user registration is disabled</b> for this application.</p>
     </div>
   )
 }

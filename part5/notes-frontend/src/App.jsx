@@ -1,5 +1,6 @@
 // to save component states
 import { useState, useEffect, useRef } from 'react'
+import { Container, Button, AppBar, Toolbar } from '@mui/material'
 
 import {
   BrowserRouter as Router,
@@ -9,7 +10,7 @@ import {
 
 import NoteList from './components/NoteList'
 import Home from './components/Home'
-import Login from './components/Login'
+
 
 import Note from './components/Note'
 import Notification from './components/Notification'
@@ -119,13 +120,25 @@ const App = () => {
         setNotes(notes.map(note => note.id === id ? returnedNote : note))
         // If the condition is false, then copy the item from the old array into the new array
         // response.data contains the changedNote
+        setErrorMessage(
+          {
+            text: `Note '${note.content}' is set to ${(note.important ? 'not important' : 'important')}`,
+            type: 'success'
+          }
+        )
+        setTimeout(() => {
+          setErrorMessage(null)
+        }, 5000)
       })
       .catch(() => {
         // alert(
         //   `the note '${note.content}' was already deleted from server`
         // )
         setErrorMessage(
-          `Note '${note.content}' was already removed from server`
+          {
+            text: `Note '${note.content}' was already removed from server`,
+            type: 'error'
+          }
         )
         setTimeout(() => {
           setErrorMessage(null)
@@ -156,7 +169,12 @@ const App = () => {
       setUsername('')
       setPassword('')
     } catch {
-      setErrorMessage('wrong credentials')
+      setErrorMessage(
+        {
+          text: 'wrong credentials',
+          type: 'error'
+        }
+      )
       setTimeout(() => {
         setErrorMessage(null)
       }, 5000)
@@ -201,12 +219,6 @@ const App = () => {
 
   }
 
-
-
-  const linkPadding = {
-    padding: 5
-  }
-
   const deleteNote = (id) => {
     noteService.remove(id).then(() => {
       setNotes(notes.filter(n => n.id !== id))
@@ -218,26 +230,33 @@ const App = () => {
     ? notes.find(note => note.id === match.params.id)
     : null
 
+  const styleToolBar = { '&:hover': { bgcolor: 'rgba(18, 136, 152, 0.51)' } }
+
+  const styleAppBar = { bgcolor: 'rgba(5, 53, 27, 0.6)' }
+
   return (
 
-    <>
+    <Container>
       <h1>Notes</h1>
 
-      <div>
-        <Link style={linkPadding} to="/">HOME</Link>
-        <Link style={linkPadding} to="/notes">NOTES</Link>
-        <Link style={linkPadding} to="/create">ADD NEW NOTE</Link>
+      <AppBar position="static" sx={styleAppBar}>
+        <Toolbar>
+          <Button color="inherit" component={Link} to="/" sx={styleToolBar}>HOME</Button>
+          <Button color="inherit" component={Link} to="/notes" sx={styleToolBar}>NOTES</Button>
+          <Button color="inherit" component={Link} to="/create" sx={styleToolBar}>ADD</Button>
 
-        <Link to='/Login'> {!user && (
-          <>LOGIN</>
-        )}
-        {user && (
-          <>
-            {user.name ?? user.username} is logged in.
-          </>
-        )}
-        </Link>
-      </div>
+          <Button color="inherit" component={Link} to="/login" sx={styleToolBar}> {!user && (
+            <>LOGIN</>
+          )}
+          {user && (
+            <>
+              {user.name ?? user.username} is logged in.
+            </>
+          )}
+          </Button>
+        </Toolbar>
+      </AppBar>
+
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/notes" element={<NoteList
@@ -256,17 +275,20 @@ const App = () => {
 
 
       <div>
-        <Notification message={errorMessage} />
+        <Notification notification={errorMessage} />
 
         {user && (
           <div>
-            <button onClick={handleLogOff}>Log Off</button>
+
+            <Button onClick={handleLogOff} style={{ marginTop: 10 }}>
+              Log Off
+            </Button>
           </div>
         )}
 
         <Footer />
       </div>
-    </>
+    </Container>
   )
 }
 

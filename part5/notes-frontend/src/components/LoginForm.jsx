@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { Button } from '@mui/material'
 
 const LoginForm = (
   {
@@ -37,10 +38,11 @@ const LoginForm = (
               onChange={event => setPassword(event.target.value)} />
           </label>
         </div>
-        <button type="submit">login</button>
+        <Button type="submit" variant="contained" style={{ marginTop: 10 }}>login</Button>
       </form>
     </div>
   )
 }
 
 export default LoginForm
+

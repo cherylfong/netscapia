@@ -16,7 +16,7 @@ const Footer = () => {
     <div style={footerStyle}>
       <br />
       <p>
-                NOTE APP
+        NOTE APP <span style={{ fontSize: 'small' }}>2026</span>
       </p>
     </div>
   )

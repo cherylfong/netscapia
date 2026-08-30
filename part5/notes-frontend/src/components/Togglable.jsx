@@ -1,4 +1,5 @@
 import { forwardRef, useImperativeHandle, useState } from 'react'
+import { Button } from '@mui/material'
 
 const Togglable = forwardRef(({ buttonLabel, children }, ref) => {
   const [visible, setVisible] = useState(false)
@@ -14,13 +15,15 @@ const Togglable = forwardRef(({ buttonLabel, children }, ref) => {
   return (
     <div>
       <div style={{ display: visible ? 'none' : '' }}>
-        <button onClick={toggleVisibility}>{buttonLabel}</button>
+        <Button onClick={toggleVisibility} variant='outlined' style={{ marginTop: 10 }}>{buttonLabel}</Button>
       </div>
 
       <div style={{ display: visible ? '' : 'none' }}>
         {children}
         {/* shows the nested elements within Togglable */}
-        <button onClick={toggleVisibility}>hide form</button>
+        <Button onClick={toggleVisibility} variant='outlined' style={{ marginTop: 10 }}>
+          hide form
+        </Button>
       </div>
     </div>
   )

@@ -527,3 +527,22 @@ Install via `npm install react-router-dom`
 Page content is manipulated solely through JavaScript, and the browser does not load new content from the server. However, the usual browser behavior for going back and forth different addresses and bookmarking works just like [traditional](https://fullstackopen.com/en/part0/fundamentals_of_web_apps#traditional-web-applications) websites (i.e. ones that send a new HTTP GET request per page and renders a new page).
 
 The JavaScript code executed in the browser creates the illusion of different "pages." If HTTP requests are made when changing views, they are used solely to fetch JSON-formatted data that may be required to display the new view.
+
+##### UI Libraries
+
+A way to define an application's style using a UI style library.
+
+UI frameworks are used by adding the framework’s CSS style sheets and JavaScript code in the application.
+
+Many UI frameworks have been adapted to have "components" defined by the UI framework as React components.
+
+Suggestions:
+- [Bootstrap](https://getbootstrap.com/)
+- [React-Bootstrap](https://react-bootstrap.github.io/)
+- [MaterialUI](https://mui.com/)
+
+Installation for Google's [Material Design](https://material.io/) UI framework:
+
+`npm install @mui/material @emotion/react @emotion/styled`
+
+The entire app is usually rendered inside the `<Container></Container>` component.
