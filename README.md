@@ -104,3 +104,18 @@ The 5 subparts in Part 5 are completed in individual branches and is named accor
 | c.      | [`part5-c`]( https://github.com/cherylfong/netscapia/tree/part5-c )     |
 | d.      | [`part5-d`]( https://github.com/cherylfong/netscapia/tree/part5-d )     |
 | e.      | [`part5-e`]( https://github.com/cherylfong/netscapia/tree/part5-e )     |
+
+### [Part 6](https://github.com/cherylfong/netscapia-state-management/)
+
+Files for part 6 are located in [its own repository](https://github.com/cherylfong/netscapia-state-management) separate from parts 1 to 5.
+
+Part 6 introduces several different ways to manage application state using Zustand, TanStack Query, and React's Context API.
+
+The table below is a summary of the contents of each branch.
+
+| Branches     | part6-a                                                                                    | part6-b     | part6-c      |
+| :----------- | :----------------------------------------------------------------------------------------- | :---------- | :----------- |
+| **Sub Parts**    | a                                                                                          | b           | c            |
+| **Exercises**    | 6.1 to 6.5                                                                                 | 6.6 to 6.15 | 6.16 to 6.22 |
+| **Applications** | [`/counter`](https://github.com/cherylfong/netscapia-state-management/tree/main/counter)<br/>[`/unicafe`](https://github.com/cherylfong/netscapia-state-management/tree/main/unicafe)<br/>[`/notes`](https://github.com/cherylfong/netscapia-state-management/tree/main/notes)<br/>[`/anecdotes`](https://github.com/cherylfong/netscapia-state-management/tree/main/anecdotes)|[`/notes`](https://github.com/cherylfong/netscapia-state-management/tree/main/notes)<br/>[`/anecdotes`](https://github.com/cherylfong/netscapia-state-management/tree/main/anecdotes)|[`/notes-query`](https://github.com/cherylfong/netscapia-state-management/tree/main/notes-query)<br/>[`/query-anecdotes`](https://github.com/cherylfong/netscapia-state-management/tree/main/query-anecdotes)<br/> [`/counter-api-context`](https://github.com/cherylfong/netscapia-state-management/tree/main/counter-api-context)<br/>[`/anecdotes`](https://github.com/cherylfong/netscapia-state-management/tree/main/anecdotes) |
+| **Playwright Tests** | [`/unicafe-tests/`](https://github.com/cherylfong/netscapia-state-management/tree/main/unicafe-tests)                                                                                         |  [`/anecdotes-tests`](https://github.com/cherylfong/netscapia-state-management/tree/main/anecdotes-tests)  |  [`/query-anecdote-tests`](https://github.com/cherylfong/netscapia-state-management/tree/main/query-anecdotes-tests)   |
