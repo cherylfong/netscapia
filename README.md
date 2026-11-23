@@ -134,7 +134,7 @@ The table below is a summary of the contents of each branch.
 
 ### [Part 7](https://github.com/cherylfong/netscapia-hooks-esbuild/)
 
-Files for part 7 are located in [its own repository](https://github.com/cherylfong/netscapia-hooks-esbuild/) separate from parts 1 to 5.
+Files for part 7 are located in [its own repository](https://github.com/cherylfong/netscapia-hooks-esbuild/) separate from parts 1 to 6.
 
 Part 7 expands on Reacts hooks from earlier parts of the course, explains how [Vite](https://vite.dev/guide/) and [esbuild](https://esbuild.github.io/getting-started/) works, covers useful utilites and best practices, and finally has a section that extends the functionality of the Bloglist application.
 
@@ -153,7 +153,7 @@ The table below is a summary of the contents of each branch.
 
 ### [Part 8](https://github.com/cherylfong/netscapia-graphql/)
 
-Files for part 8 are located in [its own repository](https://github.com/cherylfong/netscapia-graphql/) separate from parts 1 to 5.
+Files for part 8 are located in [its own repository](https://github.com/cherylfong/netscapia-graphql/) separate from parts 1 to 7.
 
 Part 8 covers basic usage of [GraphQL](https://graphql.org/), a type of data query and manipulation language, with [Apollo GrapQL](https://www.apollographql.com/), an open source tool to build and manage GraphQL APIs. The course materials teaches how to retrieve and transform data from a document database such as MongoDB using GraphQL.
 
