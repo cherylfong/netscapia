@@ -16,70 +16,60 @@ Part 8: [6kwcpxjedmm8az4](https://courses.mooc.fi/certificates/validate/6kwcpxje
 
 Part 9: [rdx6jmxtic3jndf](https://courses.mooc.fi/certificates/validate/rdx6jmxtic3jndf)
 
-## Contents
+## Contents in Descending Order
 
-### [Part 0](part0/part0.md)
+### [Part 8](https://github.com/cherylfong/netscapia-graphql/)
 
-Web application fundamentals.
+Files for part 8 are located in [its own repository](https://github.com/cherylfong/netscapia-graphql/) separate from parts 1 to 7.
 
-### [Part 1](part1)
+Part 8 covers basic usage of [GraphQL](https://graphql.org/), a type of data query and manipulation language, with [Apollo GrapQL](https://www.apollographql.com/), an open source tool to build and manage GraphQL APIs. The course materials teaches how to retrieve and transform data from a document database such as MongoDB using GraphQL.
 
-React introduction.
+The table below is a summary of the contents of each branch.
 
-Each listed here is its own React App.
+| Branches             | chapter-2                                                                                              | chapter-3                                                                                                | chapter-4                                                                                              | chapter-5                                                                                                | chapter-6                                                                                                                                                                                                             |
+| -------------------- | ------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Chapter**          | 2                                                                                                      | 3                                                                                                        | 4                                                                                                      | 5                                                                                                        | 6                                                                                                                                                                                                                     |
+| **Exercises**        | 1 to 7                                                                                                 | 8 to 12                                                                                                  | 13 to 17                                                                                               | 18 to 24                                                                                                 | Optional: 25 to 28                                                                                                                                                                                                    |
+| **Applications**     | [ `/library-backend` ](https://github.com/cherylfong/netscapia-graphql/tree/chapter-2/library-backend) | [ `/library-frontend` ](https://github.com/cherylfong/netscapia-graphql/tree/chapter-3/library-frontend) | [ `/library-backend` ](https://github.com/cherylfong/netscapia-graphql/tree/chapter-4/library-backend) | [ `/library-frontend` ](https://github.com/cherylfong/netscapia-graphql/tree/chapter-5/library-frontend) | [ `/library-backend` ](https://github.com/cherylfong/netscapia-graphql/tree/chapter-6/library-backend) <br/> [ `/library-frontend` ](https://github.com/cherylfong/netscapia-graphql/tree/chapter-6/library-frontend) |
+| **Playwright Tests** | N/A                                                                                                    | N/A                                                                                                      | [ `/tests-chapter4` ](https://github.com/cherylfong/netscapia-hooks-esbuild/tree/main/tests-chapter4)  | [ `/tests-chapter5` ](https://github.com/cherylfong/netscapia-hooks-esbuild/tree/main/tests-chapter5)    | N/A                                                                                                                                                                                                                   |
 
-- [`/preliminary`](part1/preliminary/README.md) : exploring part 1.
+There is no `chapter-1` branch.
 
-- [`/courseinfo`](part1/courseinfo/src/App.js) : fulfills instructions from 1.1 to 1.5.
+### [Part 7](https://github.com/cherylfong/netscapia-hooks-esbuild/)
 
-- [`/unicafe`](part1/unicafe/src/App.js) : fulfills instructions from 1.6 to 1.11
+Files for part 7 are located in [its own repository](https://github.com/cherylfong/netscapia-hooks-esbuild/) separate from parts 1 to 6.
 
-- [`/anecdotes`](part1/anecdotes/src/App.js) : fulfills instructions from 1.12 to 1.14
+Part 7 expands on Reacts hooks from earlier parts of the course, explains how [Vite](https://vite.dev/guide/) and [esbuild](https://esbuild.github.io/getting-started/) works, covers useful utilites and best practices, and finally has a section that extends the functionality of the Bloglist application.
 
-### [Part 2]([part2])
+A summary of [Part 7](https://fullstackopen.com/en/part7) materials are in [README.md](https://github.com/cherylfong/netscapia-hooks-esbuild/blob/main/README.md).
 
-Introduction to server side programming.
+The table below is a summary of the contents of each branch.
 
-Similarly with Part 1, each listed directory is its own React App.
+| Branches             | part7-a                                                                                                                                                                                                           | part7-b                                                                                              | part7-c                                                                                          | part7-d                                                                                 | part7-playwright-testing                                                                            |
+| -------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------- |
+| **Sub Parts**        | a                                                                                                                                                                                                                 | b                                                                                                    | c                                                                                                | d                                                                                       | d                                                                                                   |
+| **Exercises**        | 7.1 to 7.5                                                                                                                                                                                                        | N/A                                                                                                  | N/A                                                                                              | 7.6 to 7.20                                                                             | 7.6 to 7.20                                                                                         |
+| **Applications**     | [`/all-about-hooks`](https://github.com/cherylfong/netscapia-hooks-esbuild/tree/main/all-about-hooks)<br/>[`/routed-anecdotes`](https://github.com/cherylfong/netscapia-hooks-esbuild/tree/main/routed-anecdotes) | [`esbuild-example`](https://github.com/cherylfong/netscapia-hooks-esbuild/tree/main/esbuild-example) | [`class-example`](https://github.com/cherylfong/netscapia-hooks-esbuild/tree/main/class-example) | [`/bloglist`](https://github.com/cherylfong/netscapia-hooks-esbuild/tree/main/bloglist) | [ `/bloglist` ](https://github.com/cherylfong/netscapia-hooks-esbuild/tree/main/bloglist)           |
+| **Playwright Tests** | [`/routed-anecdotes-tests`](https://github.com/cherylfong/netscapia-hooks-esbuild/tree/main/routed-anecdotes-tests)                                                                                               | N/A                                                                                                  | N/A                                                                                              | N/A                                                                                     | [`/bloglist-tests`](https://github.com/cherylfong/netscapia-hooks-esbuild/tree/main/bloglist-tests) |
 
-- [`/preliminary`](part2/preliminary/README.md) : exploring part 2.
+🌐 A **Live preview** of branch `part7-d`'s Bloglist application can be found at this [URL](https://netscapia-bloglist-backend-part7-d.onrender.com).
 
-- [`/courseinfo`](part2/courseinfo/src/App.js) : fulfills instructions from 2.1 to 2.5.
+### [Part 6](https://github.com/cherylfong/netscapia-state-management/)
 
-- [`/phonebook`](part2/phonebook/src/App.js) : fulfills instructions from 2.6 to 2.17.
+Files for part 6 are located in [its own repository](https://github.com/cherylfong/netscapia-state-management) separate from parts 1 to 5.
 
-- [`/world`](part2/world/src/App.js) : fulfills instructions from 2.18 to 2.20.
+Part 6 introduces several different ways to manage application state using Zustand, TanStack Query, and React's Context API.
 
-### [Part 3]([part3])
+A summary of [Part 6](https://fullstackopen.com/en/part6) materials are in [README.md](https://github.com/cherylfong/netscapia-state-management/blob/main/README.md).
 
-Server side programming with NodeJS and Express.
+The table below is a summary of the contents of each branch.
 
-- [`/preliminary`](part3/preliminary/README.md) : notes from [Part 3](https://fullstackopen.com/en/part3).
-
-- [`/notes-backend`](part3/notes-backend/src/App.js) : Communicates with [`/notes-2026`](part2-2026/notes-2026) as frontend. 🌐 **Live preview** can be found at this [URL](https://netscapia-notes-backend.onrender.com/). Fulfills all guided instructions from [Part 3](https://fullstackopen.com/en/part3).
-
-- [`/phonebook`](part2/phonebook/src/App.js) : Communicates with [`/phonebook-2026`](part2-2026/phonebook-2026) as frontend. 🌐 **Live preview** can be found at this [URL](https://netscapia-phonebook-backend.onrender.com/). Fulfills all exercises from 3.1 to 3.22 of [Part 3](https://fullstackopen.com/en/part3).
-
-The 4 subparts in Part 3 are completed in individual branches and is named according to each subpart with continued history sequentially from a to d:
-
-| Part 3 | Branch                                                            |
-| ------ | ----------------------------------------------------------------- |
-| a.     | [`part3`](https://github.com/cherylfong/netscapia/tree/part3)     |
-| b.     | [`part3-b`](https://github.com/cherylfong/netscapia/tree/part3-b) |
-| c.     | [`part3-c`](https://github.com/cherylfong/netscapia/tree/part3-c) |
-| d.     | [`part3-d`](https://github.com/cherylfong/netscapia/tree/part3-d) |
-
-### [Part 4](part4)
-
-Server side testing and website user administration.
-
-- [README.md](part4/README.md) : contains notes from [Part 4](https://fullstackopen.com/en/part4)
-
-- [/notes-backend](part4/notes-backend) : is an improved server side endpoint of [part3/notes-backend/](part3/notes-backend/) with unit testing and user login, and user note creation. Fullfills all guided instruction from [Part 4](https://fullstackopen.com/en/part4).
-
-- [/bloglist](part4/bloglist) : server side application that allows logged in users to add/post blog details as an entry such as a blog's title and URL. Users can update and delete blog detail entries they have posted. Fullfills all exercises from 4.1 to 4.23 of [Part 4](https://fullstackopen.com/en/part4).
-
-Unlike [Part 3](part3) there is only one branch for created to complete [Part 4](part4), i.e., [`part4-a`](https://github.com/cherylfong/netscapia/tree/part4-a). I was engrossed with completing the exercises that I had forgotten to create a branch for each sub part. 🫠
+| Branches             | part6-a                                                                                                                                                                                                                                                                                                                                                                         | part6-b                                                                                                                                                                               | part6-c                                                                                                                                                                                                                                                                                                                                                                                                                              |
+| :------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Sub Parts**        | a                                                                                                                                                                                                                                                                                                                                                                               | b                                                                                                                                                                                     | c                                                                                                                                                                                                                                                                                                                                                                                                                                    |
+| **Exercises**        | 6.1 to 6.5                                                                                                                                                                                                                                                                                                                                                                      | 6.6 to 6.15                                                                                                                                                                           | 6.16 to 6.22                                                                                                                                                                                                                                                                                                                                                                                                                         |
+| **Applications**     | [`/counter`](https://github.com/cherylfong/netscapia-state-management/tree/main/counter)<br/>[`/unicafe`](https://github.com/cherylfong/netscapia-state-management/tree/main/unicafe)<br/>[`/notes`](https://github.com/cherylfong/netscapia-state-management/tree/main/notes)<br/>[`/anecdotes`](https://github.com/cherylfong/netscapia-state-management/tree/main/anecdotes) | [`/notes`](https://github.com/cherylfong/netscapia-state-management/tree/main/notes)<br/>[`/anecdotes`](https://github.com/cherylfong/netscapia-state-management/tree/main/anecdotes) | [`/notes-query`](https://github.com/cherylfong/netscapia-state-management/tree/main/notes-query)<br/>[`/query-anecdotes`](https://github.com/cherylfong/netscapia-state-management/tree/main/query-anecdotes)<br/> [`/counter-api-context`](https://github.com/cherylfong/netscapia-state-management/tree/main/counter-api-context)<br/>[`/anecdotes`](https://github.com/cherylfong/netscapia-state-management/tree/main/anecdotes) |
+| **Playwright Tests** | [`/unicafe-tests/`](https://github.com/cherylfong/netscapia-state-management/tree/main/unicafe-tests)                                                                                                                                                                                                                                                                           | [`/anecdotes-tests`](https://github.com/cherylfong/netscapia-state-management/tree/main/anecdotes-tests)                                                                              | [`/query-anecdote-tests`](https://github.com/cherylfong/netscapia-state-management/tree/main/query-anecdotes-tests)                                                                                                                                                                                                                                                                                                                  |
 
 ### [Part 5](part5)
 
@@ -115,55 +105,65 @@ The 5 subparts in Part 5 are completed in individual branches and is named accor
 | d.     | [`part5-d`](https://github.com/cherylfong/netscapia/tree/part5-d) |
 | e.     | [`part5-e`](https://github.com/cherylfong/netscapia/tree/part5-e) |
 
-### [Part 6](https://github.com/cherylfong/netscapia-state-management/)
+### [Part 4](part4)
 
-Files for part 6 are located in [its own repository](https://github.com/cherylfong/netscapia-state-management) separate from parts 1 to 5.
+Server side testing and website user administration.
 
-Part 6 introduces several different ways to manage application state using Zustand, TanStack Query, and React's Context API.
+- [README.md](part4/README.md) : contains notes from [Part 4](https://fullstackopen.com/en/part4)
 
-A summary of [Part 6](https://fullstackopen.com/en/part6) materials are in [README.md](https://github.com/cherylfong/netscapia-state-management/blob/main/README.md).
+- [/notes-backend](part4/notes-backend) : is an improved server side endpoint of [part3/notes-backend/](part3/notes-backend/) with unit testing and user login, and user note creation. Fullfills all guided instruction from [Part 4](https://fullstackopen.com/en/part4).
 
-The table below is a summary of the contents of each branch.
+- [/bloglist](part4/bloglist) : server side application that allows logged in users to add/post blog details as an entry such as a blog's title and URL. Users can update and delete blog detail entries they have posted. Fullfills all exercises from 4.1 to 4.23 of [Part 4](https://fullstackopen.com/en/part4).
 
-| Branches             | part6-a                                                                                                                                                                                                                                                                                                                                                                         | part6-b                                                                                                                                                                               | part6-c                                                                                                                                                                                                                                                                                                                                                                                                                              |
-| :------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Sub Parts**        | a                                                                                                                                                                                                                                                                                                                                                                               | b                                                                                                                                                                                     | c                                                                                                                                                                                                                                                                                                                                                                                                                                    |
-| **Exercises**        | 6.1 to 6.5                                                                                                                                                                                                                                                                                                                                                                      | 6.6 to 6.15                                                                                                                                                                           | 6.16 to 6.22                                                                                                                                                                                                                                                                                                                                                                                                                         |
-| **Applications**     | [`/counter`](https://github.com/cherylfong/netscapia-state-management/tree/main/counter)<br/>[`/unicafe`](https://github.com/cherylfong/netscapia-state-management/tree/main/unicafe)<br/>[`/notes`](https://github.com/cherylfong/netscapia-state-management/tree/main/notes)<br/>[`/anecdotes`](https://github.com/cherylfong/netscapia-state-management/tree/main/anecdotes) | [`/notes`](https://github.com/cherylfong/netscapia-state-management/tree/main/notes)<br/>[`/anecdotes`](https://github.com/cherylfong/netscapia-state-management/tree/main/anecdotes) | [`/notes-query`](https://github.com/cherylfong/netscapia-state-management/tree/main/notes-query)<br/>[`/query-anecdotes`](https://github.com/cherylfong/netscapia-state-management/tree/main/query-anecdotes)<br/> [`/counter-api-context`](https://github.com/cherylfong/netscapia-state-management/tree/main/counter-api-context)<br/>[`/anecdotes`](https://github.com/cherylfong/netscapia-state-management/tree/main/anecdotes) |
-| **Playwright Tests** | [`/unicafe-tests/`](https://github.com/cherylfong/netscapia-state-management/tree/main/unicafe-tests)                                                                                                                                                                                                                                                                           | [`/anecdotes-tests`](https://github.com/cherylfong/netscapia-state-management/tree/main/anecdotes-tests)                                                                              | [`/query-anecdote-tests`](https://github.com/cherylfong/netscapia-state-management/tree/main/query-anecdotes-tests)                                                                                                                                                                                                                                                                                                                  |
+Unlike [Part 3](part3) there is only one branch for created to complete [Part 4](part4), i.e., [`part4-a`](https://github.com/cherylfong/netscapia/tree/part4-a). I was engrossed with completing the exercises that I had forgotten to create a branch for each sub part. 🫠
 
-### [Part 7](https://github.com/cherylfong/netscapia-hooks-esbuild/)
+### [Part 3]([part3])
 
-Files for part 7 are located in [its own repository](https://github.com/cherylfong/netscapia-hooks-esbuild/) separate from parts 1 to 6.
+Server side programming with NodeJS and Express.
 
-Part 7 expands on Reacts hooks from earlier parts of the course, explains how [Vite](https://vite.dev/guide/) and [esbuild](https://esbuild.github.io/getting-started/) works, covers useful utilites and best practices, and finally has a section that extends the functionality of the Bloglist application.
+- [`/preliminary`](part3/preliminary/README.md) : notes from [Part 3](https://fullstackopen.com/en/part3).
 
-A summary of [Part 7](https://fullstackopen.com/en/part7) materials are in [README.md](https://github.com/cherylfong/netscapia-hooks-esbuild/blob/main/README.md).
+- [`/notes-backend`](part3/notes-backend/src/App.js) : Communicates with [`/notes-2026`](part2-2026/notes-2026) as frontend. 🌐 **Live preview** can be found at this [URL](https://netscapia-notes-backend.onrender.com/). Fulfills all guided instructions from [Part 3](https://fullstackopen.com/en/part3).
 
-The table below is a summary of the contents of each branch.
+- [`/phonebook`](part2/phonebook/src/App.js) : Communicates with [`/phonebook-2026`](part2-2026/phonebook-2026) as frontend. 🌐 **Live preview** can be found at this [URL](https://netscapia-phonebook-backend.onrender.com/). Fulfills all exercises from 3.1 to 3.22 of [Part 3](https://fullstackopen.com/en/part3).
 
-| Branches             | part7-a                                                                                                                                                                                                           | part7-b                                                                                              | part7-c                                                                                          | part7-d                                                                                 | part7-playwright-testing                                                                            |
-| -------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------- |
-| **Sub Parts**        | a                                                                                                                                                                                                                 | b                                                                                                    | c                                                                                                | d                                                                                       | d                                                                                                   |
-| **Exercises**        | 7.1 to 7.5                                                                                                                                                                                                        | N/A                                                                                                  | N/A                                                                                              | 7.6 to 7.20                                                                             | 7.6 to 7.20                                                                                         |
-| **Applications**     | [`/all-about-hooks`](https://github.com/cherylfong/netscapia-hooks-esbuild/tree/main/all-about-hooks)<br/>[`/routed-anecdotes`](https://github.com/cherylfong/netscapia-hooks-esbuild/tree/main/routed-anecdotes) | [`esbuild-example`](https://github.com/cherylfong/netscapia-hooks-esbuild/tree/main/esbuild-example) | [`class-example`](https://github.com/cherylfong/netscapia-hooks-esbuild/tree/main/class-example) | [`/bloglist`](https://github.com/cherylfong/netscapia-hooks-esbuild/tree/main/bloglist) | [ `/bloglist` ](https://github.com/cherylfong/netscapia-hooks-esbuild/tree/main/bloglist)           |
-| **Playwright Tests** | [`/routed-anecdotes-tests`](https://github.com/cherylfong/netscapia-hooks-esbuild/tree/main/routed-anecdotes-tests)                                                                                               | N/A                                                                                                  | N/A                                                                                              | N/A                                                                                     | [`/bloglist-tests`](https://github.com/cherylfong/netscapia-hooks-esbuild/tree/main/bloglist-tests) |
+The 4 subparts in Part 3 are completed in individual branches and is named according to each subpart with continued history sequentially from a to d:
 
-🌐 A **Live preview** of branch `part7-d`'s Bloglist application can be found at this [URL](https://netscapia-bloglist-backend-part7-d.onrender.com).
+| Part 3 | Branch                                                            |
+| ------ | ----------------------------------------------------------------- |
+| a.     | [`part3`](https://github.com/cherylfong/netscapia/tree/part3)     |
+| b.     | [`part3-b`](https://github.com/cherylfong/netscapia/tree/part3-b) |
+| c.     | [`part3-c`](https://github.com/cherylfong/netscapia/tree/part3-c) |
+| d.     | [`part3-d`](https://github.com/cherylfong/netscapia/tree/part3-d) |
 
-### [Part 8](https://github.com/cherylfong/netscapia-graphql/)
+### [Part 2]([part2])
 
-Files for part 8 are located in [its own repository](https://github.com/cherylfong/netscapia-graphql/) separate from parts 1 to 7.
+Introduction to server side programming.
 
-Part 8 covers basic usage of [GraphQL](https://graphql.org/), a type of data query and manipulation language, with [Apollo GrapQL](https://www.apollographql.com/), an open source tool to build and manage GraphQL APIs. The course materials teaches how to retrieve and transform data from a document database such as MongoDB using GraphQL.
+Similarly with Part 1, each listed directory is its own React App.
 
-The table below is a summary of the contents of each branch.
+- [`/preliminary`](part2/preliminary/README.md) : exploring part 2.
 
-| Branches             | chapter-2                                                                                              | chapter-3                                                                                                | chapter-4                                                                                              | chapter-5                                                                                                | chapter-6                                                                                                                                                                                                             |
-| -------------------- | ------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Chapter**          | 2                                                                                                      | 3                                                                                                        | 4                                                                                                      | 5                                                                                                        | 6                                                                                                                                                                                                                     |
-| **Exercises**        | 1 to 7                                                                                                 | 8 to 12                                                                                                  | 13 to 17                                                                                               | 18 to 24                                                                                                 | Optional: 25 to 28                                                                                                                                                                                                    |
-| **Applications**     | [ `/library-backend` ](https://github.com/cherylfong/netscapia-graphql/tree/chapter-2/library-backend) | [ `/library-frontend` ](https://github.com/cherylfong/netscapia-graphql/tree/chapter-3/library-frontend) | [ `/library-backend` ](https://github.com/cherylfong/netscapia-graphql/tree/chapter-4/library-backend) | [ `/library-frontend` ](https://github.com/cherylfong/netscapia-graphql/tree/chapter-5/library-frontend) | [ `/library-backend` ](https://github.com/cherylfong/netscapia-graphql/tree/chapter-6/library-backend) <br/> [ `/library-frontend` ](https://github.com/cherylfong/netscapia-graphql/tree/chapter-6/library-frontend) |
-| **Playwright Tests** | N/A                                                                                                    | N/A                                                                                                      | [ `/tests-chapter4` ](https://github.com/cherylfong/netscapia-hooks-esbuild/tree/main/tests-chapter4)  | [ `/tests-chapter5` ](https://github.com/cherylfong/netscapia-hooks-esbuild/tree/main/tests-chapter5)    | N/A                                                                                                                                                                                                                   |
+- [`/courseinfo`](part2/courseinfo/src/App.js) : fulfills instructions from 2.1 to 2.5.
 
-There is no `chapter-1` branch.
+- [`/phonebook`](part2/phonebook/src/App.js) : fulfills instructions from 2.6 to 2.17.
+
+- [`/world`](part2/world/src/App.js) : fulfills instructions from 2.18 to 2.20.
+
+### [Part 1](part1)
+
+React introduction.
+
+Each listed here is its own React App.
+
+- [`/preliminary`](part1/preliminary/README.md) : exploring part 1.
+
+- [`/courseinfo`](part1/courseinfo/src/App.js) : fulfills instructions from 1.1 to 1.5.
+
+- [`/unicafe`](part1/unicafe/src/App.js) : fulfills instructions from 1.6 to 1.11
+
+- [`/anecdotes`](part1/anecdotes/src/App.js) : fulfills instructions from 1.12 to 1.14
+
+### [Part 0](part0/part0.md)
+
+Web application fundamentals.
