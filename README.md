@@ -10,11 +10,11 @@ End-to-end web development.
 
 The following are links to verifiable certificates of completion.
 
-Parts 0 to 7: [1aa67adbacf975e8361d555cb4da1e73](https://studies.cs.helsinki.fi/stats/api/certificate/fullstackopen/en/1aa67adbacf975e8361d555cb4da1e73)
+Core Fullstack Fundamentals: [1aa67adbacf975e8361d555cb4da1e73](https://studies.cs.helsinki.fi/stats/api/certificate/fullstackopen/en/1aa67adbacf975e8361d555cb4da1e73)
 
-Part 8: [6kwcpxjedmm8az4](https://courses.mooc.fi/certificates/validate/6kwcpxjedmm8az4)
+GraphQL: [6kwcpxjedmm8az4](https://courses.mooc.fi/certificates/validate/6kwcpxjedmm8az4)
 
-Part 9: [rdx6jmxtic3jndf](https://courses.mooc.fi/certificates/validate/rdx6jmxtic3jndf)
+TypeScript: [rdx6jmxtic3jndf](https://courses.mooc.fi/certificates/validate/rdx6jmxtic3jndf)
 
 ## Contents in Descending Order
 
