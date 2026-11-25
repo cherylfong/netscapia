@@ -4,7 +4,6 @@
 
 This README documents my progress through University of Helsinki’s Full Stack Open course. Contents includes React fundamentals to tested and deployed full-stack applications.
 
-
 ## 🏅 Verified Completion
 
 The following are links to verifiable certificates of completion.
@@ -21,7 +20,7 @@ Course credits from the [University of Helsinki](https://www.helsinki.fi/en/admi
 
 ### [Part 9](https://github.com/cherylfong/netscapia-typescript)
 
-Files for part 9 are located in [its own repository](https://github.com/cherylfong/netscapia-typescript) separate from parts 1 to 8.
+Files for part 9 are located in [its own repository](https://github.com/cherylfong/netscapia-typescript) separate from parts 0 to 8.
 
 Part 9 applies prior full-stack development knowledge in Node/Express and React to build type-safe applications using TypeScript.
 
@@ -42,7 +41,7 @@ There is no `chapter-1` branch.
 
 ### [Part 8](https://github.com/cherylfong/netscapia-graphql/)
 
-Files for part 8 are located in [its own repository](https://github.com/cherylfong/netscapia-graphql/) separate from parts 1 to 7.
+Files for part 8 are located in [its own repository](https://github.com/cherylfong/netscapia-graphql/) separate from parts 0 to 7.
 
 Part 8 covers basic usage of [GraphQL](https://graphql.org/), a type of data query and manipulation language, with [Apollo GrapQL](https://www.apollographql.com/), an open source tool to build and manage GraphQL APIs. The course materials teaches how to retrieve and transform data from a document database such as MongoDB using GraphQL.
 
@@ -59,7 +58,7 @@ There is no `chapter-1` branch.
 
 ### [Part 7](https://github.com/cherylfong/netscapia-hooks-esbuild/)
 
-Files for part 7 are located in [its own repository](https://github.com/cherylfong/netscapia-hooks-esbuild/) separate from parts 1 to 6.
+Files for part 7 are located in [its own repository](https://github.com/cherylfong/netscapia-hooks-esbuild/) separate from parts 0 to 6.
 
 Part 7 expands on Reacts hooks from earlier parts of the course, explains how [Vite](https://vite.dev/guide/) and [esbuild](https://esbuild.github.io/getting-started/) works, covers useful utilites and best practices, and finally has a section that extends the functionality of the Bloglist application.
 
@@ -78,7 +77,7 @@ The table below is a summary of the contents of each branch.
 
 ### [Part 6](https://github.com/cherylfong/netscapia-state-management/)
 
-Files for part 6 are located in [its own repository](https://github.com/cherylfong/netscapia-state-management) separate from parts 1 to 5.
+Files for part 6 are located in [its own repository](https://github.com/cherylfong/netscapia-state-management) separate from parts 0 to 5.
 
 Part 6 introduces several different ways to manage application state using Zustand, TanStack Query, and React's Context API.
 
