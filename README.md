@@ -39,6 +39,8 @@ The table below is a summary of the contents of each branch.
 
 There is no `chapter-1` branch.
 
+[!(Patientor App Demo)](https://github.com/user-attachments/assets/c3240b5e-2ca9-48cc-941e-96156f4414f0)
+
 ### [Part 8](https://github.com/cherylfong/netscapia-graphql/)
 
 Files for part 8 are located in [its own repository](https://github.com/cherylfong/netscapia-graphql/) separate from parts 0 to 7.
