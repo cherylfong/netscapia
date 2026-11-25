@@ -4,7 +4,6 @@
 
 This README documents my progress through University of Helsinki’s Full Stack Open course. Contents includes React fundamentals to tested and deployed full-stack applications.
 
-[<img src="https://raw.githubusercontent.com/mermaid-js/mermaid/develop/docs/public/favicon.svg" alt="mermaid tail" width="20" height="20"> ](https://mermaid.live)
 
 ## 🏅 Verified Completion
 
